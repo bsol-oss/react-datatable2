@@ -18,10 +18,10 @@ import {
 } from '@chakra-ui/react';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { IoArrowDown } from 'react-icons/io5';
-import Rating from './Rating';
+import Rating from './Partials/Rating';
 import members from '../data';
 
-const MemberTable = (props: TableProps) => (
+const MainTable = (props: TableProps) => (
   <Table {...props}>
     <Thead>
       <Tr>
@@ -93,4 +93,4 @@ const MemberTable = (props: TableProps) => (
   </Table>
 );
 
-export default MemberTable;
+export default MainTable;
