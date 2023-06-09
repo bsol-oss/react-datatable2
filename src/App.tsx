@@ -5,7 +5,7 @@ import { Box } from '@chakra-ui/react';
 import DataTable from './components/DataTable';
 import ThemeToggleButton from './components/Partials/ThemeToggleButton';
 import SearchWrapper from './components/SearchWrapper';
-import MainTable from './components/MainTable';
+import BodyWrapper from './components/BodyWrapper';
 import PageWrapper from './components/PageWrapper';
 
 function App(): JSX.Element {
@@ -14,7 +14,7 @@ function App(): JSX.Element {
       <DataTable>
         <Box>
           <SearchWrapper />
-          <MainTable />
+          <BodyWrapper />
           <PageWrapper />
         </Box>
       </DataTable>
