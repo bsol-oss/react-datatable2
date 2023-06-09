@@ -16,14 +16,6 @@ const DataTable = ({ children }: Props) => {
         boxShadow={{ base: 'none', md: 'sm' }}
         borderRadius={{ base: 'none', md: 'lg' }}
       >
-        {/* <Stack spacing="5">
-          <SearchWrapper />
-          <Box overflowX="auto">
-            <MainTable />
-          </Box>
-          <PageWrapper />
-        </Stack> */}
-
         {children}
       </Box>
     </Container>
