@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect, useState } from 'react';
 import {
   Avatar,
   Badge,
@@ -8,7 +8,6 @@ import {
   Icon,
   IconButton,
   Table,
-  TableProps,
   Tbody,
   Td,
   Text,
@@ -18,12 +17,23 @@ import {
 } from '@chakra-ui/react';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { IoArrowDown } from 'react-icons/io5';
-import Rating from './Partials/Rating';
-import members from '../data';
 import { useTranslation } from 'react-i18next';
+import { ColumnType, SubareaType } from '../types';
 
-const BodyWrapper = (props: TableProps) => {
+interface Props {
+  tabledata: SubareaType | undefined;
+}
+
+const BodyWrapper = (props: Props) => {
   const { t } = useTranslation();
+  const [data, setData] = useState<ColumnType[]>([]);
+
+  useEffect(() => {
+    if (props.tabledata) {
+      setData(props.tabledata.results);
+    }
+  }, [props]);
+
   return (
     <Table {...props}>
       <Thead>
@@ -38,64 +48,67 @@ const BodyWrapper = (props: TableProps) => {
             </HStack>
           </Th>
           <Th> {t('Status')} </Th>
-          <Th> {t('Email')} </Th>
-          <Th> {t('Role')} </Th>
-          <Th> {t('Rating')} </Th>
+          <Th> {t('description')} </Th>
+          <Th> {t('Hub ID')} </Th>
+          <Th> {t('BU ID')} </Th>
           <Th></Th>
         </Tr>
       </Thead>
       <Tbody>
-        {members.map((member) => (
-          <Tr key={member.id}>
-            <Td>
-              <HStack spacing="3">
-                <Checkbox />
-                <Avatar
-                  name={member.name}
-                  src={member.avatarUrl}
-                  boxSize="10"
-                />
-                <Box>
-                  <Text fontWeight="medium">{member.name}</Text>
-                  <Text color="fg.muted">{member.handle}</Text>
-                </Box>
-              </HStack>
-            </Td>
-            <Td>
-              <Badge
-                size="sm"
-                colorScheme={member.status === 'active' ? 'green' : 'red'}
-              >
-                {member.status}
-              </Badge>
-            </Td>
-            <Td>
-              <Text color="fg.muted">{member.email}</Text>
-            </Td>
-            <Td>
-              <Text color="fg.muted">{member.role}</Text>
-            </Td>
-            <Td>
-              <div color="fg.muted">
-                <Rating defaultValue={member.rating} size="xl" />
-              </div>
-            </Td>
-            <Td>
-              <HStack spacing="1">
-                <IconButton
-                  icon={<FiTrash2 fontSize="1.25rem" />}
-                  variant="tertiary"
-                  aria-label="Delete member"
-                />
-                <IconButton
-                  icon={<FiEdit2 fontSize="1.25rem" />}
-                  variant="tertiary"
-                  aria-label="Edit member"
-                />
-              </HStack>
+        {data.length > 0 ? (
+          data.map((column) => (
+            <Tr key={column.id}>
+              <Td>
+                <HStack spacing="3">
+                  <Checkbox />
+                  <Avatar name={column.name} boxSize="10" />
+                  <Box>
+                    <Text fontWeight="medium">{column.name}</Text>
+                  </Box>
+                </HStack>
+              </Td>
+              <Td>
+                <Badge
+                  size="sm"
+                  colorScheme={column.is_active === 1 ? 'green' : 'red'}
+                >
+                  {column.is_active === 1 ? 'Active' : 'In-active'}
+                </Badge>
+              </Td>
+              <Td>
+                <Text color="fg.muted">
+                  {column.description === null ? '' : column.description}
+                </Text>
+              </Td>
+              <Td>
+                <Text color="fg.muted">{column.hub_id}</Text>
+              </Td>
+              <Td>
+                <Text color="fg.muted">{column.bu_id}</Text>
+              </Td>
+              <Td>
+                <HStack spacing="1">
+                  <IconButton
+                    icon={<FiTrash2 fontSize="1.25rem" />}
+                    variant="tertiary"
+                    aria-label="Delete Column"
+                  />
+                  <IconButton
+                    icon={<FiEdit2 fontSize="1.25rem" />}
+                    variant="tertiary"
+                    aria-label="Edit Column"
+                  />
+                </HStack>
+              </Td>
+            </Tr>
+          ))
+        ) : (
+          <Tr>
+            <Td textAlign="center" colSpan={12}>
+              <h2>No Data...</h2>
             </Td>
           </Tr>
-        ))}
+        )}
       </Tbody>
     </Table>
   );
