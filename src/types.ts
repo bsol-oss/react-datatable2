@@ -1,4 +1,4 @@
-export interface ColumnType {
+export interface DataType  {
   id: number;
   name: string;
   hub_id: number;
@@ -10,5 +10,5 @@ export interface ColumnType {
 export interface SubareaType {
   count: number;
   filterCount: number;
-  results: ColumnType[];
+  results: DataType [];
 }

@@ -7,7 +7,7 @@ import ThemeToggleButton from './components/Partials/ThemeToggleButton';
 import SearchWrapper from './components/SearchWrapper';
 import BodyWrapper from './components/BodyWrapper';
 import PageWrapper from './components/PageWrapper';
-import { ColumnType, SubareaType } from './types';
+import { SubareaType } from './types';
 import { getAllSubarea } from './Data/Api';
 
 function App(): JSX.Element {

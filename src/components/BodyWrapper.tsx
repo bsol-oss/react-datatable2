@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Avatar,
   Badge,
@@ -18,7 +18,7 @@ import {
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { IoArrowDown } from 'react-icons/io5';
 import { useTranslation } from 'react-i18next';
-import { ColumnType, SubareaType } from '../types';
+import { DataType, SubareaType } from '../types';
 
 interface Props {
   tabledata: SubareaType | undefined;
@@ -26,7 +26,7 @@ interface Props {
 
 const BodyWrapper = (props: Props) => {
   const { t } = useTranslation();
-  const [data, setData] = useState<ColumnType[]>([]);
+  const [data, setData] = useState<DataType[]>([]);
 
   useEffect(() => {
     if (props.tabledata) {
