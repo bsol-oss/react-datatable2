@@ -5,6 +5,7 @@ export interface DataType  {
   description: string | null;
   is_active: number;
   bu_id: string;
+  actions: any;
 }
 
 export interface SubareaType {

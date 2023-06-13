@@ -19,6 +19,7 @@ import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { IoArrowDown } from 'react-icons/io5';
 import { useTranslation } from 'react-i18next';
 import { DataType, SubareaType } from '../types';
+import { useTable, Column } from 'react-table';
 
 interface Props {
   tabledata: SubareaType | undefined;
@@ -26,89 +27,108 @@ interface Props {
 
 const BodyWrapper = (props: Props) => {
   const { t } = useTranslation();
-  const [data, setData] = useState<DataType[]>([]);
 
-  useEffect(() => {
+
+  const data = React.useMemo(() => {
     if (props.tabledata) {
-      setData(props.tabledata.results);
+      return props.tabledata.results;
     }
+    return [];
   }, [props]);
 
+  const columns: Column<DataType>[] = React.useMemo(
+    () => [
+      {
+        Header: String(t('name')),
+        accessor: 'name',
+        Cell: ({ row }: any) => (
+          <HStack spacing="3">
+            <Checkbox />
+            <Avatar name={row.original.name} boxSize="10" />
+            <Box>
+              <Text fontWeight="medium">{row.original.name}</Text>
+            </Box>
+          </HStack>
+        ),
+      },
+      {
+        Header: String(t('Status')),
+        accessor: 'is_active',
+        Cell: ({ row }: any) => (
+          <Badge
+            size="sm"
+            colorScheme={row.original.is_active === 1 ? 'green' : 'red'}
+          >
+            {row.original.is_active === 1 ? 'Active' : 'In-active'}
+          </Badge>
+        ),
+      },
+      {
+        Header: String(t('description')),
+        accessor: 'description',
+        Cell: ({ row }) => (
+          <Text color="fg.muted">
+            {row.original.description === null ? '' : row.original.description}
+          </Text>
+        ),
+      },
+      {
+        Header: String(t('Hub ID')),
+        accessor: 'hub_id',
+        Cell: ({ row }) => <Text color="fg.muted">{row.original.hub_id}</Text>,
+      },
+      {
+        Header: String(t('BU ID')),
+        accessor: 'bu_id',
+        Cell: ({ row }) => <Text color="fg.muted">{row.original.bu_id}</Text>,
+      },
+      {
+        Header: '',
+        accessor: 'actions',
+        Cell: ({ row }: any) => (
+          <HStack spacing="1">
+            <IconButton
+              icon={<FiTrash2 fontSize="1.25rem" />}
+              variant="tertiary"
+              aria-label="Delete Column"
+            />
+            <IconButton
+              icon={<FiEdit2 fontSize="1.25rem" />}
+              variant="tertiary"
+              aria-label="Edit Column"
+            />
+          </HStack>
+        ),
+      },
+    ],
+    []
+  );
+
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable({ columns, data });
+
   return (
-    <Table {...props}>
+    <Table {...getTableProps()}>
       <Thead>
-        <Tr>
-          <Th>
-            <HStack spacing="3">
-              <Checkbox />
-              <HStack spacing="1">
-                <Text> {t('Name')} </Text>
-                <Icon as={IoArrowDown} color="fg.muted" boxSize="4" />
-              </HStack>
-            </HStack>
-          </Th>
-          <Th> {t('Status')} </Th>
-          <Th> {t('description')} </Th>
-          <Th> {t('Hub ID')} </Th>
-          <Th> {t('BU ID')} </Th>
-          <Th></Th>
-        </Tr>
-      </Thead>
-      <Tbody>
-        {data.length > 0 ? (
-          data.map((column) => (
-            <Tr key={column.id}>
-              <Td>
-                <HStack spacing="3">
-                  <Checkbox />
-                  <Avatar name={column.name} boxSize="10" />
-                  <Box>
-                    <Text fontWeight="medium">{column.name}</Text>
-                  </Box>
-                </HStack>
-              </Td>
-              <Td>
-                <Badge
-                  size="sm"
-                  colorScheme={column.is_active === 1 ? 'green' : 'red'}
-                >
-                  {column.is_active === 1 ? 'Active' : 'In-active'}
-                </Badge>
-              </Td>
-              <Td>
-                <Text color="fg.muted">
-                  {column.description === null ? '' : column.description}
-                </Text>
-              </Td>
-              <Td>
-                <Text color="fg.muted">{column.hub_id}</Text>
-              </Td>
-              <Td>
-                <Text color="fg.muted">{column.bu_id}</Text>
-              </Td>
-              <Td>
-                <HStack spacing="1">
-                  <IconButton
-                    icon={<FiTrash2 fontSize="1.25rem" />}
-                    variant="tertiary"
-                    aria-label="Delete Column"
-                  />
-                  <IconButton
-                    icon={<FiEdit2 fontSize="1.25rem" />}
-                    variant="tertiary"
-                    aria-label="Edit Column"
-                  />
-                </HStack>
-              </Td>
-            </Tr>
-          ))
-        ) : (
-          <Tr>
-            <Td textAlign="center" colSpan={12}>
-              <h2>No Data...</h2>
-            </Td>
+        {headerGroups.map((headerGroup) => (
+          <Tr {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map((column) => (
+              <Th {...column.getHeaderProps()}>{column.render('Header')}</Th>
+            ))}
           </Tr>
-        )}
+        ))}
+      </Thead>
+      <Tbody {...getTableBodyProps()}>
+        {rows.map((row) => {
+          prepareRow(row);
+          return (
+            <Tr {...row.getRowProps()}>
+              {row.cells.map((cell) => (
+                <Td {...cell.getCellProps()}>{cell.render('Cell')}</Td>
+              ))}
+            </Tr>
+          );
+        })}
       </Tbody>
     </Table>
   );
