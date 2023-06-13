@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Box } from '@chakra-ui/react';
 
@@ -7,14 +7,26 @@ import ThemeToggleButton from './components/Partials/ThemeToggleButton';
 import SearchWrapper from './components/SearchWrapper';
 import BodyWrapper from './components/BodyWrapper';
 import PageWrapper from './components/PageWrapper';
+import { SubareaType } from './types';
+import { getAllSubarea } from './Data/Api';
 
 function App(): JSX.Element {
+  const [tableData, setTableData] = useState<SubareaType>();
+
+  useEffect(() => {
+    const fetchSubareas = async () => {
+      const data = await getAllSubarea();
+      setTableData(data);
+    };
+    fetchSubareas();
+  }, [getAllSubarea]);
+
   return (
     <Box>
       <DataTable>
         <Box>
           <SearchWrapper />
-          <BodyWrapper />
+          <BodyWrapper tabledata={tableData} />
           <PageWrapper />
         </Box>
       </DataTable>
