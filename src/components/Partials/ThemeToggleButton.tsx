@@ -3,9 +3,11 @@ import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 import { IconButton, IconButtonProps, useColorMode } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 import transientOptions from '../../utils/general';
+
 type ThemeToggleButtonProps = Omit<IconButtonProps, 'aria-label'> & {
   $colorMode?: string;
 };
+
 const iconSize = 20;
 const RoundButton = styled(IconButton, transientOptions)<{
   $colorMode?: string;
@@ -17,6 +19,7 @@ const RoundButton = styled(IconButton, transientOptions)<{
     height: ${iconSize}px;
   }
 `;
+
 function ThemeToggleButton(props: ThemeToggleButtonProps): JSX.Element {
   const { colorMode, toggleColorMode } = useColorMode();
   return (
@@ -30,4 +33,5 @@ function ThemeToggleButton(props: ThemeToggleButtonProps): JSX.Element {
     />
   );
 }
+
 export default ThemeToggleButton;

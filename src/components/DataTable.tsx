@@ -1,10 +1,14 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useState } from 'react';
 import { Box, Container } from '@chakra-ui/react';
+import { SearchContext } from './partials/SearchContext';
 
 interface Props {
   children: ReactNode;
 }
+
 const DataTable = ({ children }: Props) => {
+  const [searchKey, setSearchKey] = useState('');
+  
   return (
     <Container
       maxW="100%"
@@ -16,7 +20,9 @@ const DataTable = ({ children }: Props) => {
         boxShadow={{ base: 'none', md: 'sm' }}
         borderRadius={{ base: 'none', md: 'lg' }}
       >
-        {children}
+        <SearchContext.Provider value={{ searchKey, setSearchKey }}>
+          {children}
+        </SearchContext.Provider>
       </Box>
     </Container>
   );
