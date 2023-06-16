@@ -74,7 +74,6 @@ const BodyWrapper = (props: Props) => {
             {row.original.is_active === 1 ? 'Active' : 'In-active'}
           </Badge>
         ),
-        disableSortBy: true,
       },
       {
         Header: String(t('description')),
@@ -84,7 +83,6 @@ const BodyWrapper = (props: Props) => {
             {row.original.description === null ? '' : row.original.description}
           </Text>
         ),
-        disableSortBy: true,
       },
       {
         Header: String(t('Hub ID')),
@@ -127,7 +125,7 @@ const BodyWrapper = (props: Props) => {
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({ columns, data }, useSortBy);
-    
+
   return (
     <Table {...getTableProps()} size="md" colorScheme="gray" variant="striped">
       <Thead>
@@ -143,12 +141,16 @@ const BodyWrapper = (props: Props) => {
                   {column.Header !== '' &&
                     (column.isSorted ? (
                       column.isSortedDesc ? (
-                        <FaSortDown size={1} />
+                        <Box ml={1} alignItems="center" display="flex">
+                          <FaSortDown />
+                        </Box>
                       ) : (
-                        <FaSortUp size={1} />
+                        <Box ml={1} alignItems="center" display="flex">
+                          <FaSortUp />
+                        </Box>
                       )
                     ) : (
-                      <Box ml={1}>
+                      <Box ml={1} alignItems="center" display="flex">
                         <FaSort />
                       </Box>
                     ))}
