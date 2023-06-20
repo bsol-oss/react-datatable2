@@ -1,6 +1,6 @@
 import React, { ReactNode, useState } from 'react';
 import { Box, Container } from '@chakra-ui/react';
-import { SearchContext } from './partials/SearchContext';
+import { SearchContext, PaginationContext } from './partials/GlobalContext';
 
 interface Props {
   children: ReactNode;
@@ -8,7 +8,8 @@ interface Props {
 
 const DataTable = ({ children }: Props) => {
   const [searchKey, setSearchKey] = useState('');
-  
+  const [totalCount, setTotalCount] = useState(0);
+
   return (
     <Container
       maxW="100%"
@@ -20,9 +21,11 @@ const DataTable = ({ children }: Props) => {
         boxShadow={{ base: 'none', md: 'sm' }}
         borderRadius={{ base: 'none', md: 'lg' }}
       >
-        <SearchContext.Provider value={{ searchKey, setSearchKey }}>
-          {children}
-        </SearchContext.Provider>
+        <PaginationContext.Provider value={{ totalCount, setTotalCount }}>
+          <SearchContext.Provider value={{ searchKey, setSearchKey }}>
+            {children}
+          </SearchContext.Provider>
+        </PaginationContext.Provider>
       </Box>
     </Container>
   );

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Avatar,
   Badge,
@@ -29,7 +29,7 @@ import {
   SortingState,
 } from '@tanstack/react-table';
 
-import { SearchContext } from './partials/SearchContext';
+import { PaginationContext, SearchContext } from './partials/GlobalContext';
 import styled from '@emotion/styled';
 import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa';
 
@@ -100,6 +100,7 @@ const Wrapper = styled(Box)`
 const BodyWrapper = (props: Props) => {
   const { t } = useTranslation();
   const { searchKey } = useContext(SearchContext);
+  const { setTotalCount } = useContext(PaginationContext);
   const columnResizeMode: ColumnResizeMode = 'onChange';
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -118,6 +119,10 @@ const BodyWrapper = (props: Props) => {
     }
     return [];
   }, [props, searchKey]);
+
+  useEffect(() => {
+    setTotalCount(data.length);
+  }, [data]);
 
   const defaultColumns: ColumnDef<DataInterface>[] = [
     {

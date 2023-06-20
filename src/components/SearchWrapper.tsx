@@ -1,6 +1,6 @@
 import React, { KeyboardEvent, useContext, useState } from 'react';
 
-import { SearchContext } from './partials/SearchContext';
+import { SearchContext } from './partials/GlobalContext';
 
 import {
   Box,
