@@ -5,7 +5,7 @@ export interface DataInterface {
   description: string | null;
   is_active: number;
   bu_id: string;
-  actions: any;
+  actions: string;
 }
 
 export interface SubareaInterface {

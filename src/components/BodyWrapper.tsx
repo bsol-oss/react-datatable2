@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import {
   Avatar,
   Badge,
@@ -17,7 +17,7 @@ import {
 } from '@chakra-ui/react';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { useTranslation } from 'react-i18next';
-import { DataInterface, RowInterface, SubareaInterface } from '../const/types';
+import { DataInterface, RowInterface, SubareaInterface } from '../types';
 import {
   useReactTable,
   ColumnResizeMode,
@@ -31,6 +31,7 @@ import {
 
 import { SearchContext } from './partials/SearchContext';
 import styled from '@emotion/styled';
+import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa';
 
 interface Props {
   tabledata: SubareaInterface | undefined;
@@ -44,7 +45,9 @@ const Wrapper = styled(Box)`
     font-family: sans-serif;
     font-size: 14px;
   }
-  table,
+  table {
+    border: 1px solid lightgray;
+  }
   .divTable {
     border: 1px solid lightgray;
     width: fit-content;
@@ -98,7 +101,7 @@ const BodyWrapper = (props: Props) => {
   const { t } = useTranslation();
   const { searchKey } = useContext(SearchContext);
   const columnResizeMode: ColumnResizeMode = 'onChange';
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
 
   const data = React.useMemo(() => {
     if (props.tabledata) {
@@ -199,23 +202,12 @@ const BodyWrapper = (props: Props) => {
     columnResizeMode,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    debugTable: true,
-    debugHeaders: true,
-    debugColumns: true,
+    enableMultiSort: true,
   });
 
   return (
     <Wrapper marginTop="10px">
-      <Table
-        {...{
-          style: {
-            width: tableInstance.getCenterTotalSize(),
-          },
-        }}
-        size="md"
-        colorScheme="gray"
-        variant="striped"
-      >
+      <Table size="md" className="w-full" colorScheme="gray" variant="striped">
         <Thead>
           {tableInstance
             .getHeaderGroups()
@@ -247,10 +239,22 @@ const BodyWrapper = (props: Props) => {
                         header.column.columnDef.header,
                         header.getContext()
                       )}
-                      {{
-                        asc: ' 🔼',
-                        desc: ' 🔽',
-                      }[header.column.getIsSorted() as string] ?? null}
+                      {header.column.columnDef.header !== '' &&
+                        ((header.column.getIsSorted() as string) ? (
+                          (header.column.getIsSorted() as string) === 'asc' ? (
+                            <Box ml={1} alignItems="center" display="flex">
+                              <FaSortDown />
+                            </Box>
+                          ) : (
+                            <Box ml={1} alignItems="center" display="flex">
+                              <FaSortUp />
+                            </Box>
+                          )
+                        ) : (
+                          <Box ml={1} alignItems="center" display="flex">
+                            <FaSort />
+                          </Box>
+                        ))}
                     </Flex>
                     <div
                       {...{
