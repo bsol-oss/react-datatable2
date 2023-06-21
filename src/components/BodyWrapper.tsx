@@ -17,7 +17,7 @@ import {
 } from '@chakra-ui/react';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { useTranslation } from 'react-i18next';
-import { DataInterface, RowInterface, SubareaInterface } from '../types';
+import { DataInterface, RowInterface, SubareaInterface } from '../const/types';
 import {
   useReactTable,
   ColumnResizeMode,
@@ -45,9 +45,7 @@ const Wrapper = styled(Box)`
     font-family: sans-serif;
     font-size: 14px;
   }
-  table {
-    border: 1px solid lightgray;
-  }
+  table,
   .divTable {
     border: 1px solid lightgray;
     width: fit-content;
@@ -71,6 +69,7 @@ const Wrapper = styled(Box)`
   td,
   .td {
     height: 30px;
+    width: ;
   }
   .resizer {
     position: absolute;
@@ -137,6 +136,7 @@ const BodyWrapper = (props: Props) => {
           </Box>
         </HStack>
       ),
+      size: 200,
     },
     {
       header: String(t('Status')),
@@ -149,6 +149,7 @@ const BodyWrapper = (props: Props) => {
           {row.original.is_active === 1 ? 'Active' : 'In-active'}
         </Badge>
       ),
+      size: 200,
     },
     {
       header: String(t('description')),
@@ -158,6 +159,7 @@ const BodyWrapper = (props: Props) => {
           {row.original.description === null ? '' : row.original.description}
         </Text>
       ),
+      size: 200,
     },
     {
       header: String(t('Hub ID')),
@@ -165,6 +167,7 @@ const BodyWrapper = (props: Props) => {
       cell: ({ row }: { row: RowInterface }) => (
         <Text color="fg.muted">{row.original.hub_id}</Text>
       ),
+      size: 200,
     },
     {
       header: String(t('BU ID')),
@@ -172,6 +175,7 @@ const BodyWrapper = (props: Props) => {
       cell: ({ row }: { row: RowInterface }) => (
         <Text color="fg.muted">{row.original.bu_id}</Text>
       ),
+      size: 400,
     },
     {
       header: '',
@@ -190,6 +194,7 @@ const BodyWrapper = (props: Props) => {
           />
         </HStack>
       ),
+      size: 300,
     },
   ];
 
@@ -212,7 +217,16 @@ const BodyWrapper = (props: Props) => {
 
   return (
     <Wrapper marginTop="10px">
-      <Table size="md" className="w-full" colorScheme="gray" variant="striped">
+      <Table
+        {...{
+          style: {
+            width: tableInstance.getCenterTotalSize(),
+          },
+        }}
+        size="md"
+        colorScheme="gray"
+        variant="striped"
+      >
         <Thead>
           {tableInstance
             .getHeaderGroups()
