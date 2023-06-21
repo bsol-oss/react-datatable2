@@ -1,4 +1,4 @@
-import { SubareaInterface } from '../types';
+import { SubareaInterface } from '../const/types';
 
 //Function to get all data from server
 export const getAllSubarea = async (): Promise<SubareaInterface> => {

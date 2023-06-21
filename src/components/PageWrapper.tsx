@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Box,
   Text,
@@ -8,16 +8,19 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
+import { PaginationContext } from './partials/GlobalContext';
 
 const PageWrapper = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });
   const { t } = useTranslation();
+  const { totalCount } = useContext(PaginationContext);
   return (
     <Box px={{ base: '4', md: '6' }} pb="5">
       <HStack spacing="3" justify="space-between">
         {!isMobile && (
           <Text color="fg.muted" fontSize="sm">
-            {t('Showing 1 to 5 of 42 results')}
+            {t('Showing 1 to ')} {totalCount} {t('of ')} {totalCount}{' '}
+            {t(' results')}
           </Text>
         )}
         <ButtonGroup
