@@ -8,7 +8,7 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import { PaginationContext } from './partials/GlobalContext';
+import { PaginationContext } from './globalpartials/GlobalContext';
 
 const PageWrapper = () => {
   const isMobile = useBreakpointValue({ base: true, md: false });

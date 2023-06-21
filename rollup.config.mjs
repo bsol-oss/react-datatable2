@@ -5,10 +5,10 @@ import json from '@rollup/plugin-json';
 
 export default {
   input: {
-    SearchWrapper: 'src/components/DataTable.tsx',
+    DataTable: 'src/components/DataTable.tsx',
     BodyWrapper: 'src/components/BodyWrapper.tsx',
     PageWrapper: 'src/components/PageWrapper.tsx',
-    SearchWrapper: 'src/components/SearchWrapper.tsx',
+    FunctionalWrapper: 'src/components/FunctionalWrapper.tsx',
   },
 
   output: {

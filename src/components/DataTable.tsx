@@ -1,6 +1,6 @@
 import React, { ReactNode, useState } from 'react';
 import { Box, Container } from '@chakra-ui/react';
-import { SearchContext, PaginationContext } from './partials/GlobalContext';
+import { SearchContext, PaginationContext } from './globalpartials/GlobalContext';
 
 interface Props {
   children: ReactNode;

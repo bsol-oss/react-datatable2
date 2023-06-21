@@ -29,7 +29,7 @@ import {
   SortingState,
 } from '@tanstack/react-table';
 
-import { PaginationContext, SearchContext } from './partials/GlobalContext';
+import { PaginationContext, SearchContext } from './globalpartials/GlobalContext';
 import styled from '@emotion/styled';
 import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa';
 
