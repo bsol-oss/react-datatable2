@@ -1,11 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Box } from '@chakra-ui/react';
 
 import DataTable from './components/DataTable';
 import ThemeToggleButton from './components/globalpartials/ThemeToggleButton';
 import BodyWrapper from './components/BodyWrapper';
-import { SubareaInterface } from './const/types';
-import { getAllSubarea } from './Data/Api';
 import FunctionalWrapper from './components/FunctionalWrapper';
 import TableTitle from './components/functionalcomponents/TableTitle';
 import GlobalSearch from './components/functionalcomponents/GlobalSearch';
@@ -16,16 +14,6 @@ import PageButtons from './components/footercomponents/PageButtons';
 import SelectedNumber from './components/footercomponents/SelectedNumber';
 
 function App(): JSX.Element {
-  const [tableData, setTableData] = useState<SubareaInterface>();
-
-  useEffect(() => {
-    const fetchSubareas = async () => {
-      const data = await getAllSubarea();
-      setTableData(data);
-    };
-    fetchSubareas();
-  }, [getAllSubarea]);
-
   return (
     <Box>
       <DataTable>
@@ -35,7 +23,7 @@ function App(): JSX.Element {
             <SearchButton>Search</SearchButton>
           </GlobalSearch>
         </FunctionalWrapper>
-        <BodyWrapper tabledata={tableData} />
+        <BodyWrapper/>
         <FooterWrapper>
           <PaginationWrapper>
             <SelectedNumber />

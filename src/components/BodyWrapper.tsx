@@ -6,6 +6,7 @@ import {
   Flex,
   HStack,
   IconButton,
+  Spinner,
   Table,
   Tbody,
   Td,
@@ -16,7 +17,7 @@ import {
 } from '@chakra-ui/react';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import { useTranslation } from 'react-i18next';
-import { DataInterface, RowInterface, SubareaInterface } from '../const/types';
+import { DataInterface, RowInterface } from '../const/types';
 import {
   useReactTable,
   ColumnResizeMode,
@@ -35,11 +36,9 @@ import {
 } from './globalpartials/GlobalContext';
 import styled from '@emotion/styled';
 import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa';
-import IndeterminateCheckbox from './globalpartials/InterminateCheckbox';
 
-interface Props {
-  tabledata: SubareaInterface | undefined;
-}
+import IndeterminateCheckbox from './globalpartials/InterminateCheckbox';
+import { getAllSubarea, getSubareaBySearechKey } from '../Data/Api';
 
 const Wrapper = styled(Box)`
   * {
@@ -100,32 +99,50 @@ const Wrapper = styled(Box)`
   }
 `;
 
-const BodyWrapper = (props: Props) => {
+const BodyWrapper = () => {
   const { t } = useTranslation();
+
   const { searchKey } = useContext(SearchContext);
-  const { setSelectedRecords } = useContext(
-    SelectedRecordsContext
-  );
+  const { setSelectedRecords } = useContext(SelectedRecordsContext);
   const { setTotalCount } = useContext(PaginationContext);
+
   const [rowSelection, setRowSelection] = React.useState({});
   const columnResizeMode: ColumnResizeMode = 'onChange';
   const [sorting, setSorting] = useState<SortingState>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const data = React.useMemo(() => {
-    if (props.tabledata) {
-      return props.tabledata.results.filter(
-        (item) =>
-          item.name.toLowerCase().includes(searchKey.toLowerCase()) ||
-          item.description?.toLowerCase().includes(searchKey.toLowerCase()) ||
-          item.hub_id
-            ?.toString()
-            .toLowerCase()
-            .includes(searchKey.toLowerCase()) ||
-          item.bu_id?.toLowerCase().includes(searchKey.toLowerCase())
-      );
-    }
-    return [];
-  }, [props, searchKey]);
+  const [data, setData] = useState<DataInterface[]>([]);
+
+  useEffect(() => {
+    const fetchSubareas = async (searchKey: string) => {
+      setIsLoading(true);
+      if (searchKey === '') {
+        const res = await getAllSubarea();
+        setIsLoading(false);
+        setData(res.results);
+      } else {
+        const res = await getSubareaBySearechKey(searchKey);
+        setIsLoading(false);
+        if (res) {
+          setData(
+            res.results.filter(
+              (item) =>
+                item.name.toLowerCase().includes(searchKey.toLowerCase()) ||
+                item.description
+                  ?.toLowerCase()
+                  .includes(searchKey.toLowerCase()) ||
+                item.hub_id
+                  ?.toString()
+                  .toLowerCase()
+                  .includes(searchKey.toLowerCase()) ||
+                item.bu_id?.toLowerCase().includes(searchKey.toLowerCase())
+            )
+          );
+        }
+      }
+    };
+    fetchSubareas(searchKey);
+  }, [searchKey]);
 
   useEffect(() => {
     setTotalCount(data.length);
@@ -323,24 +340,37 @@ const BodyWrapper = (props: Props) => {
             ))}
         </Thead>
         <Tbody>
-          {tableInstance.getRowModel().rows.map((row) => {
-            return (
-              <Tr key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <Td
-                    key={cell.id}
-                    {...{
-                      style: {
-                        width: cell.column.getSize(),
-                      },
-                    }}
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </Td>
-                ))}
-              </Tr>
-            );
-          })}
+          {isLoading ? (
+            <Tr>
+              <Td colSpan={tableInstance.getHeaderGroups()[0].headers.length}>
+                <Box display="flex" justifyContent="center" alignItems="center">
+                  <Spinner size="xl" color="gray.500" />
+                </Box>
+              </Td>
+            </Tr>
+          ) : (
+            tableInstance.getRowModel().rows.map((row) => {
+              return (
+                <Tr key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <Td
+                      key={cell.id}
+                      {...{
+                        style: {
+                          width: cell.column.getSize(),
+                        },
+                      }}
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </Td>
+                  ))}
+                </Tr>
+              );
+            })
+          )}
         </Tbody>
       </Table>
     </Wrapper>
