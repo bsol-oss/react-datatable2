@@ -26,7 +26,6 @@ function App(): JSX.Element {
   return (
     <Box>
       <DataTable>
-        <Box>
           <FunctionalWrapper>
             <TableTitle>Member</TableTitle>
             <GlobalSearch>
@@ -35,7 +34,6 @@ function App(): JSX.Element {
           </FunctionalWrapper>
           <BodyWrapper tabledata={tableData} />
           <PageWrapper />
-        </Box>
       </DataTable>
       <ThemeToggleButton pos="fixed" bottom="2" right="2" />
     </Box>

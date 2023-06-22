@@ -216,7 +216,7 @@ const BodyWrapper = (props: Props) => {
   });
 
   return (
-    <Wrapper marginTop="10px">
+    <Wrapper marginTop="10px" overflow="auto">
       <Table
         {...{
           style: {
