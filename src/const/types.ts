@@ -16,6 +16,7 @@ export interface SubareaInterface {
 
 export interface RowInterface {
   original: {
+    id:number;
     name: string;
     is_active: number;
     description: string | null;

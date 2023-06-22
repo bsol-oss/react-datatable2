@@ -7,7 +7,7 @@ export default {
   input: {
     DataTable: 'src/components/DataTable.tsx',
     BodyWrapper: 'src/components/BodyWrapper.tsx',
-    PageWrapper: 'src/components/PageWrapper.tsx',
+    PageWrapper: 'src/components/FooterWrapper.tsx',
     FunctionalWrapper: 'src/components/FunctionalWrapper.tsx',
   },
 

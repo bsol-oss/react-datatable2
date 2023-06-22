@@ -3,7 +3,6 @@ import {
   Avatar,
   Badge,
   Box,
-  Checkbox,
   Flex,
   HStack,
   IconButton,
@@ -29,9 +28,14 @@ import {
   SortingState,
 } from '@tanstack/react-table';
 
-import { PaginationContext, SearchContext } from './globalpartials/GlobalContext';
+import {
+  PaginationContext,
+  SearchContext,
+  SelectedRecordsContext,
+} from './globalpartials/GlobalContext';
 import styled from '@emotion/styled';
 import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa';
+import IndeterminateCheckbox from './globalpartials/InterminateCheckbox';
 
 interface Props {
   tabledata: SubareaInterface | undefined;
@@ -99,7 +103,11 @@ const Wrapper = styled(Box)`
 const BodyWrapper = (props: Props) => {
   const { t } = useTranslation();
   const { searchKey } = useContext(SearchContext);
+  const { setSelectedRecords } = useContext(
+    SelectedRecordsContext
+  );
   const { setTotalCount } = useContext(PaginationContext);
+  const [rowSelection, setRowSelection] = React.useState({});
   const columnResizeMode: ColumnResizeMode = 'onChange';
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -123,13 +131,35 @@ const BodyWrapper = (props: Props) => {
     setTotalCount(data.length);
   }, [data]);
 
+  useEffect(() => {
+    setSelectedRecords(Object.keys(rowSelection).length);
+  }, [rowSelection]);
+
   const defaultColumns: ColumnDef<DataInterface>[] = [
     {
-      header: String(t('name')),
+      header: ({ table }) => (
+        <HStack spacing="3" px={5}>
+          <IndeterminateCheckbox
+            {...{
+              checked: table.getIsAllRowsSelected(),
+              indeterminate: table.getIsSomeRowsSelected(),
+              onChange: table.getToggleAllRowsSelectedHandler(),
+            }}
+          />
+          <Text>{String(t('name'))}</Text>
+        </HStack>
+      ),
       accessorKey: 'name',
-      cell: ({ row }: { row: RowInterface }) => (
+      cell: ({ row }) => (
         <HStack spacing="3">
-          <Checkbox />
+          <IndeterminateCheckbox
+            {...{
+              checked: row.getIsSelected(),
+              disabled: !row.getCanSelect(),
+              indeterminate: row.getIsSomeSelected(),
+              onChange: row.getToggleSelectedHandler(),
+            }}
+          />
           <Avatar name={row.original.name} boxSize="10" />
           <Box>
             <Text fontWeight="medium">{row.original.name}</Text>
@@ -207,7 +237,10 @@ const BodyWrapper = (props: Props) => {
     columns,
     state: {
       sorting,
+      rowSelection,
     },
+    enableRowSelection: true,
+    onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
     columnResizeMode,
     getCoreRowModel: getCoreRowModel(),
