@@ -13,7 +13,7 @@ import PaginationWrapper from './components/footercomponents/PaginationWrapper';
 import PageButtons from './components/footercomponents/PageButtons';
 import SelectedNumber from './components/footercomponents/SelectedNumber';
 
-import columns from './components/ProvideByConsumer/Columns.jsx';
+import columns from './components/ProvideByConsumer/Columns';
 
 function App(): JSX.Element {
   return (
@@ -25,7 +25,7 @@ function App(): JSX.Element {
             <SearchButton>Search</SearchButton>
           </GlobalSearch>
         </FunctionalWrapper>
-        <BodyWrapper columns={columns}/>
+        <BodyWrapper columns={columns} />
         <FooterWrapper>
           <PaginationWrapper>
             <SelectedNumber />
