@@ -1,34 +1,35 @@
-import React, { useEffect, useState } from 'react';
-
+import React from 'react';
 import { Box } from '@chakra-ui/react';
 
 import DataTable from './components/DataTable';
-import ThemeToggleButton from './components/partials/ThemeToggleButton';
-import SearchWrapper from './components/SearchWrapper';
+import ThemeToggleButton from './components/globalpartials/ThemeToggleButton';
 import BodyWrapper from './components/BodyWrapper';
-import PageWrapper from './components/PageWrapper';
-import { SubareaInterface } from './const/types';
-import { getAllSubarea } from './Data/Api';
+import FunctionalWrapper from './components/FunctionalWrapper';
+import TableTitle from './components/functionalcomponents/TableTitle';
+import GlobalSearch from './components/functionalcomponents/GlobalSearch';
+import SearchButton from './components/functionalcomponents/SearchButton';
+import FooterWrapper from './components/FooterWrapper';
+import PaginationWrapper from './components/footercomponents/PaginationWrapper';
+import PageButtons from './components/footercomponents/PageButtons';
+import SelectedNumber from './components/footercomponents/SelectedNumber';
 
 function App(): JSX.Element {
-  const [tableData, setTableData] = useState<SubareaInterface>();
-
-  useEffect(() => {
-    const fetchSubareas = async () => {
-      const data = await getAllSubarea();
-      setTableData(data);
-    };
-    fetchSubareas();
-  }, [getAllSubarea]);
-
   return (
     <Box>
       <DataTable>
-        <Box>
-          <SearchWrapper />
-          <BodyWrapper tabledata={tableData} />
-          <PageWrapper />
-        </Box>
+        <FunctionalWrapper>
+          <TableTitle>Member</TableTitle>
+          <GlobalSearch>
+            <SearchButton>Search</SearchButton>
+          </GlobalSearch>
+        </FunctionalWrapper>
+        <BodyWrapper/>
+        <FooterWrapper>
+          <PaginationWrapper>
+            <SelectedNumber />
+          </PaginationWrapper>
+          <PageButtons />
+        </FooterWrapper>
       </DataTable>
       <ThemeToggleButton pos="fixed" bottom="2" right="2" />
     </Box>

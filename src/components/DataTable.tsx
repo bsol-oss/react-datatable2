@@ -1,14 +1,19 @@
 import React, { ReactNode, useState } from 'react';
 import { Box, Container } from '@chakra-ui/react';
-import { SearchContext, PaginationContext } from './partials/GlobalContext';
+import {
+  SearchContext,
+  PaginationContext,
+  SelectedRecordsContext,
+} from './globalpartials/GlobalContext';
 
 interface Props {
   children: ReactNode;
 }
 
 const DataTable = ({ children }: Props) => {
-  const [searchKey, setSearchKey] = useState('');
-  const [totalCount, setTotalCount] = useState(0);
+  const [searchKey, setSearchKey] = useState<string>('');
+  const [totalCount, setTotalCount] = useState<number>(0);
+  const [selectedRecords, setSelectedRecords] = useState<number>(0);
 
   return (
     <Container
@@ -23,7 +28,9 @@ const DataTable = ({ children }: Props) => {
       >
         <PaginationContext.Provider value={{ totalCount, setTotalCount }}>
           <SearchContext.Provider value={{ searchKey, setSearchKey }}>
-            {children}
+            <SelectedRecordsContext.Provider value={{selectedRecords, setSelectedRecords}}>
+              {children}
+            </SelectedRecordsContext.Provider>
           </SearchContext.Provider>
         </PaginationContext.Provider>
       </Box>

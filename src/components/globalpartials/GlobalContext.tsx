@@ -10,6 +10,11 @@ interface PaginationContextInterface {
   setTotalCount: (num: number) => void;
 }
 
+interface SelectedRecordContextInterface {
+  selectedRecords: number;
+  setSelectedRecords: (num: number) => void;
+}
+
 export const SearchContext = createContext<SearchContextInterface>({
   searchKey: '',
   setSearchKey: () => {
@@ -23,3 +28,11 @@ export const PaginationContext = createContext<PaginationContextInterface>({
     throw new Error('totalCount function has not been implemented');
   },
 });
+
+export const SelectedRecordsContext =
+  createContext<SelectedRecordContextInterface>({
+    selectedRecords: 0,
+    setSelectedRecords: () => {
+      throw new Error('record function has not been implemented');
+    },
+  });
