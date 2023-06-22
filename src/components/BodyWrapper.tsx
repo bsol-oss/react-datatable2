@@ -1,28 +1,20 @@
 import React, { useContext, useEffect, useState } from 'react';
 import {
-  Avatar,
-  Badge,
   Box,
   Flex,
-  HStack,
-  IconButton,
   Spinner,
   Table,
   Tbody,
   Td,
-  Text,
   Th,
   Thead,
   Tr,
 } from '@chakra-ui/react';
-import { FiEdit2, FiTrash2 } from 'react-icons/fi';
-import { useTranslation } from 'react-i18next';
-import { DataInterface, RowInterface } from '../const/types';
+import { DataInterface } from '../const/types';
 import {
   useReactTable,
   ColumnResizeMode,
   getCoreRowModel,
-  ColumnDef,
   flexRender,
   getSortedRowModel,
   HeaderGroup,
@@ -37,7 +29,6 @@ import {
 import styled from '@emotion/styled';
 import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa';
 
-import IndeterminateCheckbox from './globalpartials/InterminateCheckbox';
 import { getAllSubarea, getSubareaBySearechKey } from '../Data/Api';
 
 const Wrapper = styled(Box)`
@@ -99,9 +90,7 @@ const Wrapper = styled(Box)`
   }
 `;
 
-const BodyWrapper = () => {
-  const { t } = useTranslation();
-
+const BodyWrapper = ({ columns }: { columns: any }) => {
   const { searchKey } = useContext(SearchContext);
   const { setSelectedRecords } = useContext(SelectedRecordsContext);
   const { setTotalCount } = useContext(PaginationContext);
@@ -151,103 +140,6 @@ const BodyWrapper = () => {
   useEffect(() => {
     setSelectedRecords(Object.keys(rowSelection).length);
   }, [rowSelection]);
-
-  const defaultColumns: ColumnDef<DataInterface>[] = [
-    {
-      header: ({ table }) => (
-        <HStack spacing="3" px={5}>
-          <IndeterminateCheckbox
-            {...{
-              checked: table.getIsAllRowsSelected(),
-              indeterminate: table.getIsSomeRowsSelected(),
-              onChange: table.getToggleAllRowsSelectedHandler(),
-            }}
-          />
-          <Text>{String(t('name'))}</Text>
-        </HStack>
-      ),
-      accessorKey: 'name',
-      cell: ({ row }) => (
-        <HStack spacing="3">
-          <IndeterminateCheckbox
-            {...{
-              checked: row.getIsSelected(),
-              disabled: !row.getCanSelect(),
-              indeterminate: row.getIsSomeSelected(),
-              onChange: row.getToggleSelectedHandler(),
-            }}
-          />
-          <Avatar name={row.original.name} boxSize="10" />
-          <Box>
-            <Text fontWeight="medium">{row.original.name}</Text>
-          </Box>
-        </HStack>
-      ),
-      size: 200,
-    },
-    {
-      header: String(t('Status')),
-      accessorKey: 'is_active',
-      cell: ({ row }: { row: RowInterface }) => (
-        <Badge
-          size="sm"
-          colorScheme={row.original.is_active === 1 ? 'green' : 'red'}
-        >
-          {row.original.is_active === 1 ? 'Active' : 'In-active'}
-        </Badge>
-      ),
-      size: 200,
-    },
-    {
-      header: String(t('description')),
-      accessorKey: 'description',
-      cell: ({ row }: { row: RowInterface }) => (
-        <Text color="fg.muted">
-          {row.original.description === null ? '' : row.original.description}
-        </Text>
-      ),
-      size: 200,
-    },
-    {
-      header: String(t('Hub ID')),
-      accessorKey: 'hub_id',
-      cell: ({ row }: { row: RowInterface }) => (
-        <Text color="fg.muted">{row.original.hub_id}</Text>
-      ),
-      size: 200,
-    },
-    {
-      header: String(t('BU ID')),
-      accessorKey: 'bu_id',
-      cell: ({ row }: { row: RowInterface }) => (
-        <Text color="fg.muted">{row.original.bu_id}</Text>
-      ),
-      size: 400,
-    },
-    {
-      header: '',
-      accessorKey: 'actions',
-      cell: () => (
-        <HStack spacing="1">
-          <IconButton
-            icon={<FiTrash2 fontSize="1.25rem" />}
-            variant="tertiary"
-            aria-label="Delete Column"
-          />
-          <IconButton
-            icon={<FiEdit2 fontSize="1.25rem" />}
-            variant="tertiary"
-            aria-label="Edit Column"
-          />
-        </HStack>
-      ),
-      size: 300,
-    },
-  ];
-
-  const [columns] = React.useState<typeof defaultColumns>(() => [
-    ...defaultColumns,
-  ]);
 
   const tableInstance = useReactTable({
     data,
