@@ -99,7 +99,7 @@ const Wrapper = styled(Box)`
   }
 `;
 
-const BodyWrapper = () => {
+const BodyWrapper = ({columns}) => {
   const { t } = useTranslation();
 
   const { searchKey } = useContext(SearchContext);
@@ -152,7 +152,7 @@ const BodyWrapper = () => {
     setSelectedRecords(Object.keys(rowSelection).length);
   }, [rowSelection]);
 
-  const defaultColumns: ColumnDef<DataInterface>[] = [
+/*   const defaultColumns: ColumnDef<DataInterface>[] = [
     {
       header: ({ table }) => (
         <HStack spacing="3" px={5}>
@@ -243,11 +243,11 @@ const BodyWrapper = () => {
       ),
       size: 300,
     },
-  ];
+  ]; */
 
-  const [columns] = React.useState<typeof defaultColumns>(() => [
-    ...defaultColumns,
-  ]);
+  //const [columns] = React.useState<typeof defaultColumns>(() => [
+  // ...defaultColumns,
+  //]);
 
   const tableInstance = useReactTable({
     data,
