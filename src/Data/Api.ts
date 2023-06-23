@@ -35,7 +35,7 @@ export const getFilteredData = async (
 ): Promise<SubareaInterface> => {
   try {
     const url = `${API_URL}/api/g/subarea/all?pagination={"offset":${
-      filterTerm.offset - 1
+      filterTerm.offset === 0 ? 0 : filterTerm.offset - 1
     },"rows":${filterTerm.rows}}&sorting={"field":"${
       filterTerm.field
     }","sort":"${filterTerm.sort}"}&searching=${filterTerm.searchTerm}`;
