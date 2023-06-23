@@ -92,7 +92,7 @@ const Wrapper = styled(Box)`
 
 const BodyWrapper = ({ columns }: { columns: any }) => {
   const { setSelectedRecords } = useContext(SelectedRecordsContext);
-  const { filterTerm } = useContext(FilterContext);
+  const { filterTerm, setFilterTerm } = useContext(FilterContext);
   const { setTotalCount } = useContext(PaginationContext);
   const [rowSelection, setRowSelection] = React.useState({});
   const columnResizeMode: ColumnResizeMode = 'onChange';
@@ -100,6 +100,20 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [data, setData] = useState<DataInterface[]>([]);
+
+  useEffect(() => {
+    const fields: string[] = [];
+    const sort: string[] = [];
+    sorting.map((column) => {
+      fields.push(column.id);
+      sort.push(column.desc ? 'desc' : 'asc');
+    });
+    setFilterTerm({
+      ...filterTerm,
+      field: fields.join(','),
+      sort: sort.join(','),
+    });
+  }, [sorting]);
 
   useEffect(() => {
     const fetchSubareas = async () => {
