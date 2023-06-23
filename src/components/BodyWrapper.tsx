@@ -22,14 +22,14 @@ import {
 } from '@tanstack/react-table';
 
 import {
+  FilterContext,
   PaginationContext,
-  SearchContext,
   SelectedRecordsContext,
 } from './globalpartials/GlobalContext';
 import styled from '@emotion/styled';
 import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa';
 
-import { getAllSubarea, getSubareaBySearechKey } from '../Data/Api';
+import { getFilteredData } from '../Data/Api';
 
 const Wrapper = styled(Box)`
   * {
@@ -91,10 +91,9 @@ const Wrapper = styled(Box)`
 `;
 
 const BodyWrapper = ({ columns }: { columns: any }) => {
-  const { searchKey } = useContext(SearchContext);
   const { setSelectedRecords } = useContext(SelectedRecordsContext);
+  const { filterTerm } = useContext(FilterContext);
   const { setTotalCount } = useContext(PaginationContext);
-
   const [rowSelection, setRowSelection] = React.useState({});
   const columnResizeMode: ColumnResizeMode = 'onChange';
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -103,39 +102,17 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
   const [data, setData] = useState<DataInterface[]>([]);
 
   useEffect(() => {
-    const fetchSubareas = async (searchKey: string) => {
+    const fetchSubareas = async () => {
       setIsLoading(true);
-      if (searchKey === '') {
-        const res = await getAllSubarea();
-        setIsLoading(false);
+      const res = await getFilteredData(filterTerm);
+      setIsLoading(false);
+      if (res) {
+        setTotalCount(res.filterCount);
         setData(res.results);
-      } else {
-        const res = await getSubareaBySearechKey(searchKey);
-        setIsLoading(false);
-        if (res) {
-          setData(
-            res.results.filter(
-              (item) =>
-                item.name.toLowerCase().includes(searchKey.toLowerCase()) ||
-                item.description
-                  ?.toLowerCase()
-                  .includes(searchKey.toLowerCase()) ||
-                item.hub_id
-                  ?.toString()
-                  .toLowerCase()
-                  .includes(searchKey.toLowerCase()) ||
-                item.bu_id?.toLowerCase().includes(searchKey.toLowerCase())
-            )
-          );
-        }
       }
     };
-    fetchSubareas(searchKey);
-  }, [searchKey]);
-
-  useEffect(() => {
-    setTotalCount(data.length);
-  }, [data]);
+    fetchSubareas();
+  }, [filterTerm]);
 
   useEffect(() => {
     setSelectedRecords(Object.keys(rowSelection).length);

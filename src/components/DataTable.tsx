@@ -1,19 +1,27 @@
 import React, { ReactNode, useState } from 'react';
 import { Box, Container } from '@chakra-ui/react';
 import {
-  SearchContext,
   PaginationContext,
   SelectedRecordsContext,
+  FilterContext,
 } from './globalpartials/GlobalContext';
+import { FilterInterface } from '../const/types';
 
 interface Props {
   children: ReactNode;
 }
 
 const DataTable = ({ children }: Props) => {
-  const [searchKey, setSearchKey] = useState<string>('');
   const [totalCount, setTotalCount] = useState<number>(0);
   const [selectedRecords, setSelectedRecords] = useState<number>(0);
+
+  const [filterTerm, setFilterTerm] = useState<FilterInterface>({
+    offset: 0,
+    rows: 10,
+    field: '',
+    sort: '',
+    searchTerm: '',
+  });
 
   return (
     <Container
@@ -26,13 +34,15 @@ const DataTable = ({ children }: Props) => {
         boxShadow={{ base: 'none', md: 'sm' }}
         borderRadius={{ base: 'none', md: 'lg' }}
       >
-        <PaginationContext.Provider value={{ totalCount, setTotalCount }}>
-          <SearchContext.Provider value={{ searchKey, setSearchKey }}>
-            <SelectedRecordsContext.Provider value={{selectedRecords, setSelectedRecords}}>
+        <FilterContext.Provider value={{ filterTerm, setFilterTerm }}>
+          <PaginationContext.Provider value={{ totalCount, setTotalCount }}>
+            <SelectedRecordsContext.Provider
+              value={{ selectedRecords, setSelectedRecords }}
+            >
               {children}
             </SelectedRecordsContext.Provider>
-          </SearchContext.Provider>
-        </PaginationContext.Provider>
+          </PaginationContext.Provider>
+        </FilterContext.Provider>
       </Box>
     </Container>
   );

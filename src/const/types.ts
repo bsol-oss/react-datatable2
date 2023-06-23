@@ -14,9 +14,17 @@ export interface SubareaInterface {
   results: DataInterface[];
 }
 
+export interface FilterInterface {
+  offset: number;
+  rows: number;
+  field: string;
+  sort: string;
+  searchTerm: string;
+}
+
 export interface RowInterface {
   original: {
-    id:number;
+    id: number;
     name: string;
     is_active: number;
     description: string | null;

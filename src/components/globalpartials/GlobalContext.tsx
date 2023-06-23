@@ -1,4 +1,5 @@
 import { createContext } from 'react';
+import { FilterInterface } from '../../const/types';
 
 interface SearchContextInterface {
   searchKey: string;
@@ -10,10 +11,22 @@ interface PaginationContextInterface {
   setTotalCount: (num: number) => void;
 }
 
+interface FilterContextInterface {
+  filterTerm: FilterInterface;
+  setFilterTerm: (filter: FilterInterface) => void;
+}
+
 interface SelectedRecordContextInterface {
   selectedRecords: number;
   setSelectedRecords: (num: number) => void;
 }
+
+export const FilterContext = createContext<FilterContextInterface>({
+  filterTerm: { offset: 0, rows: 10, field: '', sort: '', searchTerm: '' },
+  setFilterTerm() {
+    throw new Error('setFilterTerm function has not been implemented');
+  },
+});
 
 export const SearchContext = createContext<SearchContextInterface>({
   searchKey: '',

@@ -2,7 +2,7 @@ import React, { KeyboardEvent, ReactNode, useContext, useState } from 'react';
 import { Icon, Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
 import { FiSearch } from 'react-icons/fi';
 import { useTranslation } from 'react-i18next';
-import { SearchContext } from '../globalpartials/GlobalContext';
+import { FilterContext } from '../globalpartials/GlobalContext';
 import { InputContext } from './InputContext';
 
 interface Props {
@@ -13,10 +13,10 @@ const GlobalSearch = ({ children }: Props) => {
   const { t } = useTranslation();
   const [inputValue, setInputValue] = useState<string>('');
   const placeholder = t('Search') || 'Search';
-  const { setSearchKey } = useContext(SearchContext);
+  const { filterTerm, setFilterTerm } = useContext(FilterContext);
 
   const handleSearch = () => {
-    setSearchKey(inputValue);
+    setFilterTerm({ ...filterTerm, searchTerm: inputValue });
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {

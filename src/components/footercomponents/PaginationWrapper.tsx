@@ -1,34 +1,33 @@
 import React, { ReactNode, useContext } from 'react';
+import { Box, Container, HStack, useBreakpointValue } from '@chakra-ui/react';
 import {
-  Box,
-  Text,
-  HStack,
-  useBreakpointValue,
-} from '@chakra-ui/react';
-import { useTranslation } from 'react-i18next';
-import {
+  FilterContext,
   PaginationContext,
 } from '../globalpartials/GlobalContext';
+import { Pagination } from './Pagination';
 
 interface Props {
   children: ReactNode;
 }
 const PaginationWrapper = ({ children }: Props) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
-  const { t } = useTranslation();
   const { totalCount } = useContext(PaginationContext);
+  const { filterTerm, setFilterTerm } = useContext(FilterContext);
 
   return (
-    <Box>
-      {!isMobile && (
-        <HStack>
-          <Text color="fg.muted" fontSize="sm">
-            {t('Showing 1 to ')} {totalCount} {t('of ')} {totalCount}{' '}
-            {t(' results')}
-          </Text>
-          {children}
+    <Box bg="bg.surface">
+      <Container py={{ base: '12', md: '16' }}>
+        <HStack flexWrap="wrap" justifyContent="center">
+          <Pagination
+            count={totalCount}
+            pageSize={10}
+            siblingCount={2}
+            page={filterTerm.offset}
+            onChange={(e) => setFilterTerm({ ...filterTerm, offset: e.page })}
+          />
+          {!isMobile && children}
         </HStack>
-      )}
+      </Container>
     </Box>
   );
 };
