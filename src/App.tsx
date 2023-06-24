@@ -10,7 +10,6 @@ import GlobalSearch from './components/functionalcomponents/GlobalSearch';
 import SearchButton from './components/functionalcomponents/SearchButton';
 import FooterWrapper from './components/FooterWrapper';
 import PaginationWrapper from './components/footercomponents/PaginationWrapper';
-import PageButtons from './components/footercomponents/PageButtons';
 import SelectedNumber from './components/footercomponents/SelectedNumber';
 
 import columns from './components/ProvideByConsumer/Columns';
@@ -30,7 +29,6 @@ function App(): JSX.Element {
           <PaginationWrapper>
             <SelectedNumber />
           </PaginationWrapper>
-          <PageButtons />
         </FooterWrapper>
       </DataTable>
       <ThemeToggleButton pos="fixed" bottom="2" right="2" />

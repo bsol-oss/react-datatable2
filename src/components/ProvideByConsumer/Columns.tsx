@@ -10,7 +10,7 @@ import { ColumnDef } from '@tanstack/react-table';
 const columns: ColumnDef<DataInterface>[] = [
   {
     header: ({ table }) => (
-      <HStack spacing="3" px={5}>
+      <HStack spacing="3" px={1}>
         <IndeterminateCheckbox
           {...{
             checked: table.getIsAllRowsSelected(),

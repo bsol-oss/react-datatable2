@@ -1,4 +1,4 @@
-import { SubareaInterface } from '../const/types';
+import { FilterInterface, SubareaInterface } from '../const/types';
 
 const API_URL = 'http://5.78.97.128:8081';
 
@@ -26,5 +26,24 @@ export const getSubareaBySearechKey = async (
   } catch (error) {
     console.error(error);
     throw new Error('Error fetching subarea by search key');
+  }
+};
+
+//Function to get filtered data by several filter
+export const getFilteredData = async (
+  filterTerm: FilterInterface
+): Promise<SubareaInterface> => {
+  try {
+    const url = `${API_URL}/api/g/subarea/all?pagination={"offset":${
+      filterTerm.offset === 0 ? 0 : filterTerm.offset - 1
+    },"rows":${filterTerm.rows}}&sorting={"field":"${
+      filterTerm.field
+    }","sort":"${filterTerm.sort}"}&searching=${filterTerm.searchTerm}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('Error fetching subarea by filter keys');
   }
 };

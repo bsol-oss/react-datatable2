@@ -22,79 +22,19 @@ import {
 } from '@tanstack/react-table';
 
 import {
+  FilterContext,
   PaginationContext,
-  SearchContext,
   SelectedRecordsContext,
 } from './globalpartials/GlobalContext';
 import styled from '@emotion/styled';
 import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa';
 
-import { getAllSubarea, getSubareaBySearechKey } from '../Data/Api';
-
-const Wrapper = styled(Box)`
-  * {
-    box-sizing: border-box;
-  }
-  html {
-    font-family: sans-serif;
-    font-size: 14px;
-  }
-  table,
-  .divTable {
-    border: 1px solid lightgray;
-    width: fit-content;
-  }
-  .tr {
-    display: flex;
-  }
-  tr,
-  .tr {
-    width: fit-content;
-    height: 30px;
-  }
-  th,
-  .th {
-    padding: 2px 4px;
-    position: relative;
-    font-weight: bold;
-    text-align: center;
-    height: 30px;
-  }
-  td,
-  .td {
-    height: 30px;
-    width: ;
-  }
-  .resizer {
-    position: absolute;
-    right: 0;
-    top: 0;
-    height: 100%;
-    width: 5px;
-    background: rgba(0, 0, 0, 0.5);
-    cursor: col-resize;
-    user-select: none;
-    touch-action: none;
-  }
-  .resizer.isResizing {
-    background: blue;
-    opacity: 1;
-  }
-  @media (hover: hover) {
-    .resizer {
-      opacity: 0;
-    }
-    *:hover > .resizer {
-      opacity: 1;
-    }
-  }
-`;
+import { getFilteredData } from '../Data/Api';
 
 const BodyWrapper = ({ columns }: { columns: any }) => {
-  const { searchKey } = useContext(SearchContext);
   const { setSelectedRecords } = useContext(SelectedRecordsContext);
+  const { filterTerm, setFilterTerm } = useContext(FilterContext);
   const { setTotalCount } = useContext(PaginationContext);
-
   const [rowSelection, setRowSelection] = React.useState({});
   const columnResizeMode: ColumnResizeMode = 'onChange';
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -103,39 +43,31 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
   const [data, setData] = useState<DataInterface[]>([]);
 
   useEffect(() => {
-    const fetchSubareas = async (searchKey: string) => {
-      setIsLoading(true);
-      if (searchKey === '') {
-        const res = await getAllSubarea();
-        setIsLoading(false);
-        setData(res.results);
-      } else {
-        const res = await getSubareaBySearechKey(searchKey);
-        setIsLoading(false);
-        if (res) {
-          setData(
-            res.results.filter(
-              (item) =>
-                item.name.toLowerCase().includes(searchKey.toLowerCase()) ||
-                item.description
-                  ?.toLowerCase()
-                  .includes(searchKey.toLowerCase()) ||
-                item.hub_id
-                  ?.toString()
-                  .toLowerCase()
-                  .includes(searchKey.toLowerCase()) ||
-                item.bu_id?.toLowerCase().includes(searchKey.toLowerCase())
-            )
-          );
-        }
-      }
-    };
-    fetchSubareas(searchKey);
-  }, [searchKey]);
+    const fields: string[] = [];
+    const sort: string[] = [];
+    sorting.map((column) => {
+      fields.push(column.id);
+      sort.push(column.desc ? 'desc' : 'asc');
+    });
+    setFilterTerm({
+      ...filterTerm,
+      field: fields.join(','),
+      sort: sort.join(','),
+    });
+  }, [sorting]);
 
   useEffect(() => {
-    setTotalCount(data.length);
-  }, [data]);
+    const fetchSubareas = async () => {
+      setIsLoading(true);
+      const res = await getFilteredData(filterTerm);
+      setIsLoading(false);
+      if (res) {
+        setTotalCount(res.filterCount);
+        setData(res.results);
+      }
+    };
+    fetchSubareas();
+  }, [filterTerm]);
 
   useEffect(() => {
     setSelectedRecords(Object.keys(rowSelection).length);
@@ -158,7 +90,7 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
   });
 
   return (
-    <Wrapper marginTop="10px" overflow="auto">
+    <Box marginTop="10px" overflow="auto">
       <Table
         {...{
           style: {
@@ -183,6 +115,7 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
                         width: header.getSize(),
                       },
                     }}
+                    position="relative"
                     border="1px solid"
                     borderColor="gray.200"
                   >
@@ -217,14 +150,25 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
                           </Box>
                         ))}
                     </Flex>
-                    <div
+                    <Box
                       {...{
                         onMouseDown: header.getResizeHandler(),
                         onTouchStart: header.getResizeHandler(),
-                        className: `resizer ${
-                          header.column.getIsResizing() ? 'isResizing' : ''
+                        background: ` ${
+                          header.column.getIsResizing()
+                            ? 'blue;'
+                            : 'rgba(0, 0, 0, 0.5)'
                         }`,
+                        opacity: ` ${header.column.getIsResizing() && '1'}`,
                       }}
+                      position="absolute"
+                      right={0}
+                      top={0}
+                      height="100%"
+                      width="5px"
+                      cursor="col-resize"
+                      _hover={{ opacity: 1 }}
+                      opacity="0"
                     />
                   </Th>
                 ))}
@@ -265,7 +209,7 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
           )}
         </Tbody>
       </Table>
-    </Wrapper>
+    </Box>
   );
 };
 
