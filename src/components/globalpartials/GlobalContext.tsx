@@ -1,11 +1,6 @@
 import { createContext } from 'react';
 import { FilterInterface } from '../../const/types';
 
-interface SearchContextInterface {
-  searchKey: string;
-  setSearchKey: (str: string) => void;
-}
-
 interface PaginationContextInterface {
   totalCount: number;
   setTotalCount: (num: number) => void;
@@ -21,17 +16,15 @@ interface SelectedRecordContextInterface {
   setSelectedRecords: (num: number) => void;
 }
 
+interface TableStatusContextInterface {
+  tableWidth: number;
+  setTableWidth: (num: number) => void;
+}
+
 export const FilterContext = createContext<FilterContextInterface>({
   filterTerm: { offset: 0, rows: 10, field: '', sort: '', searchTerm: '' },
   setFilterTerm() {
     throw new Error('setFilterTerm function has not been implemented');
-  },
-});
-
-export const SearchContext = createContext<SearchContextInterface>({
-  searchKey: '',
-  setSearchKey: () => {
-    throw new Error('setSearchKey function has not been implemented');
   },
 });
 
@@ -49,3 +42,10 @@ export const SelectedRecordsContext =
       throw new Error('record function has not been implemented');
     },
   });
+
+export const TableStatusContext = createContext<TableStatusContextInterface>({
+  tableWidth: 0,
+  setTableWidth: () => {
+    throw new Error('record function has not been implemented');
+  },
+});

@@ -4,6 +4,7 @@ import {
   PaginationContext,
   SelectedRecordsContext,
   FilterContext,
+  TableStatusContext,
 } from './globalpartials/GlobalContext';
 import { FilterInterface } from '../const/types';
 
@@ -14,6 +15,7 @@ interface Props {
 const DataTable = ({ children }: Props) => {
   const [totalCount, setTotalCount] = useState<number>(0);
   const [selectedRecords, setSelectedRecords] = useState<number>(0);
+  const [tableWidth, setTableWidth] = useState<number>(window.innerWidth-50);
 
   const [filterTerm, setFilterTerm] = useState<FilterInterface>({
     offset: 0,
@@ -35,13 +37,15 @@ const DataTable = ({ children }: Props) => {
         borderRadius={{ base: 'none', md: 'lg' }}
       >
         <FilterContext.Provider value={{ filterTerm, setFilterTerm }}>
-          <PaginationContext.Provider value={{ totalCount, setTotalCount }}>
-            <SelectedRecordsContext.Provider
-              value={{ selectedRecords, setSelectedRecords }}
-            >
-              {children}
-            </SelectedRecordsContext.Provider>
-          </PaginationContext.Provider>
+          <TableStatusContext.Provider value={{ tableWidth, setTableWidth }}>
+            <PaginationContext.Provider value={{ totalCount, setTotalCount }}>
+              <SelectedRecordsContext.Provider
+                value={{ selectedRecords, setSelectedRecords }}
+              >
+                {children}
+              </SelectedRecordsContext.Provider>
+            </PaginationContext.Provider>
+          </TableStatusContext.Provider>
         </FilterContext.Provider>
       </Box>
     </Container>
