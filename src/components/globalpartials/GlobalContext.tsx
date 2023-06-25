@@ -1,24 +1,18 @@
 import { createContext } from 'react';
 import { FilterInterface } from '../../const/types';
 
-interface PaginationContextInterface {
-  totalCount: number;
-  setTotalCount: (num: number) => void;
-}
-
 interface FilterContextInterface {
   filterTerm: FilterInterface;
   setFilterTerm: (filter: FilterInterface) => void;
 }
 
-interface SelectedRecordContextInterface {
+interface TableStatusContextInterface {
+  tableWidth: number;  
+  setTableWidth: (num: number) => void;
+  totalCount: number;
+  setTotalCount: (num: number) => void;  
   selectedRecords: number;
   setSelectedRecords: (num: number) => void;
-}
-
-interface TableStatusContextInterface {
-  tableWidth: number;
-  setTableWidth: (num: number) => void;
 }
 
 export const FilterContext = createContext<FilterContextInterface>({
@@ -28,24 +22,17 @@ export const FilterContext = createContext<FilterContextInterface>({
   },
 });
 
-export const PaginationContext = createContext<PaginationContextInterface>({
+export const TableStatusContext = createContext<TableStatusContextInterface>({
+  tableWidth: 0,
+  setTableWidth: () => {
+    throw new Error('record function has not been implemented');
+  },
   totalCount: 0,
   setTotalCount: () => {
     throw new Error('totalCount function has not been implemented');
   },
-});
-
-export const SelectedRecordsContext =
-  createContext<SelectedRecordContextInterface>({
-    selectedRecords: 0,
-    setSelectedRecords: () => {
-      throw new Error('record function has not been implemented');
-    },
-  });
-
-export const TableStatusContext = createContext<TableStatusContextInterface>({
-  tableWidth: 0,
-  setTableWidth: () => {
+  selectedRecords: 0,
+  setSelectedRecords: () => {
     throw new Error('record function has not been implemented');
   },
 });

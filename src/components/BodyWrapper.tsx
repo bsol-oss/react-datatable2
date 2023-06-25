@@ -9,7 +9,6 @@ import {
   Th,
   Thead,
   Tr,
-  useBreakpointValue,
 } from '@chakra-ui/react';
 import { DataInterface } from '../const/types';
 import {
@@ -24,20 +23,16 @@ import {
 
 import {
   FilterContext,
-  PaginationContext,
-  SelectedRecordsContext,
   TableStatusContext,
 } from './globalpartials/GlobalContext';
-import styled from '@emotion/styled';
 import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa';
 
 import { getFilteredData } from '../Data/Api';
 
 const BodyWrapper = ({ columns }: { columns: any }) => {
-  const { setSelectedRecords } = useContext(SelectedRecordsContext);
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
-  const { setTotalCount } = useContext(PaginationContext);
-  const { setTableWidth } = useContext(TableStatusContext);
+  const { setTableWidth, setTotalCount, setSelectedRecords } =
+    useContext(TableStatusContext);
 
   const [rowSelection, setRowSelection] = React.useState({});
   const columnResizeMode: ColumnResizeMode = 'onChange';
@@ -95,14 +90,12 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
 
   useEffect(() => {
     const windowWidth = window.innerWidth;
-    console.log("windowwidth",windowWidth);
-    console.log("tablewidth", )
-    if (tableInstance.getCenterTotalSize() <= windowWidth-64) {
+    if (tableInstance.getCenterTotalSize() <= windowWidth - 64) {
       setTableWidth(tableInstance.getCenterTotalSize());
     } else {
-      setTableWidth(window.innerWidth-94);
+      setTableWidth(window.innerWidth - 94);
     }
-  }, [tableInstance.getCenterTotalSize(),window.innerWidth]);
+  }, [tableInstance.getCenterTotalSize(), window.innerWidth]);
 
   return (
     <Box marginTop="10px" overflow="auto" className="TableContainer">

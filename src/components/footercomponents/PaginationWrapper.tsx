@@ -2,7 +2,7 @@ import React, { ReactNode, useContext } from 'react';
 import { Box, Container, HStack, useBreakpointValue } from '@chakra-ui/react';
 import {
   FilterContext,
-  PaginationContext,
+  TableStatusContext,
 } from '../globalpartials/GlobalContext';
 import { Pagination } from './Pagination';
 
@@ -11,7 +11,7 @@ interface Props {
 }
 const PaginationWrapper = ({ children }: Props) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
-  const { totalCount } = useContext(PaginationContext);
+  const { totalCount } = useContext(TableStatusContext);
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
 
   return (
