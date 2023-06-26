@@ -31,13 +31,17 @@ import { getFilteredData } from '../Data/Api';
 
 const BodyWrapper = ({ columns }: { columns: any }) => {
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
-  const { setTableWidth, setTotalCount, setSelectedRecords } =
-    useContext(TableStatusContext);
+  const {
+    setTableWidth,
+    setTotalCount,
+    setSelectedRecords,
+    isLoading,
+    setIsLoading,
+  } = useContext(TableStatusContext);
 
   const [rowSelection, setRowSelection] = React.useState({});
   const columnResizeMode: ColumnResizeMode = 'onChange';
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [data, setData] = useState<DataInterface[]>([]);
 
@@ -108,7 +112,6 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
         size="md"
         colorScheme="gray"
         variant="striped"
-        className="hahaha"
       >
         <Thead>
           {tableInstance
@@ -134,7 +137,9 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
                         className: header.column.getCanSort()
                           ? 'cursor-pointer select-none'
                           : '',
-                        onClick: header.column.getToggleSortingHandler(),
+                        onClick: !isLoading
+                          ? header.column.getToggleSortingHandler()
+                          : undefined,
                       }}
                       _hover={{ cursor: 'pointer' }}
                     >
@@ -143,19 +148,26 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
                         header.getContext()
                       )}
                       {header.column.columnDef.header !== '' &&
-                        ((header.column.getIsSorted() as string) ? (
-                          (header.column.getIsSorted() as string) === 'asc' ? (
-                            <Box ml={1} alignItems="center" display="flex">
-                              <FaSortDown />
-                            </Box>
+                        (!isLoading ? (
+                          (header.column.getIsSorted() as string) ? (
+                            (header.column.getIsSorted() as string) ===
+                            'asc' ? (
+                              <Box ml={1} alignItems="center" display="flex">
+                                <FaSortDown />
+                              </Box>
+                            ) : (
+                              <Box ml={1} alignItems="center" display="flex">
+                                <FaSortUp />
+                              </Box>
+                            )
                           ) : (
                             <Box ml={1} alignItems="center" display="flex">
-                              <FaSortUp />
+                              <FaSort />
                             </Box>
                           )
                         ) : (
                           <Box ml={1} alignItems="center" display="flex">
-                            <FaSort />
+                            <Spinner size="xs" />
                           </Box>
                         ))}
                     </Flex>
