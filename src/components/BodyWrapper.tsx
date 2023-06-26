@@ -112,6 +112,7 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
         size="md"
         colorScheme="gray"
         variant="striped"
+        className="hahaha"
       >
         <Thead>
           {tableInstance
