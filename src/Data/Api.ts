@@ -33,12 +33,15 @@ export const getSubareaBySearechKey = async (
 export const getFilteredData = async (
   filterTerm: FilterInterface
 ): Promise<SubareaInterface> => {
+  console.log('Triggred', filterTerm.searchTerm);
   try {
     const url = `${API_URL}/api/g/subarea/all?pagination={"offset":${
       filterTerm.offset === 0 ? 0 : filterTerm.offset - 1
     },"rows":${filterTerm.rows}}&sorting={"field":"${
       filterTerm.field
-    }","sort":"${filterTerm.sort}"}&searching=${filterTerm.searchTerm}`;
+    }","sort":"${filterTerm.sort}"}&searching=${
+      filterTerm.searchTerm
+    }&where={"is_active": ${filterTerm.searchTerm || 1}}`;
     const response = await fetch(url);
     const data = await response.json();
     return data;

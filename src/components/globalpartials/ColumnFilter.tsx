@@ -27,6 +27,10 @@ const ColumnFilter = ({
   );
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
 
+  const handleSearch = () => {
+    setFilterTerm({ ...filterTerm, searchTerm: value });
+  };
+
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
   };
@@ -63,10 +67,6 @@ const ColumnFilter = ({
     }
   };
 
-  const handleSearch = () => {
-    setFilterTerm({ ...filterTerm, searchTerm: value });
-  };
-
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       handleSearch();
@@ -97,13 +97,16 @@ const ColumnFilter = ({
       return (
         <InputContext.Provider value={value}>
           <Select
-            value={value as string}
-            onChange={handleSelectChange}
+            value={value as number}
+            onChange={(event) => {
+              handleSearch();
+              handleSelectChange(event);
+            }}
             focusBorderColor="none"
           >
             {options &&
-              options.map((option) => (
-                <option key={option} value={option}>
+              options.map((option, index) => (
+                <option key={option} value={index}>
                   {option}
                 </option>
               ))}
