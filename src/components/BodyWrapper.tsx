@@ -27,7 +27,7 @@ import {
   PaginationContext,
   SelectedRecordsContext,
 } from './globalpartials/GlobalContext';
-import styled from '@emotion/styled';
+import ColumnFilter from './globalpartials/ColumnFilter';
 import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa';
 
 import { getFilteredData } from '../Data/Api';
@@ -184,19 +184,14 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
                       opacity="0"
                     />
                     {header.column.columnDef.header !== '' && (
-                      <InputContext.Provider value={inputValue}>
-                        <Input
-                          type="text"
-                          focusBorderColor="none"
-                          onChange={(e) => setInputValue(e.target.value)}
-                          placeholder={
-                            index === 0
-                              ? 'Name'
-                              : `${header.column.columnDef.header}`
-                          }
-                          onKeyDown={handleKeyDown}
-                        />
-                      </InputContext.Provider>
+                      <ColumnFilter
+                        filterType="input"
+                        placeholder={
+                          index === 0
+                            ? 'Name'
+                            : `${header.column.columnDef.header}`
+                        }
+                      />
                     )}
                   </Th>
                 ))}

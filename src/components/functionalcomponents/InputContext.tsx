@@ -1,3 +1,3 @@
-import { createContext } from "react";
+import { createContext } from 'react';
 
-export const InputContext = createContext<string>('');
+export const InputContext = createContext<string | number>('');
