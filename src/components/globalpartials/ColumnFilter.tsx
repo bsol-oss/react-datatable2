@@ -3,12 +3,12 @@ import React, { useState, ChangeEvent, useContext, KeyboardEvent } from 'react';
 import { FilterContext } from './GlobalContext';
 import { InputContext } from '../functionalcomponents/InputContext';
 
-type FilterType = 'input' | 'dropdown' | 'range'; // Define possible filter types
+type FilterType = 'input' | 'dropdown' | 'range';
 
 interface ColumnFilterProps {
-  filterType: FilterType; // Type of filter
-  options?: string[]; // Options for dropdown filter
-  placeholder?: any; // Placeholder text for input fields
+  filterType: FilterType;
+  options?: string[];
+  placeholder?: any;
 }
 
 const ColumnFilter = ({
@@ -16,7 +16,7 @@ const ColumnFilter = ({
   options,
   placeholder,
 }: ColumnFilterProps) => {
-  const [value, setValue] = useState<string | number>(''); // Current filter value
+  const [value, setValue] = useState<string | number>('');
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +42,6 @@ const ColumnFilter = ({
     }
   };
 
-  // Render different filter components based on the filter type
   switch (filterType) {
     case 'input':
       return (
