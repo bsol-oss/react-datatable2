@@ -25,7 +25,7 @@ import {
   FilterContext,
   TableStatusContext,
 } from './globalpartials/GlobalContext';
-import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa';
+import { UpDownIcon, ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 
 import { getFilteredData } from '../Data/Api';
 
@@ -153,17 +153,13 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
                           (header.column.getIsSorted() as string) ? (
                             (header.column.getIsSorted() as string) ===
                             'asc' ? (
-                              <Box ml={1} alignItems="center" display="flex">
-                                <FaSortDown />
-                              </Box>
+                              <ChevronDownIcon ml={1} w={5} h={5} />
                             ) : (
-                              <Box ml={1} alignItems="center" display="flex">
-                                <FaSortUp />
-                              </Box>
+                              <ChevronUpIcon ml={1} w={5} h={5} />
                             )
                           ) : (
                             <Box ml={1} alignItems="center" display="flex">
-                              <FaSort />
+                              <UpDownIcon w={3} h={3} />
                             </Box>
                           )
                         ) : (
