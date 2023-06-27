@@ -14,8 +14,9 @@ const DataTable = ({ children }: Props) => {
   const [totalCount, setTotalCount] = useState<number>(0);
   const [selectedRecords, setSelectedRecords] = useState<number>(0);
   const [tableWidth, setTableWidth] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [filterTerm, setFilterTerm] = useState<FilterInterface>({
-    offset: 0,
+    offset: 1,
     rows: 10,
     field: '',
     sort: '',
@@ -42,6 +43,8 @@ const DataTable = ({ children }: Props) => {
               setTotalCount,
               selectedRecords,
               setSelectedRecords,
+              isLoading,
+              setIsLoading,
             }}
           >
             {children}

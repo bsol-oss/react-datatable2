@@ -7,16 +7,18 @@ interface FilterContextInterface {
 }
 
 interface TableStatusContextInterface {
-  tableWidth: number;  
+  tableWidth: number;
   setTableWidth: (num: number) => void;
   totalCount: number;
-  setTotalCount: (num: number) => void;  
+  setTotalCount: (num: number) => void;
   selectedRecords: number;
   setSelectedRecords: (num: number) => void;
+  isLoading: boolean;
+  setIsLoading: (status: boolean) => void;
 }
 
 export const FilterContext = createContext<FilterContextInterface>({
-  filterTerm: { offset: 0, rows: 10, field: '', sort: '', searchTerm: '' },
+  filterTerm: { offset: 1, rows: 10, field: '', sort: '', searchTerm: '' },
   setFilterTerm() {
     throw new Error('setFilterTerm function has not been implemented');
   },
@@ -34,5 +36,9 @@ export const TableStatusContext = createContext<TableStatusContextInterface>({
   selectedRecords: 0,
   setSelectedRecords: () => {
     throw new Error('record function has not been implemented');
+  },
+  isLoading: false,
+  setIsLoading: () => {
+    throw new Error('isLoading function has not been implemented');
   },
 });

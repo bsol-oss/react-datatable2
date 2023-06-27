@@ -1,19 +1,24 @@
-import React, { KeyboardEvent, ReactNode, useContext, useState } from 'react';
-import { Icon, Input, InputGroup, InputLeftElement } from '@chakra-ui/react';
+import React, { KeyboardEvent, useContext, useState } from 'react';
+import {
+  Icon,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  Spinner,
+} from '@chakra-ui/react';
 import { FiSearch } from 'react-icons/fi';
 import { useTranslation } from 'react-i18next';
-import { FilterContext } from '../globalpartials/GlobalContext';
-import { InputContext } from './InputContext';
+import {
+  FilterContext,
+  TableStatusContext,
+} from '../globalpartials/GlobalContext';
 
-interface Props {
-  children: ReactNode;
-}
-
-const GlobalSearch = ({ children }: Props) => {
+const GlobalSearch = () => {
   const { t } = useTranslation();
-  const [inputValue, setInputValue] = useState<string>('');
   const placeholder = t('Search') || 'Search';
+  const [inputValue, setInputValue] = useState<string>('');
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
+  const { isLoading } = useContext(TableStatusContext);
 
   const handleSearch = () => {
     setFilterTerm({ ...filterTerm, searchTerm: inputValue });
@@ -26,9 +31,9 @@ const GlobalSearch = ({ children }: Props) => {
   };
 
   return (
-    <InputContext.Provider value={inputValue}>
-      <InputGroup maxW="xs">
-        <InputLeftElement>
+    <InputGroup maxW="xs">
+      <InputLeftElement>
+        {!isLoading ? (
           <Icon
             as={FiSearch}
             color="fg.muted"
@@ -36,15 +41,17 @@ const GlobalSearch = ({ children }: Props) => {
             cursor="pointer"
             onClick={handleSearch}
           />
-        </InputLeftElement>
-        <Input
-          placeholder={placeholder}
-          onChange={(e) => setInputValue(e.target.value)}
-          onKeyDown={handleKeyDown}
-        />
-        {children}
-      </InputGroup>
-    </InputContext.Provider>
+        ) : (
+          <Spinner size="sm" />
+        )}
+      </InputLeftElement>
+      <Input
+        placeholder={placeholder}
+        onChange={(e) => setInputValue(e.target.value)}
+        onKeyDown={handleKeyDown}
+        disabled={isLoading}
+      />
+    </InputGroup>
   );
 };
 
