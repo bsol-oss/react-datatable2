@@ -93,16 +93,6 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
     enableMultiSort: true,
   });
 
-
-  const handleSearch = () => {
-    setFilterTerm({ ...filterTerm, searchTerm: inputValue });
-  };
-
-  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
-      handleSearch();
-    }
-  };
   useEffect(() => {
     const windowWidth = window.innerWidth;
     if (tableInstance.getCenterTotalSize() <= windowWidth - 64) {
@@ -111,7 +101,6 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
       setTableWidth(window.innerWidth - 94);
     }
   }, [tableInstance.getCenterTotalSize(), window.innerWidth]);
-
 
   return (
     <Box marginTop="10px" overflow="auto" className="TableContainer">
