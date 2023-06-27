@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { KeyboardEvent, useContext, useEffect, useState } from 'react';
 import {
   Box,
   Flex,
@@ -9,6 +9,7 @@ import {
   Th,
   Thead,
   Tr,
+  Input,
 } from '@chakra-ui/react';
 import { DataInterface } from '../const/types';
 import {
@@ -30,6 +31,7 @@ import styled from '@emotion/styled';
 import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa';
 
 import { getFilteredData } from '../Data/Api';
+import { InputContext } from './functionalcomponents/InputContext';
 
 const BodyWrapper = ({ columns }: { columns: any }) => {
   const { setSelectedRecords } = useContext(SelectedRecordsContext);
@@ -39,6 +41,7 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
   const columnResizeMode: ColumnResizeMode = 'onChange';
   const [sorting, setSorting] = useState<SortingState>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [inputValue, setInputValue] = useState<string>('');
 
   const [data, setData] = useState<DataInterface[]>([]);
 
@@ -89,6 +92,16 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
     enableMultiSort: true,
   });
 
+  const handleSearch = () => {
+    setFilterTerm({ ...filterTerm, searchTerm: inputValue });
+  };
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
     <Box marginTop="10px" overflow="auto">
       <Table
@@ -106,7 +119,7 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
             .getHeaderGroups()
             .map((headerGroup: HeaderGroup<DataInterface>) => (
               <Tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
+                {headerGroup.headers.map((header, index) => (
                   <Th
                     key={header.id}
                     {...{
@@ -170,6 +183,21 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
                       _hover={{ opacity: 1 }}
                       opacity="0"
                     />
+                    {header.column.columnDef.header !== '' && (
+                      <InputContext.Provider value={inputValue}>
+                        <Input
+                          type="text"
+                          focusBorderColor="none"
+                          onChange={(e) => setInputValue(e.target.value)}
+                          placeholder={
+                            index === 0
+                              ? 'Search Name'
+                              : `Search ${header.column.columnDef.header}`
+                          }
+                          onKeyDown={handleKeyDown}
+                        />
+                      </InputContext.Provider>
+                    )}
                   </Th>
                 ))}
               </Tr>
