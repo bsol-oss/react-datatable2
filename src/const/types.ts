@@ -19,7 +19,7 @@ export interface FilterInterface {
   rows: number;
   field: string;
   sort: string;
-  searchTerm: string | number;
+  searchTerm: string | number | boolean | Array<string>;
 }
 
 export interface RowInterface {

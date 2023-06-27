@@ -1,4 +1,4 @@
-import React, { KeyboardEvent, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Box,
   Flex,
@@ -30,7 +30,6 @@ import {
 import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa';
 
 import { getFilteredData } from '../Data/Api';
-import { InputContext } from './functionalcomponents/InputContext';
 import ColumnFilter from './globalpartials/ColumnFilter';
 
 const BodyWrapper = ({ columns }: { columns: any }) => {
@@ -42,7 +41,6 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
   const columnResizeMode: ColumnResizeMode = 'onChange';
   const [sorting, setSorting] = useState<SortingState>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [inputValue, setInputValue] = useState<string>('');
 
   const [data, setData] = useState<DataInterface[]>([]);
 
@@ -184,16 +182,22 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
                       _hover={{ opacity: 1 }}
                       opacity="0"
                     />
-                    {header.column.columnDef.header !== '' && (
-                      <ColumnFilter
-                        filterType="input"
-                        placeholder={
-                          index === 0
-                            ? 'Name'
-                            : `${header.column.columnDef.header}`
-                        }
-                      />
-                    )}
+                    {header.column.columnDef.header !== '' &&
+                      (index === 1 ? (
+                        <ColumnFilter
+                          filterType="dropdown"
+                          options={['ACTIVE', 'IN-ACTIVE']}
+                        />
+                      ) : (
+                        <ColumnFilter
+                          filterType="input"
+                          placeholder={
+                            index === 0
+                              ? 'Name'
+                              : `${header.column.columnDef.header}`
+                          }
+                        />
+                      ))}
                   </Th>
                 ))}
               </Tr>

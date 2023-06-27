@@ -1,9 +1,15 @@
-import { Input, Select } from '@chakra-ui/react';
-import React, { useState, ChangeEvent, useContext, KeyboardEvent } from 'react';
+import { Input, Select, Checkbox, VStack } from '@chakra-ui/react';
+import React, {
+  useState,
+  ChangeEvent,
+  useContext,
+  KeyboardEvent,
+  useEffect,
+} from 'react';
 import { FilterContext } from './GlobalContext';
 import { InputContext } from '../functionalcomponents/InputContext';
 
-type FilterType = 'input' | 'dropdown' | 'range';
+type FilterType = 'input' | 'dropdown' | 'range' | 'checkbox';
 
 interface ColumnFilterProps {
   filterType: FilterType;
@@ -16,7 +22,9 @@ const ColumnFilter = ({
   options,
   placeholder,
 }: ColumnFilterProps) => {
-  const [value, setValue] = useState<string | number>('');
+  const [value, setValue] = useState<string | number | boolean | Array<string>>(
+    ''
+  );
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -32,6 +40,29 @@ const ColumnFilter = ({
     setValue(numericValue);
   };
 
+  const handleCheckboxChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const option = event.target.value;
+    const isChecked = event.target.checked;
+
+    if (isChecked) {
+      setValue((prevValue) => {
+        if (Array.isArray(prevValue)) {
+          return [...prevValue, option];
+        } else {
+          return [option];
+        }
+      });
+    } else {
+      setValue((prevValue) => {
+        if (Array.isArray(prevValue)) {
+          return prevValue.filter((item) => item !== option);
+        } else {
+          return '';
+        }
+      });
+    }
+  };
+
   const handleSearch = () => {
     setFilterTerm({ ...filterTerm, searchTerm: value });
   };
@@ -42,13 +73,19 @@ const ColumnFilter = ({
     }
   };
 
+  useEffect(() => {
+    if (value === '') {
+      handleSearch();
+    }
+  }, [value]);
+
   switch (filterType) {
     case 'input':
       return (
         <InputContext.Provider value={value}>
           <Input
             type="text"
-            value={value}
+            value={value as string}
             placeholder={placeholder}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
@@ -59,7 +96,11 @@ const ColumnFilter = ({
     case 'dropdown':
       return (
         <InputContext.Provider value={value}>
-          <Select value={value} onChange={handleSelectChange}>
+          <Select
+            value={value as string}
+            onChange={handleSelectChange}
+            focusBorderColor="none"
+          >
             {options &&
               options.map((option) => (
                 <option key={option} value={option}>
@@ -74,7 +115,7 @@ const ColumnFilter = ({
         <InputContext.Provider value={value}>
           <Input
             type="range"
-            value={value}
+            value={value as number}
             onChange={handleRangeChange}
             min={0}
             max={100}
@@ -83,8 +124,37 @@ const ColumnFilter = ({
           />
         </InputContext.Provider>
       );
+    case 'checkbox':
+      return (
+        <InputContext.Provider value={value}>
+          <VStack>
+            {options &&
+              options.map((option, index) => (
+                <Checkbox
+                  key={index}
+                  isChecked={(value as Array<string>).includes(option)}
+                  value={option}
+                  onChange={handleCheckboxChange}
+                >
+                  {option}
+                </Checkbox>
+              ))}
+          </VStack>
+        </InputContext.Provider>
+      );
     default:
-      return null;
+      return (
+        <InputContext.Provider value={value}>
+          <Input
+            type="text"
+            value={value as string}
+            placeholder={placeholder}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
+            focusBorderColor="none"
+          />
+        </InputContext.Provider>
+      );
   }
 };
 
