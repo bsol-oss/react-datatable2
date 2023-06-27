@@ -191,8 +191,8 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
                           onChange={(e) => setInputValue(e.target.value)}
                           placeholder={
                             index === 0
-                              ? 'Search Name'
-                              : `Search ${header.column.columnDef.header}`
+                              ? 'Name'
+                              : `${header.column.columnDef.header}`
                           }
                           onKeyDown={handleKeyDown}
                         />
