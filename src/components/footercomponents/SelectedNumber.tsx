@@ -2,14 +2,13 @@ import React, { useContext } from 'react';
 import { Text } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
 import {
-  PaginationContext,
-  SelectedRecordsContext,
+  TableStatusContext,
 } from '../globalpartials/GlobalContext';
 
 const SelectedNumber = () => {
   const { t } = useTranslation();
-  const { totalCount } = useContext(PaginationContext);
-  const { selectedRecords } = useContext(SelectedRecordsContext);
+  const { totalCount } = useContext(TableStatusContext);
+  const { selectedRecords } = useContext(TableStatusContext);
 
   return (
     <Text color="fg.muted" fontSize="sm" ml="5">
