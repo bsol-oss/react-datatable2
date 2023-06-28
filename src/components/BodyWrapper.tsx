@@ -23,22 +23,25 @@ import {
 
 import {
   FilterContext,
-  PaginationContext,
-  SelectedRecordsContext,
+  TableStatusContext,
 } from './globalpartials/GlobalContext';
-import styled from '@emotion/styled';
-import { FaSort, FaSortDown, FaSortUp } from 'react-icons/fa';
+import { UpDownIcon, ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 
 import { getFilteredData } from '../Data/Api';
 
 const BodyWrapper = ({ columns }: { columns: any }) => {
-  const { setSelectedRecords } = useContext(SelectedRecordsContext);
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
-  const { setTotalCount } = useContext(PaginationContext);
+  const {
+    setTableWidth,
+    setTotalCount,
+    setSelectedRecords,
+    isLoading,
+    setIsLoading,
+  } = useContext(TableStatusContext);
+
   const [rowSelection, setRowSelection] = React.useState({});
   const columnResizeMode: ColumnResizeMode = 'onChange';
   const [sorting, setSorting] = useState<SortingState>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [data, setData] = useState<DataInterface[]>([]);
 
@@ -89,8 +92,17 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
     enableMultiSort: true,
   });
 
+  useEffect(() => {
+    const windowWidth = window.innerWidth;
+    if (tableInstance.getCenterTotalSize() <= windowWidth - 64) {
+      setTableWidth(tableInstance.getCenterTotalSize());
+    } else {
+      setTableWidth(window.innerWidth - 94);
+    }
+  }, [tableInstance.getCenterTotalSize(), window.innerWidth]);
+
   return (
-    <Box marginTop="10px" overflow="auto">
+    <Box marginTop="10px" overflow="auto" className="TableContainer">
       <Table
         {...{
           style: {
@@ -100,6 +112,7 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
         size="md"
         colorScheme="gray"
         variant="striped"
+        className="hahaha"
       >
         <Thead>
           {tableInstance
@@ -125,7 +138,9 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
                         className: header.column.getCanSort()
                           ? 'cursor-pointer select-none'
                           : '',
-                        onClick: header.column.getToggleSortingHandler(),
+                        onClick: !isLoading
+                          ? header.column.getToggleSortingHandler()
+                          : undefined,
                       }}
                       _hover={{ cursor: 'pointer' }}
                     >
@@ -134,19 +149,22 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
                         header.getContext()
                       )}
                       {header.column.columnDef.header !== '' &&
-                        ((header.column.getIsSorted() as string) ? (
-                          (header.column.getIsSorted() as string) === 'asc' ? (
-                            <Box ml={1} alignItems="center" display="flex">
-                              <FaSortDown />
-                            </Box>
+                        (!isLoading ? (
+                          (header.column.getIsSorted() as string) ? (
+                            (header.column.getIsSorted() as string) ===
+                            'asc' ? (
+                              <ChevronDownIcon ml={1} w={5} h={5} />
+                            ) : (
+                              <ChevronUpIcon ml={1} w={5} h={5} />
+                            )
                           ) : (
                             <Box ml={1} alignItems="center" display="flex">
-                              <FaSortUp />
+                              <UpDownIcon w={3} h={3} />
                             </Box>
                           )
                         ) : (
                           <Box ml={1} alignItems="center" display="flex">
-                            <FaSort />
+                            <Spinner size="xs" />
                           </Box>
                         ))}
                     </Flex>

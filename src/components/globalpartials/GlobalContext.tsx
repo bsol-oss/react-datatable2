@@ -1,51 +1,44 @@
 import { createContext } from 'react';
 import { FilterInterface } from '../../const/types';
 
-interface SearchContextInterface {
-  searchKey: string;
-  setSearchKey: (str: string) => void;
-}
-
-interface PaginationContextInterface {
-  totalCount: number;
-  setTotalCount: (num: number) => void;
-}
-
 interface FilterContextInterface {
   filterTerm: FilterInterface;
   setFilterTerm: (filter: FilterInterface) => void;
 }
 
-interface SelectedRecordContextInterface {
+interface TableStatusContextInterface {
+  tableWidth: number;
+  setTableWidth: (num: number) => void;
+  totalCount: number;
+  setTotalCount: (num: number) => void;
   selectedRecords: number;
   setSelectedRecords: (num: number) => void;
+  isLoading: boolean;
+  setIsLoading: (status: boolean) => void;
 }
 
 export const FilterContext = createContext<FilterContextInterface>({
-  filterTerm: { offset: 0, rows: 10, field: '', sort: '', searchTerm: '' },
+  filterTerm: { offset: 1, rows: 10, field: '', sort: '', searchTerm: '' },
   setFilterTerm() {
     throw new Error('setFilterTerm function has not been implemented');
   },
 });
 
-export const SearchContext = createContext<SearchContextInterface>({
-  searchKey: '',
-  setSearchKey: () => {
-    throw new Error('setSearchKey function has not been implemented');
+export const TableStatusContext = createContext<TableStatusContextInterface>({
+  tableWidth: 0,
+  setTableWidth: () => {
+    throw new Error('record function has not been implemented');
   },
-});
-
-export const PaginationContext = createContext<PaginationContextInterface>({
   totalCount: 0,
   setTotalCount: () => {
     throw new Error('totalCount function has not been implemented');
   },
+  selectedRecords: 0,
+  setSelectedRecords: () => {
+    throw new Error('record function has not been implemented');
+  },
+  isLoading: false,
+  setIsLoading: () => {
+    throw new Error('isLoading function has not been implemented');
+  },
 });
-
-export const SelectedRecordsContext =
-  createContext<SelectedRecordContextInterface>({
-    selectedRecords: 0,
-    setSelectedRecords: () => {
-      throw new Error('record function has not been implemented');
-    },
-  });

@@ -46,7 +46,16 @@ export const Pagination = (props: PaginationProps) => {
               page.type === 'page' ? (
                 <ListItem key={index}>
                   <PaginationPageTrigger asChild {...page}>
-                    <Button variant="tertiary">{page.value}</Button>
+                    <Button
+                      variant="outline"
+                      borderColor="gray"
+                      borderRadius="full"
+                      width="40px"
+                      height="40px"
+                      bg={page.value === props.page ? 'gray.400' : ''}
+                    >
+                      {page.value}
+                    </Button>
                   </PaginationPageTrigger>
                 </ListItem>
               ) : (
