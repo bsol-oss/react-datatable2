@@ -1,11 +1,11 @@
 import React, {
-    Pagination as ArkPagination,
-    PaginationProps as ArkPaginationProps,
-    PaginationEllipsis,
-    PaginationNextPageTrigger,
-    PaginationPageTrigger,
-    PaginationPrevPageTrigger,
-  } from '@ark-ui/react';
+  Pagination as ArkPagination,
+  PaginationProps as ArkPaginationProps,
+  PaginationEllipsis,
+  PaginationNextPageTrigger,
+  PaginationPageTrigger,
+  PaginationPrevPageTrigger,
+} from '@ark-ui/react';
 import {
   Button,
   Center,
@@ -21,67 +21,67 @@ import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
 export type PaginationProps = Omit<ArkPaginationProps, 'children'>;
 
 export const Pagination = (props: PaginationProps) => {
-    const isMobile = useBreakpointValue({ base: true, md: false });
-    return (
-      <ArkPagination {...props}>
-        {({ pages, page }) => (
-          <List display="flex" justifyContent="space-between">
-            <ListItem>
-              <PaginationPrevPageTrigger asChild>
-                {isMobile ? (
-                  <IconButton
-                    variant="secondary"
-                    icon={<FiArrowLeft />}
-                    aria-label="Previous Page"
-                  />
-                ) : (
-                  <Button variant="tertiary" leftIcon={<FiArrowLeft />}>
-                    Previous <VisuallyHidden>Page</VisuallyHidden>
-                  </Button>
-                )}
-              </PaginationPrevPageTrigger>
-            </ListItem>
-             <List display={{ base: 'none', md: 'flex' }} gap="1">
-              {pages.map((page, index) =>
-                page.type === 'page' ? (
-                  <ListItem key={index}>
-                    <PaginationPageTrigger asChild {...page}>
-                      <Button variant="tertiary">{page.value}</Button>
-                    </PaginationPageTrigger>
-                  </ListItem>
-                ) : (
-                  <ListItem key={index} alignItems="center" display="flex">
-                    <PaginationEllipsis index={index}>
-                      <Text as="span" color="fg.emphasized">
-                        &#8230;
-                      </Text>
-                    </PaginationEllipsis>
-                  </ListItem>
-                )
+  const isMobile = useBreakpointValue({ base: true, md: false });
+  return (
+    <ArkPagination {...props}>
+      {({ pages, page }) => (
+        <List display="flex" justifyContent="space-between">
+          <ListItem>
+            <PaginationPrevPageTrigger asChild>
+              {isMobile ? (
+                <IconButton
+                  variant="secondary"
+                  icon={<FiArrowLeft />}
+                  aria-label="Previous Page"
+                />
+              ) : (
+                <Button variant="tertiary" leftIcon={<FiArrowLeft />}>
+                  Previous <VisuallyHidden>Page</VisuallyHidden>
+                </Button>
               )}
-            </List>
-            <ListItem as={Center} display={{ md: 'none' }}>
-              <Text fontWeight="medium" color="fg.emphasized">
-                Page {page} of {pages.length + 1}
-              </Text>
-            </ListItem>
-             <ListItem>
-              <PaginationNextPageTrigger asChild>
-                {isMobile ? (
-                  <IconButton
-                    variant="secondary"
-                    icon={<FiArrowRight />}
-                    aria-label="Next Page"
-                  />
-                ) : (
-                  <Button variant="tertiary" rightIcon={<FiArrowRight />}>
-                    Next <VisuallyHidden>Page</VisuallyHidden>
-                  </Button>
-                )}
-              </PaginationNextPageTrigger>
-            </ListItem>
+            </PaginationPrevPageTrigger>
+          </ListItem>
+          <List display={{ base: 'none', md: 'flex' }} gap="1">
+            {pages.map((page, index) =>
+              page.type === 'page' ? (
+                <ListItem key={index}>
+                  <PaginationPageTrigger asChild {...page}>
+                    <Button variant="tertiary">{page.value}</Button>
+                  </PaginationPageTrigger>
+                </ListItem>
+              ) : (
+                <ListItem key={index} alignItems="center" display="flex">
+                  <PaginationEllipsis index={index}>
+                    <Text as="span" color="fg.emphasized">
+                      &#8230;
+                    </Text>
+                  </PaginationEllipsis>
+                </ListItem>
+              )
+            )}
           </List>
-        )}
-      </ArkPagination>
-    );
-  };
+          <ListItem as={Center} display={{ md: 'none' }}>
+            <Text fontWeight="medium" color="fg.emphasized">
+              Page {page} of {pages.length + 1}
+            </Text>
+          </ListItem>
+          <ListItem>
+            <PaginationNextPageTrigger asChild>
+              {isMobile ? (
+                <IconButton
+                  variant="secondary"
+                  icon={<FiArrowRight />}
+                  aria-label="Next Page"
+                />
+              ) : (
+                <Button variant="tertiary" rightIcon={<FiArrowRight />}>
+                  Next <VisuallyHidden>Page</VisuallyHidden>
+                </Button>
+              )}
+            </PaginationNextPageTrigger>
+          </ListItem>
+        </List>
+      )}
+    </ArkPagination>
+  );
+};

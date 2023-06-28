@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box } from '@chakra-ui/react';
 
 import DataTable from './components/DataTable';
@@ -13,6 +12,7 @@ import PaginationWrapper from './components/footercomponents/PaginationWrapper';
 import SelectedNumber from './components/footercomponents/SelectedNumber';
 
 import columns from './components/ProvideByConsumer/Columns';
+import PaginationControl from './components/footercomponents/PaginationControl';
 
 function App(): JSX.Element {
   return (
@@ -28,6 +28,7 @@ function App(): JSX.Element {
         <FooterWrapper>
           <PaginationWrapper>
             <SelectedNumber />
+            <PaginationControl columns={columns} />
           </PaginationWrapper>
         </FooterWrapper>
       </DataTable>
