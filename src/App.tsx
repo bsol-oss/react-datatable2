@@ -10,7 +10,6 @@ import GlobalSearch from './components/functionalcomponents/GlobalSearch';
 import FooterWrapper from './components/FooterWrapper';
 import PaginationWrapper from './components/footercomponents/PaginationWrapper';
 import SelectedNumber from './components/footercomponents/SelectedNumber';
-
 import columns from './components/ProvideByConsumer/Columns';
 
 function App(): JSX.Element {
