@@ -11,6 +11,7 @@ import FooterWrapper from './components/FooterWrapper';
 import PaginationWrapper from './components/footercomponents/PaginationWrapper';
 import SelectedNumber from './components/footercomponents/SelectedNumber';
 import columns from './components/ProvideByConsumer/Columns';
+import ColumnSearchWrapper from './components/bodycomponents/ColumnSearchWrapper';
 
 function App(): JSX.Element {
   return (
@@ -20,7 +21,9 @@ function App(): JSX.Element {
           <TableTitle>Member</TableTitle>
           <GlobalSearch />
         </FunctionalWrapper>
-        <BodyWrapper columns={columns} />
+        <BodyWrapper columns={columns}>
+          <ColumnSearchWrapper />
+        </BodyWrapper>
         <FooterWrapper>
           <PaginationWrapper>
             <SelectedNumber />

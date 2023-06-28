@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { ReactNode, useContext, useEffect, useState } from 'react';
 import {
   Box,
   Flex,
@@ -29,7 +29,13 @@ import { UpDownIcon, ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { getFilteredData } from '../Data/Api';
 import ColumnSearch from './bodycomponents/ColumnSearch';
 
-const BodyWrapper = ({ columns }: { columns: any }) => {
+const BodyWrapper = ({
+  columns,
+  children,
+}: {
+  columns: any;
+  children: ReactNode;
+}) => {
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
   const {
     setTableWidth,
@@ -38,6 +44,9 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
     isLoading,
     setIsLoading,
   } = useContext(TableStatusContext);
+  const isChildComponentPresent = React.Children.toArray(children).some(
+    (child) => React.isValidElement(child)
+  );
 
   const [rowSelection, setRowSelection] = React.useState({});
   const columnResizeMode: ColumnResizeMode = 'onChange';
@@ -190,7 +199,8 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
                           opacity="0"
                         />
                       </Box>
-                      {header.column.columnDef.header !== '' &&
+                      {isChildComponentPresent &&
+                        header.column.columnDef.header !== '' &&
                         header.column.columnDef.id && (
                           <ColumnSearch id={header.column.columnDef.id} />
                         )}
