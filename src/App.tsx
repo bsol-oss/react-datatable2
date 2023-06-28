@@ -28,7 +28,7 @@ function App(): JSX.Element {
         <FooterWrapper>
           <PaginationWrapper>
             <SelectedNumber />
-            <PaginationControl columns={columns} />
+            <PaginationControl />
           </PaginationWrapper>
         </FooterWrapper>
       </DataTable>

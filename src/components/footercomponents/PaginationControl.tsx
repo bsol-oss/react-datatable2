@@ -1,4 +1,6 @@
+import { useContext, useEffect, useState } from 'react';
 import { Select } from '@chakra-ui/react';
+import columns from '../ProvideByConsumer/Columns';
 import {
   ColumnResizeMode,
   SortingState,
@@ -6,41 +8,21 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import { useContext, useEffect, useState } from 'react';
-import { DataInterface } from '../../const/types';
 import {
   FilterContext,
   PaginationContext,
-  SelectedRecordsContext,
 } from '../globalpartials/GlobalContext';
 import { getFilteredData } from '../../Data/Api';
+import { DataInterface } from '../../const/types';
 
-const PaginationControl = ({ columns }: { columns: any }) => {
+const PaginationControl = () => {
   const [data, setData] = useState<DataInterface[]>([]);
   const [sorting, setSorting] = useState<SortingState>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { setTotalCount } = useContext(PaginationContext);
-  const columnResizeMode: ColumnResizeMode = 'onChange';
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
   const [rowSelection, setRowSelection] = useState({});
-  const { setSelectedRecords } = useContext(SelectedRecordsContext);
-  useEffect(() => {
-    const fields: string[] = [];
-    const sort: string[] = [];
-    sorting.map((column) => {
-      fields.push(column.id);
-      sort.push(column.desc ? 'desc' : 'asc');
-    });
-    setFilterTerm({
-      ...filterTerm,
-      field: fields.join(','),
-      sort: sort.join(','),
-    });
-  }, [sorting]);
-
-  useEffect(() => {
-    setSelectedRecords(Object.keys(rowSelection).length);
-  }, [rowSelection]);
+  const columnResizeMode: ColumnResizeMode = 'onChange';
 
   const tableInstance = useReactTable({
     data,
@@ -57,11 +39,18 @@ const PaginationControl = ({ columns }: { columns: any }) => {
     getSortedRowModel: getSortedRowModel(),
     enableMultiSort: true,
   });
+
+  useEffect(() => {
+    setFilterTerm({
+      ...filterTerm,
+      rows: tableInstance.getState().pagination.pageSize,
+    });
+  }, [tableInstance.getState().pagination.pageSize]);
+
   useEffect(() => {
     const fetchSubareas = async () => {
       setIsLoading(true);
       const res = await getFilteredData(filterTerm);
-      console.log('Results', res);
       setIsLoading(false);
       if (res) {
         setTotalCount(res.filterCount);
@@ -73,6 +62,7 @@ const PaginationControl = ({ columns }: { columns: any }) => {
 
   return (
     <Select
+      focusBorderColor="none"
       width="150px"
       value={tableInstance.getState().pagination.pageSize}
       onChange={(e) => {

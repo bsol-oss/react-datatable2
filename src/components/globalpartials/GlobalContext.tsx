@@ -49,3 +49,7 @@ export const SelectedRecordsContext =
       throw new Error('record function has not been implemented');
     },
   });
+
+export const PagesContext = createContext({
+  pages: [],
+});
