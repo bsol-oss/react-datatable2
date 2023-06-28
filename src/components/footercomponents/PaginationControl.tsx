@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from 'react';
-import { Select } from '@chakra-ui/react';
+import { Box, Select } from '@chakra-ui/react';
 import columns from '../ProvideByConsumer/Columns';
 import {
   ColumnResizeMode,
@@ -7,9 +7,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from '@tanstack/react-table';
-import {
-  FilterContext,
-} from '../globalpartials/GlobalContext';
+import { FilterContext } from '../globalpartials/GlobalContext';
 import { DataInterface } from '../../const/types';
 
 const PaginationControl = () => {
@@ -34,20 +32,23 @@ const PaginationControl = () => {
   }, [tableInstance.getState().pagination.pageSize]);
 
   return (
-    <Select
-      focusBorderColor="none"
-      width="150px"
-      value={tableInstance.getState().pagination.pageSize}
-      onChange={(e) => {
-        tableInstance.setPageSize(Number(e.target.value));
-      }}
-    >
-      {[10, 20, 30, 40, 50].map((pageSize) => (
-        <option key={pageSize} value={pageSize}>
-          Show {pageSize}
-        </option>
-      ))}
-    </Select>
+    <Box display="flex" gap="5px" justifyContent="center" alignItems="center">
+      <Box>Results per page:</Box>
+      <Select
+        focusBorderColor="none"
+        width="75px"
+        value={tableInstance.getState().pagination.pageSize}
+        onChange={(e) => {
+          tableInstance.setPageSize(Number(e.target.value));
+        }}
+      >
+        {[10, 20, 30, 40, 50].map((pageSize) => (
+          <option key={pageSize} value={pageSize}>
+            {pageSize}
+          </option>
+        ))}
+      </Select>
+    </Box>
   );
 };
 
