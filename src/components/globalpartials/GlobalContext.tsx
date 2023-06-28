@@ -18,7 +18,14 @@ interface TableStatusContextInterface {
 }
 
 export const FilterContext = createContext<FilterContextInterface>({
-  filterTerm: { offset: 1, rows: 10, field: '', sort: '', searchTerm: '' },
+  filterTerm: {
+    offset: 1,
+    rows: 10,
+    field: '',
+    sort: '',
+    searchTerm: '',
+    individualSearchTerm: {},
+  },
   setFilterTerm() {
     throw new Error('setFilterTerm function has not been implemented');
   },

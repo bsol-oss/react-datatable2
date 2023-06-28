@@ -20,6 +20,7 @@ export interface FilterInterface {
   field: string;
   sort: string;
   searchTerm: string;
+  individualSearchTerm: Record<string, string>;
 }
 
 export interface RowInterface {

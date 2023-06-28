@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import {
   Box,
   Flex,
@@ -9,6 +9,11 @@ import {
   Th,
   Thead,
   Tr,
+  Text,
+  InputGroup,
+  InputLeftElement,
+  Icon,
+  Input,
 } from '@chakra-ui/react';
 import { DataInterface } from '../const/types';
 import {
@@ -28,6 +33,8 @@ import {
 import { UpDownIcon, ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 
 import { getFilteredData } from '../Data/Api';
+import { FiSearch } from 'react-icons/fi';
+import { t } from 'i18next';
 
 const BodyWrapper = ({ columns }: { columns: any }) => {
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
@@ -43,7 +50,39 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
   const columnResizeMode: ColumnResizeMode = 'onChange';
   const [sorting, setSorting] = useState<SortingState>([]);
 
+  const placeholder = t('Search') || 'Search';
+
   const [data, setData] = useState<DataInterface[]>([]);
+
+  const [inputValues, setInputValues] = useState<Record<string, string>>({});
+
+  const handleSearchKeyDown = (
+    event: React.KeyboardEvent<HTMLInputElement>,
+    id: string | undefined
+  ) => {
+    if (event.key === 'Enter') {
+      setFilterTerm({ ...filterTerm, individualSearchTerm: inputValues });
+    }
+  };
+
+  const handleSearchOnChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    id: string | undefined
+  ) => {
+    if (id) {
+      const value = (event.target as HTMLInputElement).value;
+      if (!value) {
+        const temp = inputValues;
+        delete temp[id];
+        setInputValues(temp);
+      } else {
+        setInputValues({
+          ...inputValues,
+          [id]: value,
+        });
+      }
+    }
+  };
 
   useEffect(() => {
     const fields: string[] = [];
@@ -112,7 +151,6 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
         size="md"
         colorScheme="gray"
         variant="striped"
-        className="hahaha"
       >
         <Thead>
           {tableInstance
@@ -132,62 +170,104 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
                     border="1px solid"
                     borderColor="gray.200"
                   >
-                    <Flex
-                      direction="row"
-                      {...{
-                        className: header.column.getCanSort()
-                          ? 'cursor-pointer select-none'
-                          : '',
-                        onClick: !isLoading
-                          ? header.column.getToggleSortingHandler()
-                          : undefined,
-                      }}
-                      _hover={{ cursor: 'pointer' }}
-                    >
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                      {header.column.columnDef.header !== '' &&
-                        (!isLoading ? (
-                          (header.column.getIsSorted() as string) ? (
-                            (header.column.getIsSorted() as string) ===
-                            'asc' ? (
-                              <ChevronDownIcon ml={1} w={5} h={5} />
+                    <Flex flexDirection="column" gap={4}>
+                      <Box>
+                        <Flex
+                          direction="row"
+                          {...{
+                            className: header.column.getCanSort()
+                              ? 'cursor-pointer select-none'
+                              : '',
+                            onClick: !isLoading
+                              ? header.column.getToggleSortingHandler()
+                              : undefined,
+                          }}
+                          _hover={{ cursor: 'pointer' }}
+                        >
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                          {header.column.columnDef.header !== '' &&
+                            (!isLoading ? (
+                              (header.column.getIsSorted() as string) ? (
+                                (header.column.getIsSorted() as string) ===
+                                'asc' ? (
+                                  <ChevronDownIcon ml={1} w={5} h={5} />
+                                ) : (
+                                  <ChevronUpIcon ml={1} w={5} h={5} />
+                                )
+                              ) : (
+                                <Box ml={1} alignItems="center" display="flex">
+                                  <UpDownIcon w={3} h={3} />
+                                </Box>
+                              )
                             ) : (
-                              <ChevronUpIcon ml={1} w={5} h={5} />
-                            )
-                          ) : (
-                            <Box ml={1} alignItems="center" display="flex">
-                              <UpDownIcon w={3} h={3} />
-                            </Box>
-                          )
-                        ) : (
-                          <Box ml={1} alignItems="center" display="flex">
-                            <Spinner size="xs" />
-                          </Box>
-                        ))}
+                              <Box ml={1} alignItems="center" display="flex">
+                                <Spinner size="xs" />
+                              </Box>
+                            ))}
+                        </Flex>
+                        <Box
+                          {...{
+                            onMouseDown: header.getResizeHandler(),
+                            onTouchStart: header.getResizeHandler(),
+                            background: ` ${
+                              header.column.getIsResizing()
+                                ? 'blue;'
+                                : 'rgba(0, 0, 0, 0.5)'
+                            }`,
+                            opacity: ` ${header.column.getIsResizing() && '1'}`,
+                          }}
+                          position="absolute"
+                          right={0}
+                          top={0}
+                          height="100%"
+                          width="5px"
+                          cursor="col-resize"
+                          _hover={{ opacity: 1 }}
+                          opacity="0"
+                        />
+                      </Box>
+                      {header.column.columnDef.header !== '' && (
+                        <InputGroup maxW="sm">
+                          <InputLeftElement>
+                            {!isLoading ? (
+                              <Icon
+                                as={FiSearch}
+                                color="fg.muted"
+                                boxSize="5"
+                                cursor="pointer"
+                                onClick={() =>
+                                  setFilterTerm({
+                                    ...filterTerm,
+                                    individualSearchTerm: inputValues,
+                                  })
+                                }
+                              />
+                            ) : (
+                              <Spinner size="sm" />
+                            )}
+                          </InputLeftElement>
+                          <Input
+                            placeholder={placeholder}
+                            onKeyDown={(event) => {
+                              handleSearchKeyDown(
+                                event,
+                                header.column.columnDef.id
+                              );
+                            }}
+                            disabled={isLoading}
+                            onChange={(event) => {
+                              handleSearchOnChange(
+                                event,
+                                header.column.columnDef.id
+                              );
+                            }}
+                          />
+                        </InputGroup>
+                      )}
                     </Flex>
-                    <Box
-                      {...{
-                        onMouseDown: header.getResizeHandler(),
-                        onTouchStart: header.getResizeHandler(),
-                        background: ` ${
-                          header.column.getIsResizing()
-                            ? 'blue;'
-                            : 'rgba(0, 0, 0, 0.5)'
-                        }`,
-                        opacity: ` ${header.column.getIsResizing() && '1'}`,
-                      }}
-                      position="absolute"
-                      right={0}
-                      top={0}
-                      height="100%"
-                      width="5px"
-                      cursor="col-resize"
-                      _hover={{ opacity: 1 }}
-                      opacity="0"
-                    />
                   </Th>
                 ))}
               </Tr>

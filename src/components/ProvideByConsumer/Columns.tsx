@@ -22,6 +22,7 @@ const columns: ColumnDef<DataInterface>[] = [
       </HStack>
     ),
     accessorKey: 'name',
+    id: 'name',
     cell: ({ row }) => (
       <HStack spacing="3">
         <IndeterminateCheckbox
@@ -43,6 +44,7 @@ const columns: ColumnDef<DataInterface>[] = [
   {
     header: 'Status',
     accessorKey: 'is_active',
+    id: 'is_active',
     cell: ({ row }) => (
       <Badge
         size="sm"
@@ -56,6 +58,7 @@ const columns: ColumnDef<DataInterface>[] = [
   {
     header: 'Description',
     accessorKey: 'description',
+    id: 'description',
     cell: ({ row }) => (
       <Text color="fg.muted">
         {row.original.description === null ? '' : row.original.description}
@@ -66,18 +69,21 @@ const columns: ColumnDef<DataInterface>[] = [
   {
     header: 'Hub ID',
     accessorKey: 'hub_id',
+    id: 'hub_id',
     cell: ({ row }) => <Text color="fg.muted">{row.original.hub_id}</Text>,
     size: 200,
   },
   {
     header: 'BU ID',
     accessorKey: 'bu_id',
+    id: 'bu_id',
     cell: ({ row }) => <Text color="fg.muted">{row.original.bu_id}</Text>,
     size: 400,
   },
   {
     header: '',
     accessorKey: 'actions',
+    id: 'actions',
     cell: () => (
       <HStack spacing="1">
         <IconButton

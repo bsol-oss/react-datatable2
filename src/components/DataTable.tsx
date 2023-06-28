@@ -21,6 +21,7 @@ const DataTable = ({ children }: Props) => {
     field: '',
     sort: '',
     searchTerm: '',
+    individualSearchTerm: {},
   });
 
   return (
