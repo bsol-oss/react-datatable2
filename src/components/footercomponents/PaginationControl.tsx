@@ -24,7 +24,6 @@ const PaginationControl = () => {
     columnResizeMode,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    enableMultiSort: true,
   });
 
   useEffect(() => {
