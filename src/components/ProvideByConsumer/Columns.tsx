@@ -9,22 +9,18 @@ import { ColumnDef } from '@tanstack/react-table';
 
 const columns: ColumnDef<DataInterface>[] = [
   {
+    id: 'select',
     header: ({ table }) => (
-      <HStack spacing="3">
-        <IndeterminateCheckbox
-          {...{
-            checked: table.getIsAllRowsSelected(),
-            indeterminate: table.getIsSomeRowsSelected(),
-            onChange: table.getToggleAllRowsSelectedHandler(),
-          }}
-        />
-        <Text>Name</Text>
-      </HStack>
+      <IndeterminateCheckbox
+        {...{
+          checked: table.getIsAllRowsSelected(),
+          indeterminate: table.getIsSomeRowsSelected(),
+          onChange: table.getToggleAllRowsSelectedHandler(),
+        }}
+      />
     ),
-    accessorKey: 'name',
-    id: 'name',
     cell: ({ row }) => (
-      <HStack spacing="3">
+      <div className="px-1">
         <IndeterminateCheckbox
           {...{
             checked: row.getIsSelected(),
@@ -33,6 +29,16 @@ const columns: ColumnDef<DataInterface>[] = [
             onChange: row.getToggleSelectedHandler(),
           }}
         />
+      </div>
+    ),
+    size: 30,
+  },
+  {
+    header: 'Name',
+    accessorKey: 'name',
+    id: 'name',
+    cell: ({ row }) => (
+      <HStack spacing="3">
         <Avatar name={row.original.name} boxSize="10" />
         <Box>
           <Text fontWeight="medium">{row.original.name}</Text>

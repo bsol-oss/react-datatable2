@@ -11,8 +11,8 @@ interface TableStatusContextInterface {
   setTableWidth: (num: number) => void;
   totalCount: number;
   setTotalCount: (num: number) => void;
-  selectedRecords: number;
-  setSelectedRecords: (num: number) => void;
+  selectedRows: Record<string, boolean>;
+  setSelectedRows: (arr: Record<string, boolean>) => void;
   isLoading: boolean;
   setIsLoading: (status: boolean) => void;
 }
@@ -40,9 +40,9 @@ export const TableStatusContext = createContext<TableStatusContextInterface>({
   setTotalCount: () => {
     throw new Error('totalCount function has not been implemented');
   },
-  selectedRecords: 0,
-  setSelectedRecords: () => {
-    throw new Error('record function has not been implemented');
+  selectedRows: {},
+  setSelectedRows() {
+    throw new Error('selectedrows function has not been implemented');
   },
   isLoading: false,
   setIsLoading: () => {

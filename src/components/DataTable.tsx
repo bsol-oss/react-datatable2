@@ -11,8 +11,8 @@ interface Props {
 }
 
 const DataTable = ({ children }: Props) => {
+  const [selectedRows, setSelectedRows] = useState({});
   const [totalCount, setTotalCount] = useState<number>(0);
-  const [selectedRecords, setSelectedRecords] = useState<number>(0);
   const [tableWidth, setTableWidth] = useState<number>(0);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [filterTerm, setFilterTerm] = useState<FilterInterface>({
@@ -42,8 +42,8 @@ const DataTable = ({ children }: Props) => {
               setTableWidth,
               totalCount,
               setTotalCount,
-              selectedRecords,
-              setSelectedRecords,
+              selectedRows,
+              setSelectedRows,
               isLoading,
               setIsLoading,
             }}

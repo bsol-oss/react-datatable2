@@ -40,15 +40,59 @@ const BodyWrapper = ({
   const {
     setTableWidth,
     setTotalCount,
-    setSelectedRecords,
     isLoading,
+    selectedRows,
+    setSelectedRows,
     setIsLoading,
   } = useContext(TableStatusContext);
   const isChildComponentPresent = React.Children.toArray(children).some(
     (child) => React.isValidElement(child)
   );
 
-  const [rowSelection, setRowSelection] = React.useState({});
+  // const { selectedRows, setSelectedRows } = useContext(SelectedContext);
+
+  const saveSeletedRows = (
+    obj: Record<string, boolean>
+  ): Record<string, boolean> => {
+    const newObj: Record<string, boolean> = {};
+    if (filterTerm.offset !== 0) {
+      for (const key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+          const newKey =
+            parseInt(key) + filterTerm.rows * (filterTerm.offset - 1);
+          newObj[newKey] = obj[key];
+        }
+      }
+      return newObj;
+    }
+    return obj;
+  };
+
+  const readSelectedRows = (
+    obj: Record<string, boolean>
+  ): Record<string, boolean> => {
+    const newObj: Record<string, boolean> = {};
+    if (filterTerm.offset !== 0) {
+      for (const key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+          const newKey =
+            parseInt(key) - filterTerm.rows * (filterTerm.offset - 1);
+          newObj[newKey] = obj[key];
+        }
+      }
+      return newObj;
+    }
+    return obj;
+  };
+
+  const [rowSelection, setRowSelection] = React.useState(
+    readSelectedRows(selectedRows)
+  );
+
+  useEffect(() => {
+    setSelectedRows(saveSeletedRows(rowSelection));
+  }, [rowSelection]);
+
   const columnResizeMode: ColumnResizeMode = 'onChange';
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -79,11 +123,8 @@ const BodyWrapper = ({
       }
     };
     fetchSubareas();
+    setRowSelection(readSelectedRows(selectedRows));
   }, [filterTerm]);
-
-  useEffect(() => {
-    setSelectedRecords(Object.keys(rowSelection).length);
-  }, [rowSelection]);
 
   const tableInstance = useReactTable({
     data,
@@ -158,7 +199,8 @@ const BodyWrapper = ({
                             header.column.columnDef.header,
                             header.getContext()
                           )}
-                          {header.column.columnDef.header !== '' &&
+                          {header.column.columnDef.id !== 'select' &&
+                            header.column.columnDef.id !== 'actions' &&
                             (!isLoading ? (
                               (header.column.getIsSorted() as string) ? (
                                 (header.column.getIsSorted() as string) ===
@@ -200,7 +242,8 @@ const BodyWrapper = ({
                         />
                       </Box>
                       {isChildComponentPresent &&
-                        header.column.columnDef.header !== '' &&
+                        header.column.columnDef.id !== 'select' &&
+                        header.column.columnDef.id !== 'actions' &&
                         header.column.columnDef.id && (
                           <ColumnSearch id={header.column.columnDef.id} />
                         )}

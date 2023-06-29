@@ -1,18 +1,17 @@
 import React, { useContext } from 'react';
 import { Text } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
-import {
-  TableStatusContext,
-} from '../globalpartials/GlobalContext';
+import { TableStatusContext } from '../globalpartials/GlobalContext';
 
 const SelectedNumber = () => {
   const { t } = useTranslation();
   const { totalCount } = useContext(TableStatusContext);
-  const { selectedRecords } = useContext(TableStatusContext);
+  const { selectedRows } = useContext(TableStatusContext);
 
   return (
     <Text color="fg.muted" fontSize="sm" ml="5">
-      {selectedRecords} {t('of')} {totalCount} {t('Total Rows Selected')}
+      {Object.keys(selectedRows).length} {t('of')} {totalCount}{' '}
+      {t('Total Rows Selected')}
     </Text>
   );
 };
