@@ -6,7 +6,6 @@ import BodyWrapper from './components/BodyWrapper';
 import FunctionalWrapper from './components/FunctionalWrapper';
 import TableTitle from './components/functionalcomponents/TableTitle';
 import GlobalSearch from './components/functionalcomponents/GlobalSearch';
-import SearchButton from './components/functionalcomponents/SearchButton';
 import FooterWrapper from './components/FooterWrapper';
 import PaginationWrapper from './components/footercomponents/PaginationWrapper';
 import SelectedNumber from './components/footercomponents/SelectedNumber';
@@ -20,9 +19,7 @@ function App(): JSX.Element {
       <DataTable>
         <FunctionalWrapper>
           <TableTitle>Member</TableTitle>
-          <GlobalSearch>
-            <SearchButton>Search</SearchButton>
-          </GlobalSearch>
+          <GlobalSearch />
         </FunctionalWrapper>
         <BodyWrapper columns={columns} />
         <FooterWrapper>

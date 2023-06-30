@@ -1,9 +1,8 @@
 import React, { ReactNode, useState } from 'react';
 import { Box, Container } from '@chakra-ui/react';
 import {
-  PaginationContext,
-  SelectedRecordsContext,
   FilterContext,
+  TableStatusContext,
 } from './globalpartials/GlobalContext';
 import { FilterInterface } from '../const/types';
 
@@ -14,9 +13,10 @@ interface Props {
 const DataTable = ({ children }: Props) => {
   const [totalCount, setTotalCount] = useState<number>(0);
   const [selectedRecords, setSelectedRecords] = useState<number>(0);
-
+  const [tableWidth, setTableWidth] = useState<number>(0);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [filterTerm, setFilterTerm] = useState<FilterInterface>({
-    offset: 0,
+    offset: 1,
     rows: 10,
     field: '',
     sort: '',
@@ -35,13 +35,20 @@ const DataTable = ({ children }: Props) => {
         borderRadius={{ base: 'none', md: 'lg' }}
       >
         <FilterContext.Provider value={{ filterTerm, setFilterTerm }}>
-          <PaginationContext.Provider value={{ totalCount, setTotalCount }}>
-            <SelectedRecordsContext.Provider
-              value={{ selectedRecords, setSelectedRecords }}
-            >
-              {children}
-            </SelectedRecordsContext.Provider>
-          </PaginationContext.Provider>
+          <TableStatusContext.Provider
+            value={{
+              tableWidth,
+              setTableWidth,
+              totalCount,
+              setTotalCount,
+              selectedRecords,
+              setSelectedRecords,
+              isLoading,
+              setIsLoading,
+            }}
+          >
+            {children}
+          </TableStatusContext.Provider>
         </FilterContext.Provider>
       </Box>
     </Container>
