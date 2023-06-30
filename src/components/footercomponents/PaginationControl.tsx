@@ -9,8 +9,10 @@ import {
 } from '@tanstack/react-table';
 import { FilterContext } from '../globalpartials/GlobalContext';
 import { DataInterface } from '../../const/types';
+import { useTranslation } from 'react-i18next';
 
 const PaginationControl = () => {
+  const { t } = useTranslation();
   const [data, setData] = useState<DataInterface[]>([]);
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
 
@@ -33,7 +35,7 @@ const PaginationControl = () => {
 
   return (
     <Box display="flex" gap="5px" justifyContent="center" alignItems="center">
-      <Box>Results per page:</Box>
+      <Box>{t('Results per page')}</Box>
       <Select
         focusBorderColor="none"
         width="75px"
