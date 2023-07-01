@@ -11,7 +11,7 @@ import PaginationWrapper from './components/footercomponents/PaginationWrapper';
 import SelectedNumber from './components/footercomponents/SelectedNumber';
 
 import columns from './components/ProvideByConsumer/Columns';
-import PaginationControl from './components/footercomponents/PaginationControl';
+import PageSizeControl from './components/footercomponents/PageSizeControl';
 
 function App(): JSX.Element {
   return (
@@ -25,7 +25,7 @@ function App(): JSX.Element {
         <FooterWrapper>
           <PaginationWrapper>
             <SelectedNumber />
-            <PaginationControl />
+            <PageSizeControl pages={[5, 10, 25, 50, 100]}/>
           </PaginationWrapper>
         </FooterWrapper>
       </DataTable>
