@@ -1,5 +1,4 @@
 import { ColumnDef, RowData } from '@tanstack/react-table';
-import { ReactNode} from 'react';
 export interface DataInterface {
   id: number;
   name: string;
@@ -8,7 +7,6 @@ export interface DataInterface {
   is_active: number;
   bu_id: string;
   actions: string;
-  Filter: ReactNode | null
 }
 
 export interface SubareaInterface {
@@ -41,5 +39,5 @@ export type ColumnType<TData extends RowData, TValue = unknown> = ColumnDef<
   TData,
   TValue
 > & {
-  filter?: 'searchBar' | 'selectBar' | 'datePicker' | null;
+  Filter?: unknown;
 };

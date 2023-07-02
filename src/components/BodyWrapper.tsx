@@ -27,7 +27,6 @@ import {
 import { UpDownIcon, ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 
 import { getFilteredData } from '../Data/Api';
-import ColumnSearch from './bodycomponents/ColumnSearch';
 
 const BodyWrapper = ({ columns }: { columns: ColumnType<DataInterface>[] }) => {
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
