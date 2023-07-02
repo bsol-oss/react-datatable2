@@ -27,6 +27,7 @@ import {
 import { UpDownIcon, ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 
 import { getFilteredData } from '../Data/Api';
+import ColumnSearch from './bodycomponents/ColumnSearch';
 
 const BodyWrapper = ({ columns }: { columns: ColumnType<DataInterface>[] }) => {
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
@@ -229,7 +230,10 @@ const BodyWrapper = ({ columns }: { columns: ColumnType<DataInterface>[] }) => {
                           opacity="0"
                         />
                       </Box>
-                      {header.column.columnDef.Filter && <header.column.columnDef.Filter />}
+                      {header.column.columnDef.filter == 'searchBar' &&
+                        header.column.columnDef.id && (
+                          <ColumnSearch id={header.column.columnDef.id} />
+                        )}
                     </Flex>
                   </Th>
                 ))}

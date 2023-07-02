@@ -1,4 +1,5 @@
 import { ColumnDef, RowData } from '@tanstack/react-table';
+
 export interface DataInterface {
   id: number;
   name: string;
@@ -39,5 +40,5 @@ export type ColumnType<TData extends RowData, TValue = unknown> = ColumnDef<
   TData,
   TValue
 > & {
-  Filter?: unknown;
+  filter?: 'searchBar' | 'selectBar' | 'datePicker';
 };
