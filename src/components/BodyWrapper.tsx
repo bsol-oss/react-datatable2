@@ -10,7 +10,7 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
-import { DataInterface } from '../const/types';
+import { ColumnType, DataInterface } from '../const/types';
 import {
   useReactTable,
   ColumnResizeMode,
@@ -20,7 +20,6 @@ import {
   HeaderGroup,
   SortingState,
 } from '@tanstack/react-table';
-
 import {
   FilterContext,
   TableStatusContext,
@@ -29,17 +28,59 @@ import { UpDownIcon, ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 
 import { getFilteredData } from '../Data/Api';
 
-const BodyWrapper = ({ columns }: { columns: any }) => {
+const BodyWrapper = ({ columns }: { columns: ColumnType<DataInterface>[] }) => {
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
   const {
     setTableWidth,
     setTotalCount,
-    setSelectedRecords,
     isLoading,
+    selectedRows,
+    setSelectedRows,
     setIsLoading,
   } = useContext(TableStatusContext);
 
-  const [rowSelection, setRowSelection] = React.useState({});
+  const saveSeletedRows = (
+    obj: Record<string, boolean>
+  ): Record<string, boolean> => {
+    const newObj: Record<string, boolean> = {};
+    if (filterTerm.offset !== 0) {
+      for (const key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+          const newKey =
+            parseInt(key) + filterTerm.rows * (filterTerm.offset - 1);
+          newObj[newKey] = obj[key];
+        }
+      }
+      return newObj;
+    }
+    return obj;
+  };
+
+  const readSelectedRows = (
+    obj: Record<string, boolean>
+  ): Record<string, boolean> => {
+    const newObj: Record<string, boolean> = {};
+    if (filterTerm.offset !== 0) {
+      for (const key in obj) {
+        if (Object.prototype.hasOwnProperty.call(obj, key)) {
+          const newKey =
+            parseInt(key) - filterTerm.rows * (filterTerm.offset - 1);
+          newObj[newKey] = obj[key];
+        }
+      }
+      return newObj;
+    }
+    return obj;
+  };
+
+  const [rowSelection, setRowSelection] = React.useState(
+    readSelectedRows(selectedRows)
+  );
+
+  useEffect(() => {
+    setSelectedRows(saveSeletedRows(rowSelection));
+  }, [rowSelection]);
+
   const columnResizeMode: ColumnResizeMode = 'onChange';
   const [sorting, setSorting] = useState<SortingState>([]);
 
@@ -70,11 +111,8 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
       }
     };
     fetchSubareas();
+    setRowSelection(readSelectedRows(selectedRows));
   }, [filterTerm]);
-
-  useEffect(() => {
-    setSelectedRecords(Object.keys(rowSelection).length);
-  }, [rowSelection]);
 
   const tableInstance = useReactTable({
     data,
@@ -112,14 +150,13 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
         size="md"
         colorScheme="gray"
         variant="striped"
-        className="hahaha"
       >
         <Thead>
           {tableInstance
             .getHeaderGroups()
             .map((headerGroup: HeaderGroup<DataInterface>) => (
               <Tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
+                {headerGroup.headers.map((header: any) => (
                   <Th
                     key={header.id}
                     {...{
@@ -132,62 +169,68 @@ const BodyWrapper = ({ columns }: { columns: any }) => {
                     border="1px solid"
                     borderColor="gray.200"
                   >
-                    <Flex
-                      direction="row"
-                      {...{
-                        className: header.column.getCanSort()
-                          ? 'cursor-pointer select-none'
-                          : '',
-                        onClick: !isLoading
-                          ? header.column.getToggleSortingHandler()
-                          : undefined,
-                      }}
-                      _hover={{ cursor: 'pointer' }}
-                    >
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                      {header.column.columnDef.header !== '' &&
-                        (!isLoading ? (
-                          (header.column.getIsSorted() as string) ? (
-                            (header.column.getIsSorted() as string) ===
-                            'asc' ? (
-                              <ChevronDownIcon ml={1} w={5} h={5} />
+                    <Flex flexDirection="column" gap={4}>
+                      <Box>
+                        <Flex
+                          direction="row"
+                          {...{
+                            className: header.column.getCanSort()
+                              ? 'cursor-pointer select-none'
+                              : '',
+                            onClick: !isLoading
+                              ? header.column.getToggleSortingHandler()
+                              : undefined,
+                          }}
+                          _hover={{ cursor: 'pointer' }}
+                        >
+                          {flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                          {header.column.columnDef.id !== 'select' &&
+                            header.column.columnDef.id !== 'actions' &&
+                            (!isLoading ? (
+                              (header.column.getIsSorted() as string) ? (
+                                (header.column.getIsSorted() as string) ===
+                                'asc' ? (
+                                  <ChevronDownIcon ml={1} w={5} h={5} />
+                                ) : (
+                                  <ChevronUpIcon ml={1} w={5} h={5} />
+                                )
+                              ) : (
+                                <Box ml={1} alignItems="center" display="flex">
+                                  <UpDownIcon w={3} h={3} />
+                                </Box>
+                              )
                             ) : (
-                              <ChevronUpIcon ml={1} w={5} h={5} />
-                            )
-                          ) : (
-                            <Box ml={1} alignItems="center" display="flex">
-                              <UpDownIcon w={3} h={3} />
-                            </Box>
-                          )
-                        ) : (
-                          <Box ml={1} alignItems="center" display="flex">
-                            <Spinner size="xs" />
-                          </Box>
-                        ))}
+                              <Box ml={1} alignItems="center" display="flex">
+                                <Spinner size="xs" />
+                              </Box>
+                            ))}
+                        </Flex>
+                        <Box
+                          {...{
+                            onMouseDown: header.getResizeHandler(),
+                            onTouchStart: header.getResizeHandler(),
+                            background: ` ${
+                              header.column.getIsResizing()
+                                ? 'blue;'
+                                : 'rgba(0, 0, 0, 0.5)'
+                            }`,
+                            opacity: ` ${header.column.getIsResizing() && '1'}`,
+                          }}
+                          position="absolute"
+                          right={0}
+                          top={0}
+                          height="100%"
+                          width="5px"
+                          cursor="col-resize"
+                          _hover={{ opacity: 1 }}
+                          opacity="0"
+                        />
+                      </Box>
+                      {header.column.columnDef.Filter && <header.column.columnDef.Filter />}
                     </Flex>
-                    <Box
-                      {...{
-                        onMouseDown: header.getResizeHandler(),
-                        onTouchStart: header.getResizeHandler(),
-                        background: ` ${
-                          header.column.getIsResizing()
-                            ? 'blue;'
-                            : 'rgba(0, 0, 0, 0.5)'
-                        }`,
-                        opacity: ` ${header.column.getIsResizing() && '1'}`,
-                      }}
-                      position="absolute"
-                      right={0}
-                      top={0}
-                      height="100%"
-                      width="5px"
-                      cursor="col-resize"
-                      _hover={{ opacity: 1 }}
-                      opacity="0"
-                    />
                   </Th>
                 ))}
               </Tr>

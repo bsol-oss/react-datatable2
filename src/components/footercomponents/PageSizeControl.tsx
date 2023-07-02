@@ -1,37 +1,16 @@
-import { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Box, Select } from '@chakra-ui/react';
-import columns from '../ProvideByConsumer/Columns';
-import {
-  ColumnResizeMode,
-  getCoreRowModel,
-  getSortedRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
 import { FilterContext } from '../globalpartials/GlobalContext';
-import { DataInterface } from '../../const/types';
 import { useTranslation } from 'react-i18next';
 
-const PageSizeControl = ({pages = [10, 25, 50]}) => {
+const PageSizeControl = ({ pages }: { pages: number[] }) => {
   const { t } = useTranslation();
-  const [data, setData] = useState<DataInterface[]>([]);
+  const [pageSize, setPageSize] = useState<number>(10);
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
 
-  const columnResizeMode: ColumnResizeMode = 'onChange';
-
-  const tableInstance = useReactTable({
-    data,
-    columns,
-    columnResizeMode,
-    getCoreRowModel: getCoreRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-  });
-
   useEffect(() => {
-    setFilterTerm({
-      ...filterTerm,
-      rows: tableInstance.getState().pagination.pageSize,
-    });
-  }, [tableInstance.getState().pagination.pageSize]);
+    setFilterTerm({ ...filterTerm, rows: pageSize });
+  }, [pageSize]);
 
   return (
     <Box display="flex" gap="5px" justifyContent="center" alignItems="center">
@@ -39,9 +18,9 @@ const PageSizeControl = ({pages = [10, 25, 50]}) => {
       <Select
         focusBorderColor="none"
         width="75px"
-        value={tableInstance.getState().pagination.pageSize}
+        value={pageSize}
         onChange={(e) => {
-          tableInstance.setPageSize(Number(e.target.value));
+          setPageSize(Number(e.target.value));
         }}
       >
         {pages.map((pageSize) => (

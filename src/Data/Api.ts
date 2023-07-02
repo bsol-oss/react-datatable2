@@ -38,7 +38,11 @@ export const getFilteredData = async (
       filterTerm.offset === 0 ? 0 : filterTerm.offset - 1
     },"rows":${filterTerm.rows}}&sorting={"field":"${
       filterTerm.field
-    }","sort":"${filterTerm.sort}"}&searching=${filterTerm.searchTerm}`;
+    }","sort":"${filterTerm.sort}"}${
+      Object.keys(filterTerm.individualSearchTerm).length > 0
+        ? `&where=${JSON.stringify(filterTerm.individualSearchTerm)}`
+        : ''
+    }&searching=${filterTerm.searchTerm}`;
     const response = await fetch(url);
     const data = await response.json();
     return data;
