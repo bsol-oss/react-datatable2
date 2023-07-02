@@ -1,5 +1,4 @@
-import React from 'react';
-import { Box } from '@chakra-ui/react';
+import React, { Box } from '@chakra-ui/react';
 
 import DataTable from './components/DataTable';
 import ThemeToggleButton from './components/globalpartials/ThemeToggleButton';
@@ -11,7 +10,7 @@ import FooterWrapper from './components/FooterWrapper';
 import PaginationWrapper from './components/footercomponents/PaginationWrapper';
 import SelectedNumber from './components/footercomponents/SelectedNumber';
 import columns from './components/ProvideByConsumer/Columns';
-import ColumnSearchWrapper from './components/bodycomponents/ColumnSearchWrapper';
+import PageSizeControl from './components/footercomponents/PageSizeControl';
 
 function App(): JSX.Element {
   return (
@@ -21,12 +20,11 @@ function App(): JSX.Element {
           <TableTitle>Member</TableTitle>
           <GlobalSearch />
         </FunctionalWrapper>
-        <BodyWrapper columns={columns}>
-          <ColumnSearchWrapper />
-        </BodyWrapper>
+        <BodyWrapper columns={columns} />
         <FooterWrapper>
           <PaginationWrapper>
             <SelectedNumber />
+            <PageSizeControl pages={[5, 10, 25, 50, 100]} />
           </PaginationWrapper>
         </FooterWrapper>
       </DataTable>
