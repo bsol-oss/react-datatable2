@@ -1,4 +1,4 @@
-import React, { ReactNode, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
   Box,
   Flex,
@@ -10,7 +10,7 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
-import { DataInterface } from '../const/types';
+import { ColumnType, DataInterface } from '../const/types';
 import {
   useReactTable,
   ColumnResizeMode,
@@ -29,13 +29,7 @@ import { UpDownIcon, ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { getFilteredData } from '../Data/Api';
 import ColumnSearch from './bodycomponents/ColumnSearch';
 
-const BodyWrapper = ({
-  columns,
-  children,
-}: {
-  columns: any;
-  children: ReactNode;
-}) => {
+const BodyWrapper = ({ columns }: { columns: ColumnType<DataInterface>[] }) => {
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
   const {
     setTableWidth,
@@ -45,11 +39,6 @@ const BodyWrapper = ({
     setSelectedRows,
     setIsLoading,
   } = useContext(TableStatusContext);
-  const isChildComponentPresent = React.Children.toArray(children).some(
-    (child) => React.isValidElement(child)
-  );
-
-  // const { selectedRows, setSelectedRows } = useContext(SelectedContext);
 
   const saveSeletedRows = (
     obj: Record<string, boolean>
@@ -168,7 +157,7 @@ const BodyWrapper = ({
             .getHeaderGroups()
             .map((headerGroup: HeaderGroup<DataInterface>) => (
               <Tr key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
+                {headerGroup.headers.map((header: any) => (
                   <Th
                     key={header.id}
                     {...{
@@ -241,9 +230,7 @@ const BodyWrapper = ({
                           opacity="0"
                         />
                       </Box>
-                      {isChildComponentPresent &&
-                        header.column.columnDef.id !== 'select' &&
-                        header.column.columnDef.id !== 'actions' &&
+                      {header.column.columnDef.filter == 'searchBar' &&
                         header.column.columnDef.id && (
                           <ColumnSearch id={header.column.columnDef.id} />
                         )}

@@ -4,10 +4,9 @@ import { Avatar, Badge, Box, HStack, IconButton, Text } from '@chakra-ui/react';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 
 import IndeterminateCheckbox from '../globalpartials/InterminateCheckbox';
-import { DataInterface } from '../../const/types';
-import { ColumnDef } from '@tanstack/react-table';
+import { ColumnType, DataInterface } from '../../const/types';
 
-const columns: ColumnDef<DataInterface>[] = [
+const columns: ColumnType<DataInterface>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -46,6 +45,7 @@ const columns: ColumnDef<DataInterface>[] = [
       </HStack>
     ),
     size: 200,
+    filter: 'searchBar',
   },
   {
     header: 'Status',
@@ -71,6 +71,7 @@ const columns: ColumnDef<DataInterface>[] = [
       </Text>
     ),
     size: 200,
+    filter: 'searchBar',
   },
   {
     header: 'Hub ID',
@@ -78,6 +79,7 @@ const columns: ColumnDef<DataInterface>[] = [
     id: 'hub_id',
     cell: ({ row }) => <Text color="fg.muted">{row.original.hub_id}</Text>,
     size: 200,
+    filter: 'searchBar',
   },
   {
     header: 'BU ID',
@@ -85,6 +87,7 @@ const columns: ColumnDef<DataInterface>[] = [
     id: 'bu_id',
     cell: ({ row }) => <Text color="fg.muted">{row.original.bu_id}</Text>,
     size: 400,
+    filter: 'searchBar',
   },
   {
     header: '',
