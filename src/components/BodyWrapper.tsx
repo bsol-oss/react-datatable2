@@ -230,10 +230,7 @@ const BodyWrapper = ({ columns }: { columns: ColumnType<DataInterface>[] }) => {
                           opacity="0"
                         />
                       </Box>
-                      {header.column.columnDef.filter == 'searchBar' &&
-                        header.column.columnDef.id && (
-                          <ColumnSearch id={header.column.columnDef.id} />
-                        )}
+                      {header.column.columnDef.Filter && <header.column.columnDef.Filter />}
                     </Flex>
                   </Th>
                 ))}

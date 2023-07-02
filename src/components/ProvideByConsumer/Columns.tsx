@@ -6,6 +6,8 @@ import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 import IndeterminateCheckbox from '../globalpartials/InterminateCheckbox';
 import { ColumnType, DataInterface } from '../../const/types';
 
+import ColumnSearch from '../bodycomponents/ColumnSearch';
+
 const columns: ColumnType<DataInterface>[] = [
   {
     id: 'select',
@@ -45,7 +47,7 @@ const columns: ColumnType<DataInterface>[] = [
       </HStack>
     ),
     size: 200,
-    filter: 'searchBar',
+    Filter: ColumnSearch
   },
   {
     header: 'Status',
@@ -71,7 +73,6 @@ const columns: ColumnType<DataInterface>[] = [
       </Text>
     ),
     size: 200,
-    filter: 'searchBar',
   },
   {
     header: 'Hub ID',
@@ -79,7 +80,6 @@ const columns: ColumnType<DataInterface>[] = [
     id: 'hub_id',
     cell: ({ row }) => <Text color="fg.muted">{row.original.hub_id}</Text>,
     size: 200,
-    filter: 'searchBar',
   },
   {
     header: 'BU ID',
@@ -87,7 +87,6 @@ const columns: ColumnType<DataInterface>[] = [
     id: 'bu_id',
     cell: ({ row }) => <Text color="fg.muted">{row.original.bu_id}</Text>,
     size: 400,
-    filter: 'searchBar',
   },
   {
     header: '',
