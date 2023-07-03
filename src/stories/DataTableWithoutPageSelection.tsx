@@ -10,6 +10,8 @@ import PaginationWrapper from '../components/footercomponents/PaginationWrapper'
 import SelectedNumber from '../components/footercomponents/SelectedNumber';
 import columns from '../components/ProvideByConsumer/Columns';
 import theme from '../theme';
+import TableHeader from '../components/bodycomponents/TableHeader';
+import TableBody from '../components/bodycomponents/TableBody';
 
 const DataTableWithoutPageSelection = () => {
   return (
@@ -20,7 +22,10 @@ const DataTableWithoutPageSelection = () => {
           <FunctionalWrapper>
             <TableTitle>DataTable without page selection</TableTitle>
           </FunctionalWrapper>
-          <BodyWrapper columns={columns} />
+          <BodyWrapper columns={columns}>
+            <TableHeader />
+            <TableBody />
+          </BodyWrapper>
           <FooterWrapper>
             <PaginationWrapper>
               <SelectedNumber />

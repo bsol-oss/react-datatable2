@@ -12,6 +12,8 @@ import SelectedNumber from '../components/footercomponents/SelectedNumber';
 import columns from '../components/ProvideByConsumer/Columns';
 import PageSizeControl from '../components/footercomponents/PageSizeControl';
 import theme from '../theme';
+import TableHeader from '../components/bodycomponents/TableHeader';
+import TableBody from '../components/bodycomponents/TableBody';
 
 const DefaultDataTable = () => {
   return (
@@ -23,7 +25,10 @@ const DefaultDataTable = () => {
             <TableTitle>Default DataTable</TableTitle>
             <GlobalSearch />
           </FunctionalWrapper>
-          <BodyWrapper columns={columns} />
+          <BodyWrapper columns={columns}>
+            <TableHeader />
+            <TableBody />
+          </BodyWrapper>
           <FooterWrapper>
             <PaginationWrapper>
               <SelectedNumber />
