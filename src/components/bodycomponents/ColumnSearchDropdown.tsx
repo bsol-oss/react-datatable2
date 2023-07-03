@@ -23,28 +23,28 @@ const groupedOptions = [
 ];
 
 const Dropdown = () => {
-  const [optionValue, setOptionValue] = useState<string>('');
+  const [optionValues, setOptionValues] = useState<string[]>([]);
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
   const { isLoading } = useContext(TableStatusContext);
 
-  const handleSelect = (option: any) => {
-    console.log('option is', option);
-    setOptionValue(option?.value);
+  const handleSelect = (selectedOptions: any) => {
+    const selectedValues = selectedOptions.map((option: any) => option.value);
+    setOptionValues(selectedValues);
     setFilterTerm({
       ...filterTerm,
-      individualSearchTerm: { hub_id: option.value },
+      individualSearchTerm: { hub_id: selectedValues },
     });
-    console.log('filterterm', filterTerm);
   };
-  console.log(optionValue);
+
   return (
     <Select
+      isMulti={true}
       isDisabled={isLoading}
       focusBorderColor="none"
       name="colors"
       options={groupedOptions}
       placeholder="HUB ID"
-      value={optionValue}
+      value={optionValues.map((value) => ({ value, label: value }))}
       onChange={handleSelect}
       selectedOptionStyle="check"
     />
