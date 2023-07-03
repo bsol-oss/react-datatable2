@@ -3,6 +3,8 @@ import type { Meta } from '@storybook/react';
 import DefaultDataTable from './DefaultDataTable';
 import DataTableWithoutGlobalSearch from './DataTableWithoutGlobalSearch';
 import DataTableWithoutPageSelection from './DataTableWithoutPageSelection';
+import DataTableWithoutTableHeader from './DataTableWithoutTableHeader';
+import DataTableWithoutFooter from './DataTableWithoutFooter';
 
 // import { Button } from './Button';
 
@@ -35,3 +37,11 @@ export const WithoutGlobalSearch = () => {
 export const WithoutPageSelection = () => {
   return <DataTableWithoutPageSelection />;
 };
+
+export const WithoutTableHeader = () => {
+  return <DataTableWithoutTableHeader />;
+}
+
+export const WithoutFooter = () => {
+  return <DataTableWithoutFooter />;
+}

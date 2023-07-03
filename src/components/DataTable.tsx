@@ -1,10 +1,11 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactNode, useEffect, useState } from 'react';
 import { Box, Container } from '@chakra-ui/react';
 import {
   FilterContext,
   TableStatusContext,
 } from './globalpartials/GlobalContext';
 import { FilterInterface } from '../const/types';
+import FooterWrapper from './FooterWrapper';
 
 interface Props {
   children: ReactNode;
@@ -23,6 +24,20 @@ const DataTable = ({ children }: Props) => {
     searchTerm: '',
     individualSearchTerm: {},
   });
+
+  useEffect(() => {
+    let hasFooterWrapper = false;
+
+    React.Children.forEach(children, (child) => {
+      if (React.isValidElement(child) && child.type === FooterWrapper) {
+        hasFooterWrapper = true;
+      }
+    });
+
+    if (!hasFooterWrapper) {
+      setFilterTerm({ ...filterTerm, rows: 0 });
+    }
+  }, []);
 
   return (
     <Container
