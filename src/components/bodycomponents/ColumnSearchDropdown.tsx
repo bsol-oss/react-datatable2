@@ -17,6 +17,7 @@ const dropDownOption = [
 
 const groupedOptions = [
   {
+    id: 'hub_id',
     label: 'HUB ID',
     options: dropDownOption,
   },
@@ -32,7 +33,7 @@ const Dropdown = () => {
     setOptionValues(selectedValues);
     setFilterTerm({
       ...filterTerm,
-      individualSearchTerm: { hub_id: selectedValues },
+      individualSearchTerm: { [groupedOptions[0]?.id]: selectedValues },
     });
   };
 
@@ -43,7 +44,7 @@ const Dropdown = () => {
       focusBorderColor="none"
       name="colors"
       options={groupedOptions}
-      placeholder="HUB ID"
+      placeholder={groupedOptions[0].label}
       value={optionValues.map((value) => ({ value, label: value }))}
       onChange={handleSelect}
       selectedOptionStyle="check"
