@@ -36,18 +36,11 @@ export interface RowInterface {
   };
 }
 
-// export type ColumnType<TData extends RowData, TValue = unknown> = ColumnDef<
-//   TData,
-//   TValue
-// > & {
-//   Filter?: unknown;
-// };
-
 export type ColumnType<TData extends object, TValue = unknown> = ColumnDef<
   TData,
   TValue
 > & {
-  Filter?: ReactNode | ComponentType<any>;
+  Filter?: unknown;
 };
 
 export interface Option {
