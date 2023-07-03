@@ -5,7 +5,7 @@ import { TableStatusContext } from './globalpartials/GlobalContext';
 interface Props {
   children: ReactNode;
 }
-const PageWrapper = ({ children }: Props) => {
+const FooterWrapper = ({ children }: Props) => {
   const { tableWidth } = useContext(TableStatusContext);
   return (
     <Box
@@ -18,4 +18,4 @@ const PageWrapper = ({ children }: Props) => {
   );
 };
 
-export default PageWrapper;
+export default FooterWrapper;
