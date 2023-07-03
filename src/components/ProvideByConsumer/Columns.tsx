@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Avatar, Badge, Box, HStack, IconButton, Text } from '@chakra-ui/react';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 
@@ -7,7 +5,7 @@ import IndeterminateCheckbox from '../globalpartials/InterminateCheckbox';
 import { ColumnType, DataInterface } from '../../const/types';
 
 import ColumnSearch from '../bodycomponents/ColumnSearch';
-import Dropdown from '../bodycomponents/DropdownFilter';
+import DropdownFilter from '../bodycomponents/DropdownFilter';
 
 const columns: ColumnType<DataInterface>[] = [
   {
@@ -81,7 +79,21 @@ const columns: ColumnType<DataInterface>[] = [
     id: 'hub_id',
     cell: ({ row }) => <Text color="fg.muted">{row.original.hub_id}</Text>,
     size: 200,
-    Filter: Dropdown,
+    Filter: () => (
+      <DropdownFilter
+        id="hub_id"
+        label="HUB ID"
+        options={[
+          { value: '', label: 'All' },
+          { value: 'testsubareaHub', label: 'testsubareaHub' },
+          { value: 'hkmtr_subarea', label: 'hkmtr_subarea' },
+          { value: 'NEW_SUBAREA_HUB', label: 'NEW_SUBAREA_HUB' },
+          { value: 'testHub6', label: 'testHub6' },
+          { value: 'testHub4', label: 'testHub4' },
+          { value: 'testHub12', label: 'testHub12' },
+        ]}
+      />
+    ),
   },
   {
     header: 'BU ID',
