@@ -1,5 +1,4 @@
 import { ColumnDef, RowData } from '@tanstack/react-table';
-import { ComponentType, ReactNode } from 'react';
 export interface DataInterface {
   id: number;
   name: string;
@@ -36,7 +35,7 @@ export interface RowInterface {
   };
 }
 
-export type ColumnType<TData extends object, TValue = unknown> = ColumnDef<
+export type ColumnType<TData extends RowData, TValue = unknown> = ColumnDef<
   TData,
   TValue
 > & {

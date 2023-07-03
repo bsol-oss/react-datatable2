@@ -1,5 +1,5 @@
-import { Select } from 'chakra-react-select';
 import { useContext, useState } from 'react';
+import { Select } from 'chakra-react-select';
 import {
   FilterContext,
   TableStatusContext,
