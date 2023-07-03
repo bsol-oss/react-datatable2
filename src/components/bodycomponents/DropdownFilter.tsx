@@ -23,7 +23,7 @@ const groupedOptions = [
   },
 ];
 
-const Dropdown = () => {
+const DropdownFilter = () => {
   const [optionValues, setOptionValues] = useState<string[]>([]);
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
   const { isLoading } = useContext(TableStatusContext);
@@ -52,4 +52,4 @@ const Dropdown = () => {
   );
 };
 
-export default Dropdown;
+export default DropdownFilter;

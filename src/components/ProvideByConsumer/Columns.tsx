@@ -7,7 +7,7 @@ import IndeterminateCheckbox from '../globalpartials/InterminateCheckbox';
 import { ColumnType, DataInterface } from '../../const/types';
 
 import ColumnSearch from '../bodycomponents/ColumnSearch';
-import Dropdown from '../bodycomponents/ColumnSearchDropdown';
+import Dropdown from '../bodycomponents/DropdownFilter';
 
 const columns: ColumnType<DataInterface>[] = [
   {
