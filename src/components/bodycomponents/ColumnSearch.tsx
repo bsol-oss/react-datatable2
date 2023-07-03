@@ -30,7 +30,6 @@ const ColumnSearch = ({ id }: { id: string }) => {
       setFilterTerm({ ...filterTerm, individualSearchTerm: inputValues });
     }
   };
-
   const handleSearchOnChange = (
     event: React.ChangeEvent<HTMLInputElement>,
     id: string | undefined

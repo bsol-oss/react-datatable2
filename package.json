@@ -88,5 +88,8 @@
     "ts-jest": "^29.0.5",
     "typescript": "^4.5.5",
     "vite": "^4.0.4"
+  },
+  "dependencies": {
+    "chakra-react-select": "^4.6.0"
   }
 }

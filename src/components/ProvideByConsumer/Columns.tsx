@@ -7,6 +7,7 @@ import IndeterminateCheckbox from '../globalpartials/InterminateCheckbox';
 import { ColumnType, DataInterface } from '../../const/types';
 
 import ColumnSearch from '../bodycomponents/ColumnSearch';
+import Dropdown from '../bodycomponents/ColumnSearchDropdown';
 
 const columns: ColumnType<DataInterface>[] = [
   {
@@ -47,7 +48,7 @@ const columns: ColumnType<DataInterface>[] = [
       </HStack>
     ),
     size: 200,
-    Filter: ColumnSearch
+    Filter: ColumnSearch,
   },
   {
     header: 'Status',
@@ -80,6 +81,7 @@ const columns: ColumnType<DataInterface>[] = [
     id: 'hub_id',
     cell: ({ row }) => <Text color="fg.muted">{row.original.hub_id}</Text>,
     size: 200,
+    Filter: Dropdown,
   },
   {
     header: 'BU ID',
