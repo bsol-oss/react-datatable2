@@ -28,7 +28,7 @@ const DataTable = ({ children }: Props) => {
   useEffect(() => {
     let hasFooterWrapper = false;
 
-    React.Children.forEach(children, (child) => {
+    React?.Children.forEach(children, (child) => {
       if (React.isValidElement(child) && child.type === FooterWrapper) {
         hasFooterWrapper = true;
       }

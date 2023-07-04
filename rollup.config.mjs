@@ -23,8 +23,20 @@ export default {
       'process.env.NODE_ENV': JSON.stringify('production'),
       'this && this.__assign': 'Object.assign',
       'this.__rest': 'Object.assign',
-      preventAssignment: true
-    })
+      preventAssignment: true,
+    }),
   ],
+  onwarn: (warning, handler) => {
+    // Skip certain warnings
+
+    // should intercept ... but doesn't in some rollup versions
+    if (warning.code === 'THIS_IS_UNDEFINED') {
+      return;
+    }
+
+    // console.warn everything else
+    handler(warning);
+  },
+
   external: ['react', 'react-dom', 'prop-types'],
 };
