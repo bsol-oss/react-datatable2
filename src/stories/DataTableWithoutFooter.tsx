@@ -1,7 +1,6 @@
 import React, { Box, ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 
 import DataTable from '../components/DataTable';
-import ThemeToggleButton from '../components/globalpartials/ThemeToggleButton';
 import BodyWrapper from '../components/BodyWrapper';
 import FunctionalWrapper from '../components/FunctionalWrapper';
 import TableTitle from '../components/functionalcomponents/TableTitle';
@@ -26,7 +25,6 @@ const DataTableWithoutFooter = () => {
             <TableBody />
           </BodyWrapper>
         </DataTable>
-        <ThemeToggleButton pos="fixed" bottom="2" right="2" />
       </ChakraProvider>
     </Box>
   );
