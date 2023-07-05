@@ -11,7 +11,6 @@ const DropdownFilter = ({ id, label, options }: DropDownProps) => {
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
   const { isLoading } = useContext(TableStatusContext);
 
-
   const handleChange = (selectedOption: Option | null) => {
     setOptionValue(selectedOption);
     setFilterTerm({
@@ -31,6 +30,7 @@ const DropdownFilter = ({ id, label, options }: DropDownProps) => {
       placeholder={label}
       defaultValue={optionValue}
       onChange={handleChange}
+      size="sm"
     />
   );
 };
