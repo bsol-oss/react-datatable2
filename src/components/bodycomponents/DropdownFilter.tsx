@@ -30,7 +30,7 @@ const DropdownFilter = ({ id, label, options }: DropDownProps) => {
     <Select
       isDisabled={isLoading}
       focusBorderColor="none"
-      name="colors"
+      name="options"
       options={groupedOptions.options}
       placeholder={label}
       defaultValue={optionValue}
