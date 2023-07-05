@@ -4,39 +4,37 @@ import {
   FilterContext,
   TableStatusContext,
 } from '../globalpartials/GlobalContext';
-import { DropDownProps } from '../../const/types';
+import { DropDownProps, Option } from '../../const/types';
 
 const DropdownFilter = ({ id, label, options }: DropDownProps) => {
-  const [optionValues, setOptionValues] = useState<string[]>([]);
+  const [optionValue, setOptionValue] = useState<Option | null>(null);
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
   const { isLoading } = useContext(TableStatusContext);
-  const groupedOptions = [
-    {
-      id: id,
-      label: label,
-      options: options,
-    },
-  ];
+  const groupedOptions = {
+    id: id,
+    label: label,
+    options: options,
+  };
 
-  const handleSelect = (selectedOptions: any) => {
-    const selectedValues = selectedOptions.map((option: any) => option.value);
-    setOptionValues(selectedValues);
+  const handleChange = (selectedOption: Option | null) => {
+    setOptionValue(selectedOption);
     setFilterTerm({
       ...filterTerm,
-      individualSearchTerm: { [groupedOptions[0].id]: selectedValues },
+      individualSearchTerm: {
+        [groupedOptions.id]: selectedOption ? selectedOption.value : '',
+      },
     });
   };
+
   return (
     <Select
-      isMulti={true}
       isDisabled={isLoading}
       focusBorderColor="none"
       name="colors"
-      options={groupedOptions}
+      options={groupedOptions.options}
       placeholder={label}
-      value={optionValues.map((value) => ({ value, label: value }))}
-      onChange={handleSelect}
-      selectedOptionStyle="check"
+      defaultValue={optionValue}
+      onChange={handleChange}
     />
   );
 };
