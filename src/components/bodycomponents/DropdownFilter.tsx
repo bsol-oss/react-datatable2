@@ -10,18 +10,14 @@ const DropdownFilter = ({ id, label, options }: DropDownProps) => {
   const [optionValue, setOptionValue] = useState<Option | null>(null);
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
   const { isLoading } = useContext(TableStatusContext);
-  const groupedOptions = {
-    id: id,
-    label: label,
-    options: options,
-  };
+
 
   const handleChange = (selectedOption: Option | null) => {
     setOptionValue(selectedOption);
     setFilterTerm({
       ...filterTerm,
       individualSearchTerm: {
-        [groupedOptions.id]: selectedOption ? selectedOption.value : '',
+        [id]: selectedOption ? selectedOption.value : '',
       },
     });
   };
@@ -31,7 +27,7 @@ const DropdownFilter = ({ id, label, options }: DropDownProps) => {
       isDisabled={isLoading}
       focusBorderColor="none"
       name="options"
-      options={groupedOptions.options}
+      options={options}
       placeholder={label}
       defaultValue={optionValue}
       onChange={handleChange}
