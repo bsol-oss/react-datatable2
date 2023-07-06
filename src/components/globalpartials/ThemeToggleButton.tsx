@@ -1,6 +1,6 @@
 import React from 'react';
-import { MoonIcon, SunIcon } from '@chakra-ui/icons';
-import { IconButton, IconButtonProps, useColorMode } from '@chakra-ui/react';
+import { IconButton, IconButtonProps, useColorMode, Icon } from '@chakra-ui/react';
+import { FiMoon, FiSun } from 'react-icons/fi';
 import styled from '@emotion/styled';
 import transientOptions from '../../utils/general';
 
@@ -26,7 +26,7 @@ function ThemeToggleButton(props: ThemeToggleButtonProps): JSX.Element {
     <RoundButton
       $colorMode={colorMode}
       onClick={toggleColorMode}
-      icon={colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+      icon={colorMode === 'light' ? <Icon as={FiMoon} /> : <Icon as={FiSun} />}
       aria-label={`Activate ${colorMode === 'light' ? 'dark' : 'light'} mode`}
       isRound
       {...props}

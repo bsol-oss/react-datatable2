@@ -25,7 +25,7 @@ const PaginationWrapper = ({ children }: Props) => {
         >
           <Pagination
             count={totalCount}
-            pageSize={10}
+            pageSize={filterTerm.rows}
             siblingCount={2}
             page={filterTerm.offset}
             onChange={(e) => setFilterTerm({ ...filterTerm, offset: e.page })}

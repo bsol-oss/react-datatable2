@@ -1,39 +1,31 @@
 import React, { useContext, useEffect, useState } from 'react';
-import {
-  Box,
-  Flex,
-  Spinner,
-  Table,
-  Tbody,
-  Td,
-  Th,
-  Thead,
-  Tr,
-} from '@chakra-ui/react';
+import { Box, Table } from '@chakra-ui/react';
 import { ColumnType, DataInterface } from '../const/types';
 import {
   useReactTable,
   ColumnResizeMode,
   getCoreRowModel,
-  flexRender,
   getSortedRowModel,
-  HeaderGroup,
   SortingState,
 } from '@tanstack/react-table';
 import {
   FilterContext,
   TableStatusContext,
 } from './globalpartials/GlobalContext';
-import { UpDownIcon, ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 
 import { getFilteredData } from '../Data/Api';
 
-const BodyWrapper = ({ columns }: { columns: ColumnType<DataInterface>[] }) => {
+const BodyWrapper = ({
+  columns,
+  children
+}: {
+  columns: ColumnType<DataInterface>[];
+  children: React.ReactElement | React.ReactElement[];
+}) => {
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
   const {
     setTableWidth,
     setTotalCount,
-    isLoading,
     selectedRows,
     setSelectedRows,
     setIsLoading,
@@ -151,124 +143,11 @@ const BodyWrapper = ({ columns }: { columns: ColumnType<DataInterface>[] }) => {
         colorScheme="gray"
         variant="striped"
       >
-        <Thead>
-          {tableInstance
-            .getHeaderGroups()
-            .map((headerGroup: HeaderGroup<DataInterface>) => (
-              <Tr key={headerGroup.id}>
-                {headerGroup.headers.map((header: any) => (
-                  <Th
-                    key={header.id}
-                    {...{
-                      colSpan: header.colSpan,
-                      style: {
-                        width: header.getSize(),
-                      },
-                    }}
-                    position="relative"
-                    border="1px solid"
-                    borderColor="gray.200"
-                  >
-                    <Flex flexDirection="column" gap={4}>
-                      <Box>
-                        <Flex
-                          direction="row"
-                          {...{
-                            className: header.column.getCanSort()
-                              ? 'cursor-pointer select-none'
-                              : '',
-                            onClick: !isLoading
-                              ? header.column.getToggleSortingHandler()
-                              : undefined,
-                          }}
-                          _hover={{ cursor: 'pointer' }}
-                        >
-                          {flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                          {header.column.columnDef.id !== 'select' &&
-                            header.column.columnDef.id !== 'actions' &&
-                            (!isLoading ? (
-                              (header.column.getIsSorted() as string) ? (
-                                (header.column.getIsSorted() as string) ===
-                                'asc' ? (
-                                  <ChevronDownIcon ml={1} w={5} h={5} />
-                                ) : (
-                                  <ChevronUpIcon ml={1} w={5} h={5} />
-                                )
-                              ) : (
-                                <Box ml={1} alignItems="center" display="flex">
-                                  <UpDownIcon w={3} h={3} />
-                                </Box>
-                              )
-                            ) : (
-                              <Box ml={1} alignItems="center" display="flex">
-                                <Spinner size="xs" />
-                              </Box>
-                            ))}
-                        </Flex>
-                        <Box
-                          {...{
-                            onMouseDown: header.getResizeHandler(),
-                            onTouchStart: header.getResizeHandler(),
-                            background: ` ${
-                              header.column.getIsResizing()
-                                ? 'blue;'
-                                : 'rgba(0, 0, 0, 0.5)'
-                            }`,
-                            opacity: ` ${header.column.getIsResizing() && '1'}`,
-                          }}
-                          position="absolute"
-                          right={0}
-                          top={0}
-                          height="100%"
-                          width="5px"
-                          cursor="col-resize"
-                          _hover={{ opacity: 1 }}
-                          opacity="0"
-                        />
-                      </Box>
-                      {header.column.columnDef.Filter && <header.column.columnDef.Filter />}
-                    </Flex>
-                  </Th>
-                ))}
-              </Tr>
-            ))}
-        </Thead>
-        <Tbody>
-          {isLoading ? (
-            <Tr>
-              <Td colSpan={tableInstance.getHeaderGroups()[0].headers.length}>
-                <Box display="flex" justifyContent="center" alignItems="center">
-                  <Spinner size="xl" color="gray.500" />
-                </Box>
-              </Td>
-            </Tr>
-          ) : (
-            tableInstance.getRowModel().rows.map((row) => {
-              return (
-                <Tr key={row.id}>
-                  {row.getVisibleCells().map((cell) => (
-                    <Td
-                      key={cell.id}
-                      {...{
-                        style: {
-                          width: cell.column.getSize(),
-                        },
-                      }}
-                    >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </Td>
-                  ))}
-                </Tr>
-              );
+        {Array.isArray(children)
+          ? React.Children.map(children, (child: React.ReactElement) => {
+              return React.cloneElement(child, { tableInstance });
             })
-          )}
-        </Tbody>
+          : React.cloneElement(children, { tableInstance })}
       </Table>
     </Box>
   );
