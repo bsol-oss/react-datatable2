@@ -1,6 +1,6 @@
 {
   "name": "@bsol-oss/react-datatable2",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "dist/index.js",
   "module": "dist/index.es.js",
   "files": [
@@ -30,6 +30,7 @@
     "@emotion/styled": "^11.8.1",
     "@tanstack/react-table": "^8.9.2",
     "@types/react-icons": "^3.0.0",
+    "chakra-react-select": "^4.6.0",
     "framer-motion": "^8.5.2",
     "i18next": "^22.5.1",
     "i18next-browser-languagedetector": "^7.0.2",
@@ -89,3 +90,5 @@
     "vite": "^4.0.4"
   }
 }
+
+

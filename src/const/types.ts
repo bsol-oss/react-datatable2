@@ -41,3 +41,14 @@ export type ColumnType<TData extends RowData, TValue = unknown> = ColumnDef<
 > & {
   Filter?: unknown;
 };
+
+export interface Option {
+  value: string;
+  label: string;
+}
+
+export interface DropDownProps {
+  id: string;
+  label: string;
+  options: Option[];
+}
