@@ -1,8 +1,8 @@
 import React, { Box, ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 
 import DataTable from '../components/DataTable';
-import BodyWrapper from '../components/BodyWrapper';
-import FunctionalWrapper from '../components/FunctionalWrapper';
+import Table from '../components/Table';
+import Header from '../components/Header';
 import TableTitle from '../components/functionalcomponents/TableTitle';
 import GlobalSearch from '../components/functionalcomponents/GlobalSearch';
 import columns from '../components/ProvideByConsumer/Columns';
@@ -16,14 +16,14 @@ const DataTableWithoutFooter = () => {
       <ChakraProvider theme={theme}>
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
         <DataTable>
-          <FunctionalWrapper>
+          <Header>
             <TableTitle>DataTable without footer</TableTitle>
             <GlobalSearch />
-          </FunctionalWrapper>
-          <BodyWrapper columns={columns}>
+          </Header>
+          <Table columns={columns}>
             <TableHeader />
             <TableBody />
-          </BodyWrapper>
+          </Table>
         </DataTable>
       </ChakraProvider>
     </Box>

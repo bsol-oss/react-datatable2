@@ -5,7 +5,7 @@ import {
   TableStatusContext,
 } from './globalpartials/GlobalContext';
 import { FilterInterface } from '../const/types';
-import FooterWrapper from './FooterWrapper';
+import Footer from './Footer';
 
 interface Props {
   children: ReactNode;
@@ -26,15 +26,15 @@ const DataTable = ({ children }: Props) => {
   });
 
   useEffect(() => {
-    let hasFooterWrapper = false;
+    let hasFooter = false;
 
     React?.Children.forEach(children, (child) => {
-      if (React.isValidElement(child) && child.type === FooterWrapper) {
-        hasFooterWrapper = true;
+      if (React.isValidElement(child) && child.type === Footer) {
+        hasFooter = true;
       }
     });
 
-    if (!hasFooterWrapper) {
+    if (!hasFooter) {
       setFilterTerm({ ...filterTerm, rows: 0 });
     }
   }, []);
