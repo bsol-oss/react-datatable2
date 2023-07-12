@@ -1,96 +1,40 @@
-import React, {
-  Pagination as ArkPagination,
-  PaginationProps as ArkPaginationProps,
-  PaginationEllipsis,
-  PaginationNextPageTrigger,
-  PaginationPageTrigger,
-  PaginationPrevPageTrigger,
-} from '@ark-ui/react';
+import React, { ReactNode, useContext } from 'react';
+import { Box, Container, HStack, useBreakpointValue } from '@chakra-ui/react';
 import {
-  Button,
-  Center,
-  IconButton,
-  List,
-  ListItem,
-  Text,
-  VisuallyHidden,
-  useBreakpointValue,
-} from '@chakra-ui/react';
-import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
+  FilterContext,
+  TableStatusContext,
+} from '../globalpartials/GlobalContext';
+import { PaginationControl } from './PaginationControl';
 
-export type PaginationProps = Omit<ArkPaginationProps, 'children'>;
-
-export const Pagination = (props: PaginationProps) => {
+interface Props {
+  children: ReactNode;
+}
+const Pagination = ({ children }: Props) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
+  const { totalCount, isLoading } = useContext(TableStatusContext);
+  const { filterTerm, setFilterTerm } = useContext(FilterContext);
+
   return (
-    <ArkPagination {...props}>
-      {({ pages, page }) => (
-        <List display="flex" justifyContent="space-between">
-          <ListItem>
-            <PaginationPrevPageTrigger asChild>
-              {isMobile ? (
-                <IconButton
-                  variant="secondary"
-                  icon={<FiArrowLeft />}
-                  aria-label="Previous Page"
-                />
-              ) : (
-                <Button variant="tertiary" leftIcon={<FiArrowLeft />}>
-                  Previous <VisuallyHidden>Page</VisuallyHidden>
-                </Button>
-              )}
-            </PaginationPrevPageTrigger>
-          </ListItem>
-          <List display={{ base: 'none', md: 'flex' }} gap="1">
-            {pages.map((page, index) =>
-              page.type === 'page' ? (
-                <ListItem key={index}>
-                  <PaginationPageTrigger asChild {...page}>
-                    <Button
-                      variant="outline"
-                      borderColor="gray"
-                      borderRadius="full"
-                      width="40px"
-                      height="40px"
-                      bg={page.value === props.page ? 'gray.400' : ''}
-                    >
-                      {page.value}
-                    </Button>
-                  </PaginationPageTrigger>
-                </ListItem>
-              ) : (
-                <ListItem key={index} alignItems="center" display="flex">
-                  <PaginationEllipsis index={index}>
-                    <Text as="span" color="fg.emphasized">
-                      &#8230;
-                    </Text>
-                  </PaginationEllipsis>
-                </ListItem>
-              )
-            )}
-          </List>
-          <ListItem as={Center} display={{ md: 'none' }}>
-            <Text fontWeight="medium" color="fg.emphasized">
-              Page {page} of {pages.length + 1}
-            </Text>
-          </ListItem>
-          <ListItem>
-            <PaginationNextPageTrigger asChild>
-              {isMobile ? (
-                <IconButton
-                  variant="secondary"
-                  icon={<FiArrowRight />}
-                  aria-label="Next Page"
-                />
-              ) : (
-                <Button variant="tertiary" rightIcon={<FiArrowRight />}>
-                  Next <VisuallyHidden>Page</VisuallyHidden>
-                </Button>
-              )}
-            </PaginationNextPageTrigger>
-          </ListItem>
-        </List>
-      )}
-    </ArkPagination>
+    <Box bg="bg.surface">
+      <Container py={{ base: '12', md: '16' }}>
+        <HStack
+          flexWrap="wrap"
+          justifyContent="center"
+          pointerEvents={isLoading ? 'none' : 'all'}
+          opacity={isLoading ? 0.5 : 1}
+        >
+          <PaginationControl
+            count={totalCount}
+            pageSize={filterTerm.rows}
+            siblingCount={2}
+            page={filterTerm.offset}
+            onChange={(e) => setFilterTerm({ ...filterTerm, offset: e.page })}
+          />
+          {!isMobile && children}
+        </HStack>
+      </Container>
+    </Box>
   );
 };
+
+export default Pagination;
