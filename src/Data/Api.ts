@@ -31,19 +31,24 @@ export const getSubareaBySearechKey = async (
 
 //Function to get filtered data by several filter
 export const getFilteredData = async (
-  filterTerm: FilterInterface
+  filterTerm: FilterInterface,
+  request: Request
 ): Promise<SubareaInterface> => {
   try {
-    const url = `${API_URL}/api/g/subarea/all?pagination={"offset":${
-      filterTerm.offset === 0 ? 0 : filterTerm.offset - 1
-    },"rows":${filterTerm.rows}}&sorting={"field":"${
-      filterTerm.field
-    }","sort":"${filterTerm.sort}"}${
-      Object.keys(filterTerm.individualSearchTerm).length > 0
-        ? `&where=${JSON.stringify(filterTerm.individualSearchTerm)}`
-        : ''
-    }&searching=${filterTerm.searchTerm}`;
-    const response = await fetch(url);
+    let url: string = request.url;
+    if (request.method === 'GET') {
+      url = `${request.url}?pagination={"offset":${
+        filterTerm.offset === 0 ? 0 : filterTerm.offset - 1
+      },"rows":${filterTerm.rows}}&sorting={"field":"${
+        filterTerm.field
+      }","sort":"${filterTerm.sort}"}${
+        Object.keys(filterTerm.individualSearchTerm).length > 0
+          ? `&where=${JSON.stringify(filterTerm.individualSearchTerm)}`
+          : ''
+      }&searching=${filterTerm.searchTerm}`;
+    }
+    const newRequest = new Request(url, request);
+    const response = await fetch(newRequest);
     const data = await response.json();
     return data;
   } catch (error) {

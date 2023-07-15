@@ -18,9 +18,11 @@ import { getFilteredData } from '../Data/Api';
 const Table = ({
   columns,
   children,
+  request,
 }: {
   columns: ColumnType<DataInterface>[];
   children: React.ReactElement | React.ReactElement[];
+  request?: Request;
 }) => {
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
   const {
@@ -91,11 +93,11 @@ const Table = ({
       sort: sort.join(','),
     });
   }, [sorting]);
-
+  console.log('requestrequest', request);
   useEffect(() => {
     const fetchSubareas = async () => {
       setIsLoading(true);
-      const res = await getFilteredData(filterTerm);
+      const res = await getFilteredData(filterTerm, request);
       setIsLoading(false);
       if (res) {
         setTotalCount(res.filterCount);
