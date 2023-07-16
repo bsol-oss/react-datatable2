@@ -35,20 +35,25 @@ export const getFilteredData = async (
   request: Request
 ): Promise<SubareaInterface> => {
   try {
-    let url: string = request.url;
-    if (request.method === 'GET') {
-      url = `${request.url}?pagination={"offset":${
-        filterTerm.offset === 0 ? 0 : filterTerm.offset - 1
-      },"rows":${filterTerm.rows}}&sorting={"field":"${
-        filterTerm.field
-      }","sort":"${filterTerm.sort}"}${
-        Object.keys(filterTerm.individualSearchTerm).length > 0
-          ? `&where=${JSON.stringify(filterTerm.individualSearchTerm)}`
-          : ''
-      }&searching=${filterTerm.searchTerm}`;
-    }
-    const newRequest = new Request(url, request);
-    const response = await fetch(newRequest);
+    let url: string = `${
+      request && request.url ? request.url : `${API_URL}/api/g/subarea/all`
+    }?pagination={"offset":${
+      filterTerm.offset === 0 ? 0 : filterTerm.offset - 1
+    },"rows":${filterTerm.rows}}&sorting={"field":"${
+      filterTerm.field
+    }","sort":"${filterTerm.sort}"}${
+      Object.keys(filterTerm.individualSearchTerm).length > 0
+        ? `&where=${JSON.stringify(filterTerm.individualSearchTerm)}`
+        : ''
+    }&searching=${filterTerm.searchTerm}`;
+    const response = await fetch(
+      request
+        ? new Request(
+            request && request.method === 'GET' ? url : request.url,
+            request
+          )
+        : url
+    );
     const data = await response.json();
     return data;
   } catch (error) {
