@@ -46,14 +46,7 @@ export const getFilteredData = async (
         ? `&where=${JSON.stringify(filterTerm.individualSearchTerm)}`
         : ''
     }&searching=${filterTerm.searchTerm}`;
-    const response = await fetch(
-      request
-        ? new Request(
-            request && request.method === 'GET' ? url : request.url,
-            request
-          )
-        : url
-    );
+    const response = await fetch(request ? new Request(url, request) : url);
     const data = await response.json();
     return data;
   } catch (error) {

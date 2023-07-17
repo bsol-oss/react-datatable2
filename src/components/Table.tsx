@@ -92,7 +92,6 @@ const Table = ({
       sort: sort.join(','),
     });
   }, [sorting]);
-  console.log('requestrequest', request);
   useEffect(() => {
     const fetchSubareas = async () => {
       setIsLoading(true);
