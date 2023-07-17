@@ -32,7 +32,7 @@ export const getSubareaBySearechKey = async (
 //Function to get filtered data by several filter
 export const getFilteredData = async (
   filterTerm: FilterInterface,
-  request: Request
+  request: Request | undefined
 ): Promise<SubareaInterface> => {
   try {
     let url: string = `${
