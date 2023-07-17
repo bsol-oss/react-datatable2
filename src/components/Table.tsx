@@ -18,11 +18,9 @@ import { getFilteredData } from '../Data/Api';
 const Table = ({
   columns,
   children,
-  request,
 }: {
   columns: ColumnType<DataInterface>[];
   children: React.ReactElement | React.ReactElement[];
-  request?: Request;
 }) => {
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
   const {
@@ -31,6 +29,7 @@ const Table = ({
     selectedRows,
     setSelectedRows,
     setIsLoading,
+    request,
   } = useContext(TableStatusContext);
 
   const saveSeletedRows = (
