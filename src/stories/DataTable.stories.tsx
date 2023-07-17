@@ -36,6 +36,31 @@ const meta: Meta<typeof DefaultDataTable> = {
 
 export default meta;
 
+const request = new Request('http://5.78.97.128:8081/api/g/subarea/all', {
+  method: 'GET',
+});
+export const DefaultTableCustomApi = () => (
+  <ChakraProvider theme={theme}>
+    <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+    <DataTable request={request}>
+      <Header>
+        <TableTitle>Custom API DataTable</TableTitle>
+        <GlobalSearch />
+      </Header>
+      <Table columns={columns}>
+        <TableHeader />
+        <TableBody />
+      </Table>
+      <Footer>
+        <Pagination>
+          <SelectedNumber />
+          <PageSizeControl pages={[5, 10, 25, 50, 100]} />
+        </Pagination>
+      </Footer>
+    </DataTable>
+  </ChakraProvider>
+);
+
 export const DefaultTable = () => (
   <ChakraProvider theme={theme}>
     <ColorModeScript initialColorMode={theme.config.initialColorMode} />

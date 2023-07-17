@@ -9,9 +9,10 @@ import Footer from './Footer';
 
 interface Props {
   children: ReactNode;
+  request?: Request;
 }
 
-const DataTable = ({ children }: Props) => {
+const DataTable = ({ children, request }: Props) => {
   const [selectedRows, setSelectedRows] = useState({});
   const [totalCount, setTotalCount] = useState<number>(0);
   const [tableWidth, setTableWidth] = useState<number>(0);
@@ -24,7 +25,6 @@ const DataTable = ({ children }: Props) => {
     searchTerm: '',
     individualSearchTerm: {},
   });
-
   useEffect(() => {
     let hasFooter = false;
 
@@ -61,6 +61,7 @@ const DataTable = ({ children }: Props) => {
               setSelectedRows,
               isLoading,
               setIsLoading,
+              request,
             }}
           >
             {children}

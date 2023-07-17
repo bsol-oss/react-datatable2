@@ -29,6 +29,7 @@ const Table = ({
     selectedRows,
     setSelectedRows,
     setIsLoading,
+    request,
   } = useContext(TableStatusContext);
 
   const saveSeletedRows = (
@@ -91,11 +92,10 @@ const Table = ({
       sort: sort.join(','),
     });
   }, [sorting]);
-
   useEffect(() => {
     const fetchSubareas = async () => {
       setIsLoading(true);
-      const res = await getFilteredData(filterTerm);
+      const res = await getFilteredData(filterTerm, request);
       setIsLoading(false);
       if (res) {
         setTotalCount(res.filterCount);
