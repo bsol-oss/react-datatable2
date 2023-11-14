@@ -1,5 +1,6 @@
 import React, { ReactNode, useContext } from 'react';
 import { Box } from '@chakra-ui/react';
+
 import { TableStatusContext } from './globalpartials/GlobalContext';
 
 interface Props {

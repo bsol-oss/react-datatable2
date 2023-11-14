@@ -2,6 +2,7 @@ import React from 'react';
 import { IconButton, IconButtonProps, useColorMode, Icon } from '@chakra-ui/react';
 import { FiMoon, FiSun } from 'react-icons/fi';
 import styled from '@emotion/styled';
+
 import transientOptions from '../../utils/general';
 
 type ThemeToggleButtonProps = Omit<IconButtonProps, 'aria-label'> & {

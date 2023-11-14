@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Box, Table as TableControl } from '@chakra-ui/react';
-import { ColumnType, DataInterface } from '../const/types';
 import {
   useReactTable,
   ColumnResizeMode,
@@ -8,11 +7,12 @@ import {
   getSortedRowModel,
   SortingState,
 } from '@tanstack/react-table';
+
 import {
   FilterContext,
   TableStatusContext,
 } from './globalpartials/GlobalContext';
-
+import { ColumnType, DataInterface } from '../const/types';
 import { getFilteredData } from '../Data/Api';
 
 const Table = ({

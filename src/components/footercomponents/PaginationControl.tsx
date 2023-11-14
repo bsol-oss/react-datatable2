@@ -16,12 +16,14 @@ import {
   VisuallyHidden,
   useBreakpointValue,
 } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
 import { FiArrowLeft, FiArrowRight } from 'react-icons/fi';
 
 export type PaginationProps = Omit<ArkPaginationProps, 'children'>;
 
 export const PaginationControl = (props: PaginationProps) => {
   const isMobile = useBreakpointValue({ base: true, md: false });
+  const { t } = useTranslation();
   return (
     <ArkPagination {...props}>
       {({ pages, page }) => (
@@ -36,7 +38,7 @@ export const PaginationControl = (props: PaginationProps) => {
                 />
               ) : (
                 <Button variant="tertiary" leftIcon={<FiArrowLeft />}>
-                  Previous <VisuallyHidden>Page</VisuallyHidden>
+                  {t('Previous')} <VisuallyHidden>{t('Page')}</VisuallyHidden>
                 </Button>
               )}
             </PaginationPrevPageTrigger>
@@ -71,7 +73,7 @@ export const PaginationControl = (props: PaginationProps) => {
           </List>
           <ListItem as={Center} display={{ md: 'none' }}>
             <Text fontWeight="medium" color="fg.emphasized">
-              Page {page} of {pages.length + 1}
+            {t('Page')} {page} {t('of')} {pages.length + 1}
             </Text>
           </ListItem>
           <ListItem>

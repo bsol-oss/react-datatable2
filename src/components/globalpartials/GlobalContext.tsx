@@ -1,4 +1,5 @@
 import { createContext } from 'react';
+
 import { FilterInterface } from '../../const/types';
 
 interface FilterContextInterface {

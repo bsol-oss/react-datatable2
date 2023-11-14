@@ -6,16 +6,16 @@ import {
   Icon,
   Input,
 } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
+import { FiSearch } from 'react-icons/fi';
 
 import {
   FilterContext,
   TableStatusContext,
 } from '../globalpartials/GlobalContext';
 
-import { FiSearch } from 'react-icons/fi';
-import { t } from 'i18next';
-
 const ColumnSearch = ({ id }: { id: string }) => {
+  const { t } = useTranslation();
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
   const { isLoading } = useContext(TableStatusContext);
 

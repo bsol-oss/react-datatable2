@@ -1,7 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Box, Select } from '@chakra-ui/react';
-import { FilterContext } from '../globalpartials/GlobalContext';
 import { useTranslation } from 'react-i18next';
+
+import { FilterContext } from '../globalpartials/GlobalContext';
+
 
 const PageSizeControl = ({ pages }: { pages: number[] }) => {
   const { t } = useTranslation();

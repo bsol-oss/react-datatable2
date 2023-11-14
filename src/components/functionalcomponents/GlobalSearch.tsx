@@ -8,6 +8,7 @@ import {
 } from '@chakra-ui/react';
 import { FiSearch } from 'react-icons/fi';
 import { useTranslation } from 'react-i18next';
+
 import {
   FilterContext,
   TableStatusContext,
