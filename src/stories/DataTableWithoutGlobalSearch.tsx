@@ -1,4 +1,5 @@
-import React, { Box, ChakraProvider, ColorModeScript } from '@chakra-ui/react';
+import React from 'react';
+import { Box, ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 
 import DataTable from '../components/DataTable';
 import Table from '../components/Table';

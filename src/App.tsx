@@ -1,4 +1,5 @@
-import React, { Box } from '@chakra-ui/react';
+import React from 'react';
+import { Box } from '@chakra-ui/react';
 
 import DataTable from './components/DataTable';
 import ThemeToggleButton from './components/globalpartials/ThemeToggleButton';
