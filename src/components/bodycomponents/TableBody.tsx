@@ -7,12 +7,14 @@ import { DataInterface } from '../../const/types';
 
 const TableBody = ({
   tableInstance,
+  size,
 }: {
   tableInstance?: Table<DataInterface>;
+  size: string;
 }) => {
   const { isLoading } = useContext(TableStatusContext);
   return (
-    <Tbody height={'500px'}>
+    <Tbody height={size}>
       {tableInstance ? (
         isLoading ? (
           <Tr>

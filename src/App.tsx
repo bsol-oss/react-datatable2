@@ -15,7 +15,7 @@ import PageSizeControl from './components/footercomponents/PageSizeControl';
 import TableHeader from './components/bodycomponents/TableHeader';
 import TableBody from './components/bodycomponents/TableBody';
 
-function App(): JSX.Element {
+function App({ size = '400px' }): JSX.Element {
   return (
     <Box>
       <DataTable>
@@ -25,7 +25,7 @@ function App(): JSX.Element {
         </Header>
         <Table columns={columns}>
           <TableHeader />
-          <TableBody />
+          <TableBody size={size} />
         </Table>
         <Footer>
           <Pagination>

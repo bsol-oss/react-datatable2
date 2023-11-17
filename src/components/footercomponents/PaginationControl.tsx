@@ -37,43 +37,60 @@ export const PaginationControl = (props: PaginationProps) => {
                   aria-label="Previous Page"
                 />
               ) : (
-                <Button variant="tertiary" leftIcon={<FiArrowLeft />}>
+                <Button
+                  variant="tertiary"
+                  leftIcon={<FiArrowLeft />}
+                  isDisabled={pages.length === 0}
+                >
                   {t('Previous')} <VisuallyHidden>{t('Page')}</VisuallyHidden>
                 </Button>
               )}
             </PaginationPrevPageTrigger>
           </ListItem>
           <List display={{ base: 'none', md: 'flex' }} gap="1">
-            {pages.map((page, index) =>
-              page.type === 'page' ? (
-                <ListItem key={index}>
-                  <PaginationPageTrigger asChild {...page}>
-                    <Button
-                      variant="outline"
-                      borderColor="gray"
-                      borderRadius="full"
-                      width="40px"
-                      height="40px"
-                      bg={page.value === props.page ? 'gray.400' : ''}
-                    >
-                      {page.value}
-                    </Button>
-                  </PaginationPageTrigger>
-                </ListItem>
-              ) : (
-                <ListItem key={index} alignItems="center" display="flex">
-                  <PaginationEllipsis index={index}>
-                    <Text as="span" color="fg.emphasized">
-                      &#8230;
-                    </Text>
-                  </PaginationEllipsis>
-                </ListItem>
+            {pages.length > 0 ? (
+              pages.map((page, index) =>
+                page.type === 'page' ? (
+                  <ListItem key={index}>
+                    <PaginationPageTrigger asChild {...page}>
+                      <Button
+                        variant="outline"
+                        borderColor="gray"
+                        borderRadius="full"
+                        width="40px"
+                        height="40px"
+                        bg={page.value === props.page ? 'gray.400' : ''}
+                      >
+                        {page.value}
+                      </Button>
+                    </PaginationPageTrigger>
+                  </ListItem>
+                ) : (
+                  <ListItem key={index} alignItems="center" display="flex">
+                    <PaginationEllipsis index={index}>
+                      <Text as="span" color="fg.emphasized">
+                        &#8230;
+                      </Text>
+                    </PaginationEllipsis>
+                  </ListItem>
+                )
               )
+            ) : (
+              <ListItem alignItems="center" display="flex">
+                <Button
+                  variant="outline"
+                  borderColor="gray"
+                  borderRadius="full"
+                  isDisabled={true}
+                >
+                  1
+                </Button>
+              </ListItem>
             )}
           </List>
           <ListItem as={Center} display={{ md: 'none' }}>
             <Text fontWeight="medium" color="fg.emphasized">
-            {t('Page')} {page} {t('of')} {pages.length + 1}
+              {t('Page')} {page} {t('of')} {pages.length + 1}
             </Text>
           </ListItem>
           <ListItem>
@@ -85,7 +102,11 @@ export const PaginationControl = (props: PaginationProps) => {
                   aria-label="Next Page"
                 />
               ) : (
-                <Button variant="tertiary" rightIcon={<FiArrowRight />}>
+                <Button
+                  variant="tertiary"
+                  rightIcon={<FiArrowRight />}
+                  isDisabled={pages.length === 0}
+                >
                   Next <VisuallyHidden>Page</VisuallyHidden>
                 </Button>
               )}
