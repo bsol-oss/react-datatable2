@@ -6,13 +6,13 @@ import { TableStatusContext } from '../globalpartials/GlobalContext';
 import { DataInterface } from '../../const/types';
 
 const TableBody = ({
-  tableInstance
+  tableInstance,
 }: {
-  tableInstance?: Table<DataInterface>
+  tableInstance?: Table<DataInterface>;
 }) => {
   const { isLoading } = useContext(TableStatusContext);
   return (
-    <Tbody>
+    <Tbody height={'500px'}>
       {tableInstance ? (
         isLoading ? (
           <Tr>
