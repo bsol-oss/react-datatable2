@@ -46,7 +46,7 @@ const columns: ColumnType<DataInterface>[] = [
       </HStack>
     ),
     size: 200,
-    Filter: ColumnSearch,
+    Filter: () => <ColumnSearch id={'name'} />,
   },
   {
     header: 'Status',
@@ -61,6 +61,17 @@ const columns: ColumnType<DataInterface>[] = [
       </Badge>
     ),
     size: 200,
+    Filter: () => (
+      <DropdownFilter
+        id="is_active"
+        label="Is Active"
+        options={[
+          { value: '', label: 'All' },
+          { value: 1, label: 'Active' },
+          { value: 0, label: 'Inactive' },
+        ]}
+      />
+    ),
   },
   {
     header: 'Description',
@@ -71,6 +82,7 @@ const columns: ColumnType<DataInterface>[] = [
         {row.original.description === null ? '' : row.original.description}
       </Text>
     ),
+    Filter: () => <ColumnSearch id={'description'} />,
     size: 200,
   },
   {
@@ -85,12 +97,9 @@ const columns: ColumnType<DataInterface>[] = [
         label="HUB ID"
         options={[
           { value: '', label: 'All' },
-          { value: 'testsubareaHub', label: 'testsubareaHub' },
-          { value: 'hkmtr_subarea', label: 'hkmtr_subarea' },
-          { value: 'NEW_SUBAREA_HUB', label: 'NEW_SUBAREA_HUB' },
-          { value: 'testHub6', label: 'testHub6' },
-          { value: 'testHub4', label: 'testHub4' },
-          { value: 'testHub12', label: 'testHub12' },
+          { value: 'tester01', label: 'tester01' },
+          { value: 'default', label: 'default' },
+          { value: 'test01', label: 'test01' },
         ]}
       />
     ),
@@ -101,6 +110,7 @@ const columns: ColumnType<DataInterface>[] = [
     id: 'bu_id',
     cell: ({ row }) => <Text color="fg.muted">{row.original.bu_id}</Text>,
     size: 400,
+    Filter: () => <ColumnSearch id={'bu_id'} />,
   },
   {
     header: '',
