@@ -107,9 +107,8 @@ const App = ({
                   </Center>
                 );
               },
-              id: 'checkbox',
-              accessor: '',
-              disableFilters: true,
+              id: 'select',
+              accessorKey: '',
               size: 1,
               cell: ({ row }) => (
                 <Center>
