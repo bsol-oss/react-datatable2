@@ -19,3 +19,6 @@ export { default as SelectedNumber } from './components/footercomponents/Selecte
 
 //export ThemeToggleButton component
 export { default as ThemeToggleButton } from './components/globalpartials/ThemeToggleButton';
+
+// export DataTableServer component
+export { default as DataTableServer } from './DataTableServer'

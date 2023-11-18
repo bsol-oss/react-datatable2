@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { FilterInterface, SubareaInterface } from '../const/types';
 
 const API_URL = 'http://5.78.97.128:8081';
@@ -31,10 +32,11 @@ export const getSubareaBySearechKey = async (
 
 //Function to get filtered data by several filter
 export const getFilteredData = async (
-  filterTerm: FilterInterface
+  filterTerm: FilterInterface,
+  apiUrl: string
 ): Promise<SubareaInterface> => {
   try {
-    const url = `${API_URL}/api/g/subarea/all?pagination={"offset":${
+    const url = `${apiUrl}?pagination={"offset":${
       filterTerm.offset === 0 ? 0 : filterTerm.offset - 1
     },"rows":${filterTerm.rows}}&sorting={"field":"${
       filterTerm.field
@@ -43,11 +45,11 @@ export const getFilteredData = async (
         ? `&where=${JSON.stringify(filterTerm.individualSearchTerm)}`
         : ''
     }&searching=${filterTerm.searchTerm}`;
-    const response = await fetch(url);
-    const data = await response.json();
+    const response = await axios.get(url);
+    const data = response.data;
     return data;
   } catch (error) {
     console.error(error);
-    throw new Error('Error fetching subarea by filter keys');
+    throw new Error('API calling issue' + error);
   }
 };

@@ -17,9 +17,13 @@ import { getFilteredData } from '../Data/Api';
 
 const Table = ({
   columns,
+  apiUrl,
+  axios,
   children,
 }: {
   columns: ColumnType<DataInterface>[];
+  apiUrl: string;
+  axios: any;
   children: React.ReactElement | React.ReactElement[];
 }) => {
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
@@ -95,7 +99,7 @@ const Table = ({
   useEffect(() => {
     const fetchSubareas = async () => {
       setIsLoading(true);
-      const res = await getFilteredData(filterTerm);
+      const res = await getFilteredData(filterTerm, apiUrl, axios);
       setIsLoading(false);
       if (res) {
         setTotalCount(res.filterCount);
