@@ -90,7 +90,7 @@ export const PaginationControl = (props: PaginationProps) => {
           </List>
           <ListItem as={Center} display={{ md: 'none' }}>
             <Text fontWeight="medium" color="fg.emphasized">
-              {t('Page')} {page} {t('of')} {pages.length + 1}
+              {t('Page')} {page} {t('of')} {pages.length}
             </Text>
           </ListItem>
           <ListItem>

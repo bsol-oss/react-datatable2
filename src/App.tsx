@@ -110,7 +110,7 @@ const App = ({
               id: 'checkbox',
               accessor: '',
               disableFilters: true,
-              width: 30,
+              size: 1,
               cell: ({ row }) => (
                 <Center>
                   <Checkbox
