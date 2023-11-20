@@ -8,8 +8,12 @@ import { TableStatusContext } from '../globalpartials/GlobalContext';
 
 const TableHeader = ({
   tableInstance,
+  arrowIcons= [FaSort, FaSortUp, FaSortDown],
+  isColumnResizable = false
 }: {
   tableInstance?: Table<DataInterface>;
+  arrowIcons: Array<any>;
+  isColumnResizable: boolean;
 }) => {
   const { isLoading } = useContext(TableStatusContext);
   return (
@@ -56,13 +60,13 @@ const TableHeader = ({
                               (header.column.getIsSorted() as string) ? (
                                 (header.column.getIsSorted() as string) ===
                                 'asc' ? (
-                                  <Icon as={FaSortUp} ml={1} w={3} h={3} />
+                                  <Icon as={arrowIcons[1]} ml={1} w={3} h={3} />
                                 ) : (
-                                  <Icon as={FaSortDown} ml={1} w={3} h={3} />
+                                  <Icon as={arrowIcons[2]} ml={1} w={3} h={3} />
                                 )
                               ) : (
                                 <Box ml={1} alignItems="center" display="flex">
-                                  <Icon as={FaSort} w={3} h={3} />
+                                  <Icon as={arrowIcons[0]} w={3} h={3} />
                                 </Box>
                               )
                             ) : (

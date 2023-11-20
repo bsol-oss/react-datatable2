@@ -27,18 +27,20 @@ import ColumnSearch from './components/bodycomponents/ColumnSearch';
 import DropdownFilter from './components/bodycomponents/DropdownFilter';
 
 const App = ({
-  size = '400px',
+  height = '400px',
   tableTitle = 'Member',
   columns = [],
-  globalSearchBarComponent = null,
-  paginationComponent = null,
+  arrowIcons = [],
+  isColumnResizable = false,
   apiUrl = 'http://localhost:8081/api/g/subaream/all',
   pageSizes = [5, 10, 15, 20, 25, 30],
   axios = null,
 }: {
-  size: string;
+  height: string;
   tableTitle: string;
   columns: Array<any>;
+  arrowIcons: Array<any>;
+  isColumnResizable: boolean;
   globalSearchBarComponent: ReactNode;
   paginationComponent: ReactNode;
   apiUrl: string;
@@ -88,11 +90,7 @@ const App = ({
       <DataTable>
         <Header>
           {tableTitle ? <TableTitle>{tableTitle}</TableTitle> : null}
-          {globalSearchBarComponent ? (
-            globalSearchBarComponent
-          ) : (
-            <GlobalSearch />
-          )}
+          <GlobalSearch />
         </Header>
         <Table
           columns={[
@@ -228,19 +226,18 @@ const App = ({
           apiUrl={apiUrl}
           axios={axios}
         >
-          <TableHeader />
-          <TableBody size={size} />
+          <TableHeader
+            arrowIcons={arrowIcons}
+            isColumnResizable={isColumnResizable}
+          />
+          <TableBody height={height} />
         </Table>
-        {paginationComponent ? (
-          paginationComponent
-        ) : (
-          <Footer>
-            <Pagination>
-              <SelectedNumber />
-              <PageSizeControl pages={pageSizes} />
-            </Pagination>
-          </Footer>
-        )}
+        <Footer>
+          <Pagination>
+            <SelectedNumber />
+            <PageSizeControl pages={pageSizes} />
+          </Pagination>
+        </Footer>
       </DataTable>
     </Box>
   );

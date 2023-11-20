@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React from 'react';
 import { Box } from '@chakra-ui/react';
 
 import DataTable from './components/DataTable';
@@ -14,20 +14,20 @@ import TableHeader from './components/bodycomponents/TableHeader';
 import TableBody from './components/bodycomponents/TableBody';
 
 const DataTableServer = ({
-  size = '400px',
+  height = '400px',
   tableTitle = 'Member',
   columns = [],
-  globalSearchBarComponent = null,
-  paginationComponent = null,
+  arrowIcons = [],
+  isColumnResizable = false,
   apiUrl = '',
   pageSizes = [5, 10, 15, 20, 25, 30],
   axios = null,
 }: {
-  size: string;
+  height: string;
   tableTitle: string;
   columns: Array<any>;
-  globalSearchBarComponent: ReactNode;
-  paginationComponent: ReactNode;
+  arrowIcons: Array<any>;
+  isColumnResizable: boolean;
   apiUrl: string;
   pageSizes: Array<number>;
   axios: any;
@@ -37,26 +37,21 @@ const DataTableServer = ({
       <DataTable>
         <Header>
           {tableTitle ? <TableTitle>{tableTitle}</TableTitle> : null}
-          {globalSearchBarComponent ? (
-            globalSearchBarComponent
-          ) : (
-            <GlobalSearch />
-          )}
+          <GlobalSearch />
         </Header>
         <Table columns={columns} apiUrl={apiUrl} axios={axios}>
-          <TableHeader />
-          <TableBody size={size} />
+          <TableHeader
+            arrowIcons={arrowIcons}
+            isColumnResizable={isColumnResizable}
+          />
+          <TableBody height={height} />
         </Table>
-        {paginationComponent ? (
-          paginationComponent
-        ) : (
-          <Footer>
-            <Pagination>
-              <SelectedNumber />
-              <PageSizeControl pages={pageSizes} />
-            </Pagination>
-          </Footer>
-        )}
+        <Footer>
+          <Pagination>
+            <SelectedNumber />
+            <PageSizeControl pages={pageSizes} />
+          </Pagination>
+        </Footer>
       </DataTable>
     </Box>
   );
