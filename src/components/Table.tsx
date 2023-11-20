@@ -18,11 +18,15 @@ import { getFilteredData } from '../Data/Api';
 const Table = ({
   columns,
   apiUrl,
+  extraSortFilters,
+  extraFieldFilters,
   axios,
   children,
 }: {
   columns: ColumnType<DataInterface>[];
   apiUrl: string;
+  extraSortFilters: Array<any>;
+  extraFieldFilters: Array<any>;
   axios: any;
   children: React.ReactElement | React.ReactElement[];
 }) => {
@@ -99,7 +103,13 @@ const Table = ({
   useEffect(() => {
     const fetchSubareas = async () => {
       setIsLoading(true);
-      const res = await getFilteredData(filterTerm, apiUrl, axios);
+      const res = await getFilteredData(
+        filterTerm,
+        apiUrl,
+        extraSortFilters,
+        extraFieldFilters,
+        axios
+      );
       setIsLoading(false);
       if (res) {
         setTotalCount(res.filterCount);

@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { Box } from '@chakra-ui/react';
 
 import DataTable from './components/DataTable';
@@ -21,7 +22,9 @@ const DataTableServer = ({
   isColumnResizable = false,
   apiUrl = '',
   pageSizes = [5, 10, 15, 20, 25, 30],
-  axios = null,
+  extraSortFilters = [],
+  extraFieldFilters = {},
+  axiosRef = axios,
 }: {
   height: string;
   tableTitle: string;
@@ -30,7 +33,9 @@ const DataTableServer = ({
   isColumnResizable: boolean;
   apiUrl: string;
   pageSizes: Array<number>;
-  axios: any;
+  extraSortFilters: Array<any>;
+  extraFieldFilters: any;
+  axiosRef: any;
 }) => {
   return (
     <Box>
@@ -39,7 +44,13 @@ const DataTableServer = ({
           {tableTitle ? <TableTitle>{tableTitle}</TableTitle> : null}
           <GlobalSearch />
         </Header>
-        <Table columns={columns} apiUrl={apiUrl} axios={axios}>
+        <Table
+          columns={columns}
+          apiUrl={apiUrl}
+          extraSortFilters={extraSortFilters}
+          extraFieldFilters={extraFieldFilters}
+          axios={axiosRef}
+        >
           <TableHeader
             arrowIcons={arrowIcons}
             isColumnResizable={isColumnResizable}

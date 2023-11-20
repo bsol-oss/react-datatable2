@@ -60,13 +60,13 @@ const TableHeader = ({
                               (header.column.getIsSorted() as string) ? (
                                 (header.column.getIsSorted() as string) ===
                                 'asc' ? (
-                                  <Icon as={arrowIcons[1]} ml={1} w={3} h={3} />
+                                  <Icon as={FaSortUp} ml={1} w={3} h={3} />
                                 ) : (
-                                  <Icon as={arrowIcons[2]} ml={1} w={3} h={3} />
+                                  <Icon as={FaSortDown} ml={1} w={3} h={3} />
                                 )
                               ) : (
                                 <Box ml={1} alignItems="center" display="flex">
-                                  <Icon as={arrowIcons[0]} w={3} h={3} />
+                                  <Icon as={FaSort} w={3} h={3} />
                                 </Box>
                               )
                             ) : (

@@ -44,7 +44,7 @@ export type ColumnType<TData extends RowData, TValue = unknown> = ColumnDef<
 };
 
 export interface Option {
-  value: string;
+  value: string | number;
   label: string;
 }
 

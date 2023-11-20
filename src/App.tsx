@@ -1,4 +1,5 @@
 import React, { ReactNode, useState } from 'react';
+import axios from 'axios';
 import {
   Avatar,
   Badge,
@@ -34,7 +35,9 @@ const App = ({
   isColumnResizable = false,
   apiUrl = 'http://localhost:8081/api/g/subaream/all',
   pageSizes = [5, 10, 15, 20, 25, 30],
-  axios = null,
+  extraSortFilters = [], // [{ id: 'hub_id', desc: true }]
+  extraFieldFilters = { is_active: 1 },
+  axiosRef = axios,
 }: {
   height: string;
   tableTitle: string;
@@ -45,10 +48,12 @@ const App = ({
   paginationComponent: ReactNode;
   apiUrl: string;
   pageSizes: Array<number>;
-  axios: any;
+  extraSortFilters: Array<any>;
+  extraFieldFilters: any;
+  axiosRef: any;
 }) => {
   const [isAllChecked, setAllChecked] = useState(false);
-  const [selectedIds, setSelectedIds] = useState([]);
+  const [selectedIds, setSelectedIds] = useState<Array<number>>([]);
   const [allIds, setIds] = useState<Array<number>>([131, 133, 143, 144, 145]);
 
   // Toggle "All" checkbox
@@ -65,9 +70,9 @@ const App = ({
   };
 
   // Toggle row checkboxes
-  const onCheckboxChange = (e, id) => {
+  const onCheckboxChange = (e: any, id: number) => {
     if (e.target.checked) {
-      setSelectedIds((pre) => {
+      setSelectedIds((pre: Array<number>) => {
         const newSelectedIds = [...pre, id];
         checkIfAllChecked(newSelectedIds);
         return newSelectedIds;
@@ -224,7 +229,9 @@ const App = ({
             },
           ]}
           apiUrl={apiUrl}
-          axios={axios}
+          extraSortFilters={extraSortFilters}
+          extraFieldFilters={extraFieldFilters}
+          axios={axiosRef}
         >
           <TableHeader
             arrowIcons={arrowIcons}
