@@ -55,6 +55,7 @@ const App = ({
   const [isAllChecked, setAllChecked] = useState(false);
   const [selectedIds, setSelectedIds] = useState<Array<number>>([]);
   const [allIds, setIds] = useState<Array<number>>([131, 133, 143, 144, 145]);
+  const [id, setId] = useState<string | number>('');
 
   // Toggle "All" checkbox
   const toggleAllChecked = () => {
@@ -118,6 +119,20 @@ const App = ({
                   <Checkbox
                     isChecked={selectedIds.includes(row.original.id)}
                     onChange={(e) => onCheckboxChange(e, row.original.id)}
+                  />
+                </Center>
+              ),
+            },
+            {
+              header: '',
+              id: 'select',
+              accessorKey: '',
+              size: 1,
+              cell: ({ row }) => (
+                <Center>
+                  <Checkbox
+                    isChecked={id === row.original.id}
+                    onChange={(e) => setId(row.original.id)}
                   />
                 </Center>
               ),
