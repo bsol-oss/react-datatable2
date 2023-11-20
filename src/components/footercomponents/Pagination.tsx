@@ -1,10 +1,11 @@
 import React, { ReactNode, useContext } from 'react';
 import { Box, Container, HStack, useBreakpointValue } from '@chakra-ui/react';
+
+import { PaginationControl } from './PaginationControl';
 import {
   FilterContext,
   TableStatusContext,
 } from '../globalpartials/GlobalContext';
-import { PaginationControl } from './PaginationControl';
 
 interface Props {
   children: ReactNode;

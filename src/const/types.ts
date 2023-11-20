@@ -1,4 +1,5 @@
 import { ColumnDef, RowData } from '@tanstack/react-table';
+
 export interface DataInterface {
   id: number;
   name: string;

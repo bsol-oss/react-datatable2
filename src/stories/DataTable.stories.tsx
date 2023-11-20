@@ -1,4 +1,5 @@
-import React, { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
+import React from 'react';
+import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 import type { Meta } from '@storybook/react';
 
 import DefaultDataTable from './DefaultDataTable';

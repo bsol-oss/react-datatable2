@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import { Text } from '@chakra-ui/react';
 import { useTranslation } from 'react-i18next';
+
 import { TableStatusContext } from '../globalpartials/GlobalContext';
 
 const SelectedNumber = () => {
   const { t } = useTranslation();
-  const { totalCount } = useContext(TableStatusContext);
-  const { selectedRows } = useContext(TableStatusContext);
+  const { totalCount, selectedRows } = useContext(TableStatusContext);
 
   return (
     <Text color="fg.muted" fontSize="sm" ml="5">

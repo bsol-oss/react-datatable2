@@ -1,5 +1,6 @@
-import { useContext, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Select } from 'chakra-react-select';
+
 import {
   FilterContext,
   TableStatusContext,
@@ -13,12 +14,22 @@ const DropdownFilter = ({ id, label, options }: DropDownProps) => {
 
   const handleChange = (selectedOption: Option | null) => {
     setOptionValue(selectedOption);
-    setFilterTerm({
-      ...filterTerm,
-      individualSearchTerm: {
-        [id]: selectedOption ? selectedOption.value : '',
-      },
-    });
+    if (selectedOption && selectedOption.value === '') {
+      const getObj = filterTerm.individualSearchTerm;
+      delete getObj[id];
+      setFilterTerm({
+        ...filterTerm,
+        individualSearchTerm: getObj,
+      });
+    } else {
+      setFilterTerm({
+        ...filterTerm,
+        individualSearchTerm: {
+          ...filterTerm.individualSearchTerm,
+          [id]: selectedOption ? selectedOption.value : '',
+        },
+      });
+    }
   };
 
   return (

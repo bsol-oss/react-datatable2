@@ -6,44 +6,41 @@ import {
   Icon,
   Input,
 } from '@chakra-ui/react';
+import { useTranslation } from 'react-i18next';
+import { FiSearch } from 'react-icons/fi';
 
 import {
   FilterContext,
   TableStatusContext,
 } from '../globalpartials/GlobalContext';
 
-import { FiSearch } from 'react-icons/fi';
-import { t } from 'i18next';
-
 const ColumnSearch = ({ id }: { id: string }) => {
+  const { t } = useTranslation();
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
   const { isLoading } = useContext(TableStatusContext);
 
   const placeholder = t('Search') || 'Search';
 
-  const [inputValues, setInputValues] = useState<Record<string, string>>({});
+  const [inputValues, setInputValues] = useState<string>('');
 
   const handleSearchKeyDown = (
     event: React.KeyboardEvent<HTMLInputElement>
   ) => {
     if (event.key === 'Enter') {
-      setFilterTerm({ ...filterTerm, individualSearchTerm: inputValues });
-    }
-  };
-  const handleSearchOnChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    id: string | undefined
-  ) => {
-    if (id) {
-      const value = (event.target as HTMLInputElement).value;
-      if (!value) {
-        const temp = inputValues;
-        delete temp[id];
-        setInputValues(temp);
+      if (inputValues === '') {
+        const getObj = filterTerm.individualSearchTerm;
+        delete getObj[id];
+        setFilterTerm({
+          ...filterTerm,
+          individualSearchTerm: getObj,
+        });
       } else {
-        setInputValues({
-          ...inputValues,
-          [id]: value,
+        setFilterTerm({
+          ...filterTerm,
+          individualSearchTerm: {
+            ...filterTerm.individualSearchTerm,
+            [id]: inputValues,
+          },
         });
       }
     }
@@ -58,12 +55,24 @@ const ColumnSearch = ({ id }: { id: string }) => {
             color="fg.muted"
             boxSize="5"
             cursor="pointer"
-            onClick={() =>
-              setFilterTerm({
-                ...filterTerm,
-                individualSearchTerm: inputValues,
-              })
-            }
+            onClick={() => {
+              if (inputValues === '') {
+                const getObj = filterTerm.individualSearchTerm;
+                delete getObj[id];
+                setFilterTerm({
+                  ...filterTerm,
+                  individualSearchTerm: getObj,
+                });
+              } else {
+                setFilterTerm({
+                  ...filterTerm,
+                  individualSearchTerm: {
+                    ...filterTerm.individualSearchTerm,
+                    [id]: inputValues,
+                  },
+                });
+              }
+            }}
           />
         ) : (
           <Spinner size="sm" />
@@ -71,12 +80,12 @@ const ColumnSearch = ({ id }: { id: string }) => {
       </InputLeftElement>
       <Input
         placeholder={placeholder}
-        onKeyDown={(event) => {
-          handleSearchKeyDown(event);
+        onKeyDown={(e) => {
+          handleSearchKeyDown(e);
         }}
         disabled={isLoading}
-        onChange={(event) => {
-          handleSearchOnChange(event, id);
+        onChange={(e) => {
+          setInputValues(e.target.value);
         }}
       />
     </InputGroup>
