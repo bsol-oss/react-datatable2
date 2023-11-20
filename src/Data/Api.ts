@@ -38,6 +38,8 @@ export const getFilteredData = async (
   axios: any
 ): Promise<SubareaInterface> => {
   let paramStr = '';
+  const offset =
+    filterTerm.offset === 0 ? 0 : (filterTerm.offset - 1) * filterTerm.rows;
 
   if (filterTerm.field?.length || extraSortFilters.length) {
     const field: string[] = filterTerm.field || [];
@@ -67,9 +69,7 @@ export const getFilteredData = async (
   }
 
   try {
-    const url = `${apiUrl}?pagination={"offset":${
-      filterTerm.offset === 0 ? 0 : filterTerm.offset - 1
-    },"rows":${filterTerm.rows}}${paramStr}`;
+    const url = `${apiUrl}?pagination={"offset":${offset},"rows":${filterTerm.rows}}${paramStr}`;
     const response = await axios.get(url);
     const data = response.data;
     return {
