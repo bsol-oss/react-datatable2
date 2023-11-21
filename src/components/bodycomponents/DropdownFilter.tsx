@@ -5,9 +5,15 @@ import {
   FilterContext,
   TableStatusContext,
 } from '../globalpartials/GlobalContext';
-import { DropDownProps, Option } from '../../const/types';
+import { Option } from '../../const/types';
 
-const DropdownFilter = ({ id, label, options }: DropDownProps) => {
+const DropdownFilter = ({
+  column: {
+    id,
+    columnDef: { header },
+  },
+  dropOptions,
+}) => {
   const [optionValue, setOptionValue] = useState<Option | null>(null);
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
   const { isLoading } = useContext(TableStatusContext);
@@ -32,13 +38,15 @@ const DropdownFilter = ({ id, label, options }: DropDownProps) => {
     }
   };
 
+  const requiredOption = dropOptions.find((drop) => drop.key === id);
+
   return (
     <Select
       isDisabled={isLoading}
       focusBorderColor="none"
       name="options"
-      options={options}
-      placeholder={label}
+      options={(requiredOption && requiredOption.value) || []}
+      placeholder={header}
       defaultValue={optionValue}
       onChange={handleChange}
       size="sm"

@@ -97,7 +97,7 @@ const TableHeader = ({
                         />
                       </Box>
                       {header.column.columnDef.Filter && (
-                        <header.column.columnDef.Filter />
+                        <header.column.columnDef.Filter column={header.column} dropOptions={tableInstance.dropOptions} />
                       )}
                     </Flex>
                   </Th>

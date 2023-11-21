@@ -46,7 +46,7 @@ const columns: ColumnType<DataInterface>[] = [
       </HStack>
     ),
     size: 200,
-    Filter: () => <ColumnSearch id={'name'} />,
+    Filter: () => ColumnSearch,
   },
   {
     header: 'Status',
@@ -61,17 +61,7 @@ const columns: ColumnType<DataInterface>[] = [
       </Badge>
     ),
     size: 200,
-    Filter: () => (
-      <DropdownFilter
-        id="is_active"
-        label="Is Active"
-        options={[
-          { value: '', label: 'All' },
-          { value: 1, label: 'Active' },
-          { value: 0, label: 'Inactive' },
-        ]}
-      />
-    ),
+    Filter: DropdownFilter,
   },
   {
     header: 'Description',
@@ -82,7 +72,7 @@ const columns: ColumnType<DataInterface>[] = [
         {row.original.description === null ? '' : row.original.description}
       </Text>
     ),
-    Filter: () => <ColumnSearch id={'description'} />,
+    Filter: () => ColumnSearch,
     size: 200,
   },
   {
@@ -91,18 +81,7 @@ const columns: ColumnType<DataInterface>[] = [
     id: 'hub_id',
     cell: ({ row }) => <Text color="fg.muted">{row.original.hub_id}</Text>,
     size: 200,
-    Filter: () => (
-      <DropdownFilter
-        id="hub_id"
-        label="HUB ID"
-        options={[
-          { value: '', label: 'All' },
-          { value: 'tester01', label: 'tester01' },
-          { value: 'default', label: 'default' },
-          { value: 'test01', label: 'test01' },
-        ]}
-      />
-    ),
+    Filter: DropdownFilter,
   },
   {
     header: 'BU ID',
@@ -110,7 +89,7 @@ const columns: ColumnType<DataInterface>[] = [
     id: 'bu_id',
     cell: ({ row }) => <Text color="fg.muted">{row.original.bu_id}</Text>,
     size: 400,
-    Filter: () => <ColumnSearch id={'bu_id'} />,
+    Filter: () => ColumnSearch,
   },
   {
     header: '',

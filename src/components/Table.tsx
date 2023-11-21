@@ -83,8 +83,8 @@ const Table = ({
 
   const columnResizeMode: ColumnResizeMode = 'onChange';
   const [sorting, setSorting] = useState<SortingState>([]);
-
   const [data, setData] = useState<DataInterface[]>([]);
+  const [dropOptions, setDropOptions] = useState<DataInterface[]>([]);
 
   useEffect(() => {
     const fields: string[] = [];
@@ -114,6 +114,7 @@ const Table = ({
       if (res) {
         setTotalCount(res.filterCount);
         setData(res.results);
+        setDropOptions(res.dropOptions || []);
       }
     };
     fetchSubareas();
@@ -159,9 +160,13 @@ const Table = ({
       >
         {Array.isArray(children)
           ? React.Children.map(children, (child: React.ReactElement) => {
-              return React.cloneElement(child, { tableInstance });
+              return React.cloneElement(child, {
+                tableInstance: { ...tableInstance, dropOptions: dropOptions },
+              });
             })
-          : React.cloneElement(children, { tableInstance })}
+          : React.cloneElement(children, {
+              tableInstance: { ...tableInstance, dropOptions: dropOptions },
+            })}
       </TableControl>
     </Box>
   );

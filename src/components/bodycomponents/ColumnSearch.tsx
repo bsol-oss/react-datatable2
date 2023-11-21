@@ -14,7 +14,7 @@ import {
   TableStatusContext,
 } from '../globalpartials/GlobalContext';
 
-const ColumnSearch = ({ id }: { id: string }) => {
+const ColumnSearch = ({ column: { id } }: { column: { id: string } }) => {
   const { t } = useTranslation();
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
   const { isLoading } = useContext(TableStatusContext);
@@ -46,6 +46,25 @@ const ColumnSearch = ({ id }: { id: string }) => {
     }
   };
 
+  const onSearchClick = () => {
+    if (inputValues === '') {
+      const getObj = filterTerm.individualSearchTerm;
+      delete getObj[id];
+      setFilterTerm({
+        ...filterTerm,
+        individualSearchTerm: getObj,
+      });
+    } else {
+      setFilterTerm({
+        ...filterTerm,
+        individualSearchTerm: {
+          ...filterTerm.individualSearchTerm,
+          [id]: inputValues,
+        },
+      });
+    }
+  };
+
   return (
     <InputGroup maxW="sm">
       <InputLeftElement>
@@ -55,24 +74,7 @@ const ColumnSearch = ({ id }: { id: string }) => {
             color="fg.muted"
             boxSize="5"
             cursor="pointer"
-            onClick={() => {
-              if (inputValues === '') {
-                const getObj = filterTerm.individualSearchTerm;
-                delete getObj[id];
-                setFilterTerm({
-                  ...filterTerm,
-                  individualSearchTerm: getObj,
-                });
-              } else {
-                setFilterTerm({
-                  ...filterTerm,
-                  individualSearchTerm: {
-                    ...filterTerm.individualSearchTerm,
-                    [id]: inputValues,
-                  },
-                });
-              }
-            }}
+            onClick={onSearchClick}
           />
         ) : (
           <Spinner size="sm" />

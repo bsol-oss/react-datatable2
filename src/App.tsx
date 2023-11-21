@@ -36,7 +36,7 @@ const App = ({
   apiUrl = 'http://localhost:8081/api/g/subaream/all',
   pageSizes = [5, 10, 15, 20, 25, 30],
   extraSortFilters = [], // [{ id: 'hub_id', desc: true }]
-  extraFieldFilters = { is_active: 1 },
+  extraFieldFilters = {}, // { is_active: 1 }
   axiosRef = axios,
 }: {
   height: string;
@@ -150,7 +150,7 @@ const App = ({
                 </HStack>
               ),
               size: 200,
-              Filter: () => <ColumnSearch id={'name'} />,
+              Filter: ColumnSearch,
             },
             {
               header: 'Status',
@@ -165,17 +165,7 @@ const App = ({
                 </Badge>
               ),
               size: 200,
-              Filter: () => (
-                <DropdownFilter
-                  id="is_active"
-                  label="Is Active"
-                  options={[
-                    { value: '', label: 'All' },
-                    { value: 1, label: 'Active' },
-                    { value: 0, label: 'Inactive' },
-                  ]}
-                />
-              ),
+              Filter: DropdownFilter,
             },
             {
               header: 'Description',
@@ -188,7 +178,7 @@ const App = ({
                     : row.original.description}
                 </Text>
               ),
-              Filter: () => <ColumnSearch id={'description'} />,
+              Filter: ColumnSearch,
               size: 200,
             },
             {
@@ -199,18 +189,7 @@ const App = ({
                 <Text color="fg.muted">{row.original.hub_id}</Text>
               ),
               size: 200,
-              Filter: () => (
-                <DropdownFilter
-                  id="hub_id"
-                  label="HUB ID"
-                  options={[
-                    { value: '', label: 'All' },
-                    { value: 'tester01', label: 'tester01' },
-                    { value: 'default', label: 'default' },
-                    { value: 'test01', label: 'test01' },
-                  ]}
-                />
-              ),
+              Filter: DropdownFilter,
             },
             {
               header: 'BU ID',
@@ -220,7 +199,7 @@ const App = ({
                 <Text color="fg.muted">{row.original.bu_id}</Text>
               ),
               size: 400,
-              Filter: () => <ColumnSearch id={'bu_id'} />,
+              Filter: ColumnSearch,
             },
             {
               header: '',
