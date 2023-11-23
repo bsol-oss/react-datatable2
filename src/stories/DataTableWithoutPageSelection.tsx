@@ -24,7 +24,7 @@ const DataTableWithoutPageSelection = () => {
           </Header>
           <Table columns={columns}>
             <TableHeader />
-            <TableBody />
+            <TableBody size = '400px'/>
           </Table>
           <Footer>
             <Pagination>

@@ -7,7 +7,7 @@ import { DataInterface } from '../../const/types';
 
 const TableBody = ({
   tableInstance,
-  height,
+  height = '400px',
 }: {
   tableInstance?: Table<DataInterface>;
   height: string;

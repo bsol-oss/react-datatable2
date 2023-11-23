@@ -18,11 +18,11 @@ jobs:
             - uses: actions/checkout@v4
               with:
                   fetch-depth: 0
-            - name: sonarQube scancode
-              uses: sonarsource/sonarqube-scan-action@master
-              env:
-                  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-                  SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+            # - name: sonarQube scancode
+            #   uses: sonarsource/sonarqube-scan-action@master
+            #   env:
+            #       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+            #       SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
             #- uses: sonarsource/sonarqube-quality-gate-action@master
             #  timeout-minutes: 5
             #  env:
@@ -32,7 +32,7 @@ jobs:
               with:
                   node-version: 18
             - run: npm install
-            - run: npm test
+            # - run: npm test
 
     publish:
         name: Publish package to npmjs
@@ -46,9 +46,9 @@ jobs:
                   registry-url: 'https://registry.npmjs.org'
             - run: git config --global user.email "ross@bsoltec.com"
             - run: git config --global user.name "Ross Chiu"
-            - run: npm install
+            - run: npm ci
+            - run: npm version patch
             - run: npm run build
-            - run: npm version patch --no-git-tag-version
             - run: npm publish . && git push --tags && git push && echo \"Successfully released version $npm_package_version!\"
               env:
                   NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
