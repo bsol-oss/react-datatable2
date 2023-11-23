@@ -33,6 +33,10 @@ const App = ({
   columns = [],
   arrowIcons = [],
   isColumnResizable = false,
+  paginationComponent = null,
+  globalSearchComponent = null,
+  loadingComponent = null,
+  errorComponent = <div>Error</div>,
   apiUrl = 'http://localhost:8081/api/g/subaream/all',
   pageSizes = [5, 10, 15, 20, 25, 30],
   extraSortFilters = [], // [{ id: 'hub_id', desc: true }]
@@ -44,8 +48,10 @@ const App = ({
   columns: Array<any>;
   arrowIcons: Array<any>;
   isColumnResizable: boolean;
-  globalSearchBarComponent: ReactNode;
   paginationComponent: ReactNode;
+  globalSearchComponent: ReactNode;
+  loadingComponent: ReactNode;
+  errorComponent: ReactNode;
   apiUrl: string;
   pageSizes: Array<number>;
   extraSortFilters: Array<any>;
@@ -96,7 +102,7 @@ const App = ({
       <DataTable>
         <Header>
           {tableTitle ? <TableTitle>{tableTitle}</TableTitle> : null}
-          <GlobalSearch />
+          {globalSearchComponent ? globalSearchComponent : <GlobalSearch />}
         </Header>
         <Table
           columns={[
@@ -225,6 +231,8 @@ const App = ({
           apiUrl={apiUrl}
           extraSortFilters={extraSortFilters}
           extraFieldFilters={extraFieldFilters}
+          LoadingComponent={loadingComponent}
+          ErrorComponent={errorComponent}
           axios={axiosRef}
         >
           <TableHeader
@@ -233,12 +241,16 @@ const App = ({
           />
           <TableBody height={height} />
         </Table>
-        <Footer>
-          <Pagination>
-            <SelectedNumber />
-            <PageSizeControl pages={pageSizes} />
-          </Pagination>
-        </Footer>
+        {paginationComponent ? (
+          paginationComponent
+        ) : (
+          <Footer>
+            <Pagination>
+              <SelectedNumber />
+              <PageSizeControl pages={pageSizes} />
+            </Pagination>
+          </Footer>
+        )}
       </DataTable>
     </Box>
   );

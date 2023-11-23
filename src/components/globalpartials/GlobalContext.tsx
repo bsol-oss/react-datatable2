@@ -16,6 +16,8 @@ interface TableStatusContextInterface {
   setSelectedRows: (arr: Record<string, boolean>) => void;
   isLoading: boolean;
   setIsLoading: (status: boolean) => void;
+  error: boolean;
+  setError: (msg: string) => void;
 }
 
 export const FilterContext = createContext<FilterContextInterface>({
@@ -48,5 +50,9 @@ export const TableStatusContext = createContext<TableStatusContextInterface>({
   isLoading: false,
   setIsLoading: () => {
     throw new Error('isLoading function has not been implemented');
+  },
+  error: false,
+  setError: () => {
+    throw new Error('error function has not been implemented');
   },
 });

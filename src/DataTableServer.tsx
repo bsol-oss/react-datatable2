@@ -20,6 +20,10 @@ const DataTableServer = ({
   columns = [],
   arrowIcons = [],
   isColumnResizable = false,
+  paginationComponent = null,
+  globalSearchComponent = null,
+  loadingComponent = null,
+  errorComponent = null,
   apiUrl = '',
   pageSizes = [5, 10, 15, 20, 25, 30],
   extraSortFilters = [],
@@ -31,6 +35,10 @@ const DataTableServer = ({
   columns: Array<any>;
   arrowIcons: Array<any>;
   isColumnResizable: boolean;
+  paginationComponent: ReactNode;
+  globalSearchComponent: ReactNode;
+  loadingComponent: ReactNode;
+  errorComponent: ReactNode;
   apiUrl: string;
   pageSizes: Array<number>;
   extraSortFilters: Array<any>;
@@ -42,13 +50,15 @@ const DataTableServer = ({
       <DataTable>
         <Header>
           {tableTitle ? <TableTitle>{tableTitle}</TableTitle> : null}
-          <GlobalSearch />
+          {globalSearchComponent ? globalSearchComponent : <GlobalSearch />}
         </Header>
         <Table
           columns={columns}
           apiUrl={apiUrl}
           extraSortFilters={extraSortFilters}
           extraFieldFilters={extraFieldFilters}
+          LoadingComponent={loadingComponent}
+          ErrorComponent={errorComponent}
           axios={axiosRef}
         >
           <TableHeader
@@ -57,12 +67,16 @@ const DataTableServer = ({
           />
           <TableBody height={height} />
         </Table>
-        <Footer>
-          <Pagination>
-            <SelectedNumber />
-            <PageSizeControl pages={pageSizes} />
-          </Pagination>
-        </Footer>
+        {paginationComponent ? (
+          paginationComponent
+        ) : (
+          <Footer>
+            <Pagination>
+              <SelectedNumber />
+              <PageSizeControl pages={pageSizes} />
+            </Pagination>
+          </Footer>
+        )}
       </DataTable>
     </Box>
   );

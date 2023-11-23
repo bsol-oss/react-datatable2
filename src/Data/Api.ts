@@ -81,15 +81,14 @@ export const getFilteredData = async (
   } catch (error: any) {
     console.log(
       'DataTableServer Error: ',
-      error.status,
-      error.req?.status,
-      error.res?.status
+      error?.response?.data,
+      error?.response?.status
     );
     return {
       results: [],
       ok: false,
-      status: error.status || error.response?.status || error.request?.status,
-      message: error.message,
+      status: error?.response?.status || error?.message,
+      message: error?.response?.data || error?.message,
     };
   }
 };

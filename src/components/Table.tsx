@@ -21,6 +21,8 @@ const Table = ({
   extraSortFilters,
   extraFieldFilters,
   axios,
+  LoadingComponent,
+  ErrorComponent,
   children,
 }: {
   columns: ColumnType<DataInterface>[];
@@ -28,6 +30,8 @@ const Table = ({
   extraSortFilters: Array<any>;
   extraFieldFilters: Array<any>;
   axios: any;
+  LoadingComponent: React.ReactElement;
+  ErrorComponent: React.ReactElement;
   children: React.ReactElement | React.ReactElement[];
 }) => {
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
@@ -36,7 +40,10 @@ const Table = ({
     setTotalCount,
     selectedRows,
     setSelectedRows,
+    isLoading,
     setIsLoading,
+    error,
+    setError,
   } = useContext(TableStatusContext);
 
   const saveSeletedRows = (
@@ -73,7 +80,7 @@ const Table = ({
     return obj;
   };
 
-  const [rowSelection, setRowSelection] = React.useState(
+  const [rowSelection, setRowSelection] = useState(
     readSelectedRows(selectedRows)
   );
 
@@ -101,24 +108,27 @@ const Table = ({
   }, [sorting]);
 
   useEffect(() => {
-    const fetchSubareas = async () => {
-      setIsLoading(true);
-      const res = await getFilteredData(
-        filterTerm,
-        apiUrl,
-        extraSortFilters,
-        extraFieldFilters,
-        axios
-      );
-      setIsLoading(false);
-      if (res) {
-        setTotalCount(res.filterCount);
-        setData(res.results);
-        setDropOptions(res.dropOptions || []);
-      }
-    };
-    fetchSubareas();
-    setRowSelection(readSelectedRows(selectedRows));
+      const fetchSubareas = async () => {
+        setIsLoading(true);
+        const res = await getFilteredData(
+          filterTerm,
+          apiUrl,
+          extraSortFilters,
+          extraFieldFilters,
+          axios
+        );
+        setIsLoading(false);
+        if (res && res.ok) {
+          setTotalCount(res.filterCount);
+          setData(res.results);
+          setDropOptions(res.dropOptions || []);
+        }
+        if (res && !res.ok) {
+          setError(res?.message)
+        }
+      };
+      fetchSubareas();
+      setRowSelection(readSelectedRows(selectedRows));
   }, [filterTerm]);
 
   const tableInstance = useReactTable({
@@ -145,6 +155,12 @@ const Table = ({
       setTableWidth(window.innerWidth - 94);
     }
   }, [tableInstance.getCenterTotalSize(), window.innerWidth]);
+
+  // if (isLoading) {
+  //   return LoadingComponent ? <LoadingComponent /> : null;
+  // }
+
+  if(error && ErrorComponent) return ErrorComponent
 
   return (
     <Box marginTop="10px" overflow="auto" className="TableContainer">
