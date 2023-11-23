@@ -67,8 +67,8 @@ const columns: ColumnType<DataInterface>[] = [
         label="Is Active"
         options={[
           { value: '', label: 'All' },
-          { value: 1, label: 'Active' },
-          { value: 0, label: 'Inactive' },
+          { value: '1', label: 'Active' },
+          { value: '0', label: 'Inactive' },
         ]}
       />
     ),

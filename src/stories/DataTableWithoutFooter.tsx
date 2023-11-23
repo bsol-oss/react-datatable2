@@ -23,7 +23,7 @@ const DataTableWithoutFooter = () => {
           </Header>
           <Table columns={columns}>
             <TableHeader />
-            <TableBody />
+            <TableBody size = '400px'/>
           </Table>
         </DataTable>
       </ChakraProvider>

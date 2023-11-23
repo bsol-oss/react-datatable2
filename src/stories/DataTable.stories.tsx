@@ -47,7 +47,7 @@ export const DefaultTable = () => (
       </Header>
       <Table columns={columns}>
         <TableHeader />
-        <TableBody />
+        <TableBody size="400px" />
       </Table>
       <Footer>
         <Pagination>
@@ -68,7 +68,7 @@ export const WithoutGlobalSearch = () => (
       </Header>
       <Table columns={columns}>
         <TableHeader />
-        <TableBody />
+        <TableBody size="400px" />
       </Table>
       <Footer>
         <Pagination>
@@ -89,7 +89,7 @@ export const WithoutPageSelection = () => (
       </Header>
       <Table columns={columns}>
         <TableHeader />
-        <TableBody />
+        <TableBody size="400px" />
       </Table>
       <Footer>
         <Pagination>
@@ -109,7 +109,7 @@ export const WithoutTableHeader = () => (
         <GlobalSearch />
       </Header>
       <Table columns={columns}>
-        <TableBody />
+        <TableBody size="400px" />
       </Table>
       <Footer>
         <Pagination>
@@ -131,7 +131,7 @@ export const WithoutFooter = () => (
       </Header>
       <Table columns={columns}>
         <TableHeader />
-        <TableBody />
+        <TableBody size="400px" />
       </Table>
     </DataTable>
   </ChakraProvider>

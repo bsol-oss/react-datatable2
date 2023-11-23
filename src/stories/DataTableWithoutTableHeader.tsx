@@ -25,7 +25,7 @@ const DataTableWithoutTableHeader = () => {
             <GlobalSearch />
           </Header>
           <Table columns={columns}>
-            <TableBody />
+            <TableBody size = '400px'/>
           </Table>
           <Footer>
             <Pagination>
