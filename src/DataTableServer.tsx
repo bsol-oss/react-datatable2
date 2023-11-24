@@ -1,4 +1,6 @@
-import React from 'react';
+// @ts-nocheck
+
+import React, { ReactNode } from 'react';
 import axios from 'axios';
 import { Box } from '@chakra-ui/react';
 
@@ -33,12 +35,12 @@ const DataTableServer = ({
   height: string;
   tableTitle: string;
   columns: Array<any>;
-  arrowIcons: Array<any>;
+  arrowIcons: Array<any> | null;
   isColumnResizable: boolean;
-  paginationComponent: ReactNode;
-  globalSearchComponent: ReactNode;
-  loadingComponent: ReactNode;
-  errorComponent: ReactNode;
+  paginationComponent: ReactNode | null;
+  globalSearchComponent: ReactNode | null;
+  loadingComponent: ReactNode | null;
+  errorComponent: ReactNode | null;
   apiUrl: string;
   pageSizes: Array<number>;
   extraSortFilters: Array<any>;

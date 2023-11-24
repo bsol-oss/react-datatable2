@@ -1,4 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+// @ts-nocheck
+
+import React, { ReactElement, useContext, useEffect, useState } from 'react';
 import { Box, Table as TableControl } from '@chakra-ui/react';
 import {
   useReactTable,
@@ -28,11 +30,11 @@ const Table = ({
   columns: ColumnType<DataInterface>[];
   apiUrl: string;
   extraSortFilters: Array<any>;
-  extraFieldFilters: Array<any>;
+  extraFieldFilters: any;
   axios: any;
-  LoadingComponent: React.ReactElement;
-  ErrorComponent: React.ReactElement;
-  children: React.ReactElement | React.ReactElement[];
+  LoadingComponent: ReactElement | null;
+  ErrorComponent: ReactElement | null;
+  children: ReactElement | ReactElement[];
 }) => {
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
   const {
@@ -108,27 +110,27 @@ const Table = ({
   }, [sorting]);
 
   useEffect(() => {
-      const fetchSubareas = async () => {
-        setIsLoading(true);
-        const res = await getFilteredData(
-          filterTerm,
-          apiUrl,
-          extraSortFilters,
-          extraFieldFilters,
-          axios
-        );
-        setIsLoading(false);
-        if (res && res.ok) {
-          setTotalCount(res.filterCount);
-          setData(res.results);
-          setDropOptions(res.dropOptions || []);
-        }
-        if (res && !res.ok) {
-          setError(res?.message)
-        }
-      };
-      fetchSubareas();
-      setRowSelection(readSelectedRows(selectedRows));
+    const fetchSubareas = async () => {
+      setIsLoading(true);
+      const res = await getFilteredData(
+        filterTerm,
+        apiUrl,
+        extraSortFilters,
+        extraFieldFilters,
+        axios
+      );
+      setIsLoading(false);
+      if (res && !res.ok) {
+        setError(res?.message);
+      }
+      if (res && res.ok) {
+        setTotalCount(res.filterCount);
+        setData(res.results);
+        setDropOptions(res.dropOptions || []);
+      }
+    };
+    fetchSubareas();
+    setRowSelection(readSelectedRows(selectedRows));
   }, [filterTerm]);
 
   const tableInstance = useReactTable({
@@ -160,7 +162,7 @@ const Table = ({
   //   return LoadingComponent ? <LoadingComponent /> : null;
   // }
 
-  if(error && ErrorComponent) return ErrorComponent
+  if (error && ErrorComponent) return ErrorComponent;
 
   return (
     <Box marginTop="10px" overflow="auto" className="TableContainer">

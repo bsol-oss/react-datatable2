@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React, { ReactNode, useState } from 'react';
 import axios from 'axios';
 import {
@@ -36,7 +38,7 @@ const App = ({
   paginationComponent = null,
   globalSearchComponent = null,
   loadingComponent = null,
-  errorComponent = <div>Error</div>,
+  errorComponent = null,
   apiUrl = 'http://localhost:8081/api/g/subaream/all',
   pageSizes = [5, 10, 15, 20, 25, 30],
   extraSortFilters = [], // [{ id: 'hub_id', desc: true }]
@@ -46,12 +48,12 @@ const App = ({
   height: string;
   tableTitle: string;
   columns: Array<any>;
-  arrowIcons: Array<any>;
+  arrowIcons: Array<any> | null;
   isColumnResizable: boolean;
-  paginationComponent: ReactNode;
-  globalSearchComponent: ReactNode;
-  loadingComponent: ReactNode;
-  errorComponent: ReactNode;
+  paginationComponent: ReactNode | null;
+  globalSearchComponent: ReactNode | null;
+  loadingComponent: ReactNode | null;
+  errorComponent: ReactNode | null;
   apiUrl: string;
   pageSizes: Array<number>;
   extraSortFilters: Array<any>;

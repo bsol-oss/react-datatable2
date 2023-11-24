@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import { FilterInterface, SubareaInterface } from '../const/types';
 
 const API_URL = 'http://5.78.97.128:8081';

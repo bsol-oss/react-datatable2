@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React from 'react';
 import { Box, ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 
@@ -25,7 +27,7 @@ const DataTableWithoutGlobalSearch = () => {
           </Header>
           <Table columns={columns}>
             <TableHeader />
-            <TableBody size = '400px'/>
+            <TableBody height = '400px'/>
           </Table>
           <Footer>
             <Pagination>

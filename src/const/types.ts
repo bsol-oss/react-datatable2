@@ -14,6 +14,9 @@ export interface SubareaInterface {
   count: number;
   filterCount: number;
   results: DataInterface[];
+  ok: boolean;
+  status: number;
+  message: string;
 }
 
 export interface FilterInterface {

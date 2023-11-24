@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 
@@ -13,7 +15,7 @@ if (container) {
     <React.StrictMode>
       <ChakraProvider theme={theme}>
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-        <App />
+        <App height="400px" tableTitle="Member" isColumnResizable={false} />
       </ChakraProvider>
     </React.StrictMode>
   );

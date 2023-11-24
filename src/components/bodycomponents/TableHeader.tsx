@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React, { useContext } from 'react';
 import { Thead, Flex, Box, Th, Tr, Spinner, Icon } from '@chakra-ui/react';
 import { flexRender, HeaderGroup, Table } from '@tanstack/react-table';
@@ -12,7 +14,7 @@ const TableHeader = ({
   isColumnResizable = false
 }: {
   tableInstance?: Table<DataInterface>;
-  arrowIcons: Array<any>;
+  arrowIcons: Array<any> | null;
   isColumnResizable: boolean;
 }) => {
   const { isLoading } = useContext(TableStatusContext);

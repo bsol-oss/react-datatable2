@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React from 'react';
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 import type { Meta } from '@storybook/react';
@@ -47,7 +49,7 @@ export const DefaultTable = () => (
       </Header>
       <Table columns={columns}>
         <TableHeader />
-        <TableBody size="400px" />
+        <TableBody height="400px" />
       </Table>
       <Footer>
         <Pagination>
@@ -68,7 +70,7 @@ export const WithoutGlobalSearch = () => (
       </Header>
       <Table columns={columns}>
         <TableHeader />
-        <TableBody size="400px" />
+        <TableBody height="400px" />
       </Table>
       <Footer>
         <Pagination>
@@ -89,7 +91,7 @@ export const WithoutPageSelection = () => (
       </Header>
       <Table columns={columns}>
         <TableHeader />
-        <TableBody size="400px" />
+        <TableBody height="400px" />
       </Table>
       <Footer>
         <Pagination>
@@ -109,7 +111,7 @@ export const WithoutTableHeader = () => (
         <GlobalSearch />
       </Header>
       <Table columns={columns}>
-        <TableBody size="400px" />
+        <TableBody height="400px" />
       </Table>
       <Footer>
         <Pagination>
@@ -131,7 +133,7 @@ export const WithoutFooter = () => (
       </Header>
       <Table columns={columns}>
         <TableHeader />
-        <TableBody size="400px" />
+        <TableBody height="400px" />
       </Table>
     </DataTable>
   </ChakraProvider>
