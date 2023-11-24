@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import React, { useContext, useState } from 'react';
 import { Select } from 'chakra-react-select';
 
@@ -9,12 +7,20 @@ import {
 } from '../globalpartials/GlobalContext';
 import { Option } from '../../const/types';
 
+export interface Option {
+  key: string;
+  value: string;
+}
+
 const DropdownFilter = ({
   column: {
     id,
     columnDef: { header },
   },
   dropOptions,
+}: {
+  column: { id: string | number; columnDef: { header: string } };
+  dropOptions: Option[];
 }) => {
   const [optionValue, setOptionValue] = useState<Option | null>(null);
   const { filterTerm, setFilterTerm } = useContext(FilterContext);

@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import React from 'react';
 import { Box, ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 

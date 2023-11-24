@@ -1,3 +1,4 @@
+import React from 'react'
 import { Avatar, Badge, Box, HStack, IconButton, Text } from '@chakra-ui/react';
 import { FiEdit2, FiTrash2 } from 'react-icons/fi';
 

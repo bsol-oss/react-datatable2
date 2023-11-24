@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import React from 'react';
 import { ChakraProvider, ColorModeScript } from '@chakra-ui/react';
 import type { Meta } from '@storybook/react';

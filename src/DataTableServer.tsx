@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import React, { ReactNode } from 'react';
 import axios from 'axios';
 import { Box } from '@chakra-ui/react';

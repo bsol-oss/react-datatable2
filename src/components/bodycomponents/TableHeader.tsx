@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import React, { useContext } from 'react';
 import { Thead, Flex, Box, Th, Tr, Spinner, Icon } from '@chakra-ui/react';
 import { flexRender, HeaderGroup, Table } from '@tanstack/react-table';
@@ -10,8 +8,8 @@ import { TableStatusContext } from '../globalpartials/GlobalContext';
 
 const TableHeader = ({
   tableInstance,
-  arrowIcons= [FaSort, FaSortUp, FaSortDown],
-  isColumnResizable = false
+  // arrowIcons= [FaSort, FaSortUp, FaSortDown],
+  // isColumnResizable = false
 }: {
   tableInstance?: Table<DataInterface>;
   arrowIcons: Array<any> | null;

@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import React, { ReactElement, useContext, useEffect, useState } from 'react';
 import { Box, Table as TableControl } from '@chakra-ui/react';
 import {
@@ -23,7 +21,7 @@ const Table = ({
   extraSortFilters,
   extraFieldFilters,
   axios,
-  LoadingComponent,
+  // LoadingComponent,
   ErrorComponent,
   children,
 }: {
@@ -32,7 +30,7 @@ const Table = ({
   extraSortFilters: Array<any>;
   extraFieldFilters: any;
   axios: any;
-  LoadingComponent: ReactElement | null;
+  // </any>LoadingComponent: ReactElement | null;
   ErrorComponent: ReactElement | null;
   children: ReactElement | ReactElement[];
 }) => {
@@ -42,7 +40,7 @@ const Table = ({
     setTotalCount,
     selectedRows,
     setSelectedRows,
-    isLoading,
+    // isLoading,
     setIsLoading,
     error,
     setError,

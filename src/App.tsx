@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 import React, { ReactNode, useState } from 'react';
 import axios from 'axios';
 import {
