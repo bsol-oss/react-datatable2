@@ -93,6 +93,11 @@ const App = ({
     }
   };
 
+  const onSingleCheckboxChange = (e:any, id: number) => {
+    if (e.target.checked) setId(id);
+    else setId('')
+  };
+
   const checkIfAllChecked = (ids: Array<number>) => {
     setAllChecked(allIds.length === ids.length);
   };
@@ -138,7 +143,7 @@ const App = ({
                 <Center>
                   <Checkbox
                     isChecked={id === row.original.id}
-                    onChange={(e) => setId(row.original.id)}
+                    onChange={(e) => onSingleCheckboxChange(e, row.original.id)}
                   />
                 </Center>
               ),

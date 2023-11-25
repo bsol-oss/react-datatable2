@@ -15,6 +15,11 @@ import {
 import { ColumnType, DataInterface } from '../const/types';
 import { getFilteredData } from '../Data/Api';
 
+export interface Option {
+  key: string;
+  value: string;
+}
+
 const Table = ({
   columns,
   apiUrl,
@@ -91,7 +96,7 @@ const Table = ({
   const columnResizeMode: ColumnResizeMode = 'onChange';
   const [sorting, setSorting] = useState<SortingState>([]);
   const [data, setData] = useState<DataInterface[]>([]);
-  const [dropOptions, setDropOptions] = useState<DataInterface[]>([]);
+  const [dropOptions, setDropOptions] = useState<Option[]>([]);
 
   useEffect(() => {
     const fields: string[] = [];

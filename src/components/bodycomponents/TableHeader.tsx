@@ -8,8 +8,8 @@ import { TableStatusContext } from '../globalpartials/GlobalContext';
 
 const TableHeader = ({
   tableInstance,
-  // arrowIcons= [FaSort, FaSortUp, FaSortDown],
-  // isColumnResizable = false
+ // arrowIcons= [FaSort, FaSortUp, FaSortDown],
+ // isColumnResizable = false
 }: {
   tableInstance?: Table<DataInterface>;
   arrowIcons: Array<any> | null;
@@ -97,7 +97,10 @@ const TableHeader = ({
                         />
                       </Box>
                       {header.column.columnDef.Filter && (
-                        <header.column.columnDef.Filter column={header.column} dropOptions={tableInstance.dropOptions} />
+                        <header.column.columnDef.Filter
+                          column={header.column}
+                          dropOptions={tableInstance.dropOptions}
+                        />
                       )}
                     </Flex>
                   </Th>

@@ -42,8 +42,8 @@ export const getFilteredData = async (
     filterTerm.offset === 0 ? 0 : (filterTerm.offset - 1) * filterTerm.rows;
 
   if (filterTerm.field?.length || extraSortFilters.length) {
-    const field: string[] = filterTerm.field || [];
-    const sortyByDir: string[] = filterTerm.sort || [];
+    const field = filterTerm.field ? filterTerm.field.split(',') : [];
+    const sortyByDir = filterTerm.sort ? filterTerm.sort.split(',') : [];
     if (extraSortFilters.length)
       extraSortFilters.forEach((srt) => {
         field.push(srt.id);
@@ -85,6 +85,9 @@ export const getFilteredData = async (
       error?.response?.status
     );
     return {
+      count: 0,
+      filterCount: 0,
+      dropOptions: [],
       results: [],
       ok: false,
       status: error?.response?.status || error?.message,
