@@ -7,7 +7,7 @@ import {
 } from '../globalpartials/GlobalContext';
 import { Option } from '../../const/types';
 
-export interface Option {
+export interface DropOption {
   key: string;
   value: string;
 }
@@ -20,7 +20,7 @@ const DropdownFilter = ({
   dropOptions,
 }: {
   column: { id: string | number; columnDef: { header: string } };
-  dropOptions: Option[];
+  dropOptions: DropOption[];
 }) => {
   const [optionValue, setOptionValue] = useState<Option | null>(null);
   const { filterTerm, setFilterTerm } = useContext(FilterContext);

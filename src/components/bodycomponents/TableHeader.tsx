@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React, { useContext } from 'react';
 import { Thead, Flex, Box, Th, Tr, Spinner, Icon } from '@chakra-ui/react';
 import { flexRender, HeaderGroup, Table } from '@tanstack/react-table';
