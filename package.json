@@ -16,7 +16,6 @@
     "format": "prettier --config ./.prettierrc -w 'src/**/*.{tsx,ts}' && git update-index --again",
     "pretest": "npm run lint:fix",
     "test": "jest --colors --passWithNoTests",
-    "posttest": "npx http-server coverage/lcov-report",
     "test:watch": "npm run test --collectCoverage=false --watch",
     "cz": "cz",
     "storybook": "storybook dev -p 6006",
