@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React, { useContext } from 'react';
 import { Thead, Flex, Box, Th, Tr, Spinner, Icon } from '@chakra-ui/react';
 import { flexRender, HeaderGroup, Table } from '@tanstack/react-table';
@@ -7,9 +9,13 @@ import { DataInterface } from '../../const/types';
 import { TableStatusContext } from '../globalpartials/GlobalContext';
 
 const TableHeader = ({
-  tableInstance,
+  tableInstance, 
+  // arrowIcons= [FaSort, FaSortUp, FaSortDown],
+  // isColumnResizable = false
 }: {
-  tableInstance?: Table<DataInterface>;
+  tableInstance?: Table<DataInterface> | { dropOptions: [] };
+  // arrowIcons?: Array<any> | null;
+  // isColumnResizable?: boolean;
 }) => {
   const { isLoading } = useContext(TableStatusContext);
   return (
@@ -93,7 +99,10 @@ const TableHeader = ({
                         />
                       </Box>
                       {header.column.columnDef.Filter && (
-                        <header.column.columnDef.Filter />
+                        <header.column.columnDef.Filter
+                          column={header.column}
+                          dropOptions={tableInstance.dropOptions}
+                        />
                       )}
                     </Flex>
                   </Th>

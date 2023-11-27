@@ -1,5 +1,10 @@
 import { ColumnDef, RowData } from '@tanstack/react-table';
 
+export interface Option {
+  key: string;
+  value: [{ value: string; label: string }];
+}
+
 export interface DataInterface {
   id: number;
   name: string;
@@ -8,12 +13,17 @@ export interface DataInterface {
   is_active: number;
   bu_id: string;
   actions: string;
+  dropOptions: Option[] | null;
 }
 
 export interface SubareaInterface {
   count: number;
   filterCount: number;
   results: DataInterface[];
+  ok: boolean;
+  status: number;
+  message: string;
+  dropOptions: Option[] | null;
 }
 
 export interface FilterInterface {
@@ -42,14 +52,3 @@ export type ColumnType<TData extends RowData, TValue = unknown> = ColumnDef<
 > & {
   Filter?: unknown;
 };
-
-export interface Option {
-  value: string;
-  label: string;
-}
-
-export interface DropDownProps {
-  id: string;
-  label: string;
-  options: Option[];
-}

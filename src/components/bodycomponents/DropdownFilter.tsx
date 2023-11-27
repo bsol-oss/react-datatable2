@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React, { useContext, useState } from 'react';
 import { Select } from 'chakra-react-select';
 
@@ -5,9 +7,23 @@ import {
   FilterContext,
   TableStatusContext,
 } from '../globalpartials/GlobalContext';
-import { DropDownProps, Option } from '../../const/types';
+import { Option } from '../../const/types';
 
-const DropdownFilter = ({ id, label, options }: DropDownProps) => {
+export interface DropOption {
+  key: string;
+  value: [{ value: string; label: string }];
+}
+
+const DropdownFilter = ({
+  column: {
+    id,
+    columnDef: { header },
+  },
+  dropOptions,
+}: {
+  column: { id: string | number; columnDef: { header: string } };
+  dropOptions: DropOption[];
+}) => {
   const [optionValue, setOptionValue] = useState<Option | null>(null);
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
   const { isLoading } = useContext(TableStatusContext);
@@ -32,13 +48,19 @@ const DropdownFilter = ({ id, label, options }: DropDownProps) => {
     }
   };
 
+  const requiredOption = dropOptions.find((drop) => drop.key === id);
+
   return (
     <Select
       isDisabled={isLoading}
       focusBorderColor="none"
       name="options"
-      options={options}
-      placeholder={label}
+      options={
+        (requiredOption && requiredOption.value) || [
+          { value: '', label: 'All' },
+        ]
+      }
+      placeholder={header}
       defaultValue={optionValue}
       onChange={handleChange}
       size="sm"

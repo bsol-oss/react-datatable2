@@ -1,4 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+// @ts-nocheck
+
+import React, { ReactElement, useContext, useEffect, useState } from 'react';
 import { Box, Table as TableControl } from '@chakra-ui/react';
 import {
   useReactTable,
@@ -15,12 +17,29 @@ import {
 import { ColumnType, DataInterface } from '../const/types';
 import { getFilteredData } from '../Data/Api';
 
+export interface Option {
+  key: string;
+  value: string;
+}
+
 const Table = ({
   columns,
+  apiUrl,
+  extraSortFilters,
+  extraFieldFilters,
+  axios,
+  LoadingComponent,
+  ErrorComponent,
   children,
 }: {
-  columns: ColumnType<DataInterface>[];
-  children: React.ReactElement | React.ReactElement[];
+  columns?: ColumnType<DataInterface>[] | [];
+  apiUrl?: string | null;
+  extraSortFilters?: Array<any>;
+  extraFieldFilters?: any;
+  axios?: any;
+  LoadingComponent?: ReactElement | null;
+  ErrorComponent?: ReactElement | null;
+  children: ReactElement | ReactElement[];
 }) => {
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
   const {
@@ -28,7 +47,10 @@ const Table = ({
     setTotalCount,
     selectedRows,
     setSelectedRows,
+    // isLoading,
     setIsLoading,
+    error,
+    setError,
   } = useContext(TableStatusContext);
 
   const saveSeletedRows = (
@@ -65,7 +87,7 @@ const Table = ({
     return obj;
   };
 
-  const [rowSelection, setRowSelection] = React.useState(
+  const [rowSelection, setRowSelection] = useState(
     readSelectedRows(selectedRows)
   );
 
@@ -75,8 +97,8 @@ const Table = ({
 
   const columnResizeMode: ColumnResizeMode = 'onChange';
   const [sorting, setSorting] = useState<SortingState>([]);
-
   const [data, setData] = useState<DataInterface[]>([]);
+  const [dropOptions, setDropOptions] = useState<Option[]>([]);
 
   useEffect(() => {
     const fields: string[] = [];
@@ -95,11 +117,21 @@ const Table = ({
   useEffect(() => {
     const fetchSubareas = async () => {
       setIsLoading(true);
-      const res = await getFilteredData(filterTerm);
+      const res = await getFilteredData(
+        filterTerm,
+        apiUrl,
+        extraSortFilters,
+        extraFieldFilters,
+        axios
+      );
       setIsLoading(false);
-      if (res) {
+      if (res && !res.ok) {
+        setError(res?.message);
+      }
+      if (res && res.ok) {
         setTotalCount(res.filterCount);
         setData(res.results);
+        setDropOptions(res.dropOptions || []);
       }
     };
     fetchSubareas();
@@ -108,7 +140,7 @@ const Table = ({
 
   const tableInstance = useReactTable({
     data,
-    columns,
+    columns: columns || [],
     state: {
       sorting,
       rowSelection,
@@ -131,6 +163,14 @@ const Table = ({
     }
   }, [tableInstance.getCenterTotalSize(), window.innerWidth]);
 
+  console.log('LoadingComponent=', LoadingComponent)
+
+  // if (isLoading) {
+  //   return LoadingComponent ? <LoadingComponent /> : null;
+  // }
+
+  if (error && ErrorComponent) return ErrorComponent;
+
   return (
     <Box marginTop="10px" overflow="auto" className="TableContainer">
       <TableControl
@@ -145,9 +185,13 @@ const Table = ({
       >
         {Array.isArray(children)
           ? React.Children.map(children, (child: React.ReactElement) => {
-              return React.cloneElement(child, { tableInstance });
+              return React.cloneElement(child, {
+                tableInstance: { ...tableInstance, dropOptions: dropOptions },
+              });
             })
-          : React.cloneElement(children, { tableInstance })}
+          : React.cloneElement(children, {
+              tableInstance: { ...tableInstance, dropOptions: dropOptions },
+            })}
       </TableControl>
     </Box>
   );
