@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactElement } from 'react';
 import axios from 'axios';
 import { Box } from '@chakra-ui/react';
 
@@ -18,7 +18,7 @@ const DataTableServer = ({
   height = '400px',
   tableTitle = 'Member',
   columns = [],
-  arrowIcons = [],
+  // arrowIcons = [],
   isColumnResizable = false,
   paginationComponent = null,
   globalSearchComponent = null,
@@ -33,12 +33,12 @@ const DataTableServer = ({
   height: string;
   tableTitle: string;
   columns: Array<any>;
-  arrowIcons: Array<any> | null;
+  // arrowIcons: Array<any> | null;
   isColumnResizable: boolean;
-  paginationComponent: ReactNode | null;
-  globalSearchComponent: ReactNode | null;
-  loadingComponent: ReactNode | null;
-  errorComponent: ReactNode | null;
+  paginationComponent: ReactElement | null;
+  globalSearchComponent: ReactElement | null;
+  loadingComponent: ReactElement | null;
+  errorComponent: ReactElement | null;
   apiUrl: string;
   pageSizes: Array<number>;
   extraSortFilters: Array<any>;
@@ -62,8 +62,8 @@ const DataTableServer = ({
           axios={axiosRef}
         >
           <TableHeader
-            arrowIcons={arrowIcons}
-            isColumnResizable={isColumnResizable}
+            // arrowIcons={arrowIcons}
+            // isColumnResizable={isColumnResizable}
           />
           <TableBody height={height} />
         </Table>

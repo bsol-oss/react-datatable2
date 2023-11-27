@@ -1,4 +1,4 @@
-import React, { ReactNode, useState } from 'react';
+import React, { ReactElement, useState } from 'react';
 import axios from 'axios';
 import {
   Avatar,
@@ -43,20 +43,20 @@ const App = ({
   extraFieldFilters = {}, // { is_active: 1 }
   axiosRef = axios,
 }: {
-  height: string;
-  tableTitle: string;
-  columns: Array<any>;
-  arrowIcons: Array<any> | null;
-  isColumnResizable: boolean;
-  paginationComponent: ReactNode | null;
-  globalSearchComponent: ReactNode | null;
-  loadingComponent: ReactNode | null;
-  errorComponent: ReactNode | null;
-  apiUrl: string;
-  pageSizes: Array<number>;
-  extraSortFilters: Array<any>;
-  extraFieldFilters: any;
-  axiosRef: any;
+  height?: string;
+  tableTitle?: string;
+  columns?: Array<any>;
+  arrowIcons?: Array<any> | null;
+  isColumnResizable?: boolean;
+  paginationComponent?: ReactElement | null;
+  globalSearchComponent?: ReactElement | null;
+  loadingComponent?: ReactElement | null;
+  errorComponent?: ReactElement | null;
+  apiUrl?: string;
+  pageSizes?: Array<number>;
+  extraSortFilters?: Array<any>;
+  extraFieldFilters?: any;
+  axiosRef?: any;
 }) => {
   const [isAllChecked, setAllChecked] = useState(false);
   const [selectedIds, setSelectedIds] = useState<Array<number>>([]);
@@ -241,8 +241,8 @@ const App = ({
           axios={axiosRef}
         >
           <TableHeader
-            arrowIcons={arrowIcons}
-            isColumnResizable={isColumnResizable}
+            // arrowIcons={arrowIcons}
+            // isColumnResizable={isColumnResizable}
           />
           <TableBody height={height} />
         </Table>

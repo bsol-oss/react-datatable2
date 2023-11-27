@@ -2,7 +2,7 @@ import { ColumnDef, RowData } from '@tanstack/react-table';
 
 export interface Option {
   key: string;
-  value: string;
+  value: [{ value: string; label: string }];
 }
 
 export interface DataInterface {

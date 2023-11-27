@@ -31,20 +31,32 @@ export const getSubareaBySearechKey = async (
 
 //Function to get filtered data by several filter
 export const getFilteredData = async (
-  filterTerm: FilterInterface,
-  apiUrl: string,
-  extraSortFilters: Array<any>,
-  extraFieldFilters: Array<any>,
-  axios: any
+  filterTerm?:
+    | FilterInterface
+    | {
+        offset: 1;
+        rows: 10;
+        field: '';
+        sort: '';
+        searchTerm: '';
+        individualSearchTerm: object;
+      },
+  apiUrl?: string | null,
+  extraSortFilters?: Array<any> | null,
+  extraFieldFilters?: Array<any>,
+  axios?: any
 ): Promise<SubareaInterface> => {
   let paramStr = '';
   const offset =
-    filterTerm.offset === 0 ? 0 : (filterTerm.offset - 1) * filterTerm.rows;
+    filterTerm?.offset === 0
+      ? 0
+      : (filterTerm ? filterTerm.offset - 1 : 0) *
+        (filterTerm ? filterTerm.rows : 0);
 
-  if (filterTerm.field?.length || extraSortFilters.length) {
-    const field = filterTerm.field ? filterTerm.field.split(',') : [];
-    const sortyByDir = filterTerm.sort ? filterTerm.sort.split(',') : [];
-    if (extraSortFilters.length)
+  if (filterTerm?.field?.length || extraSortFilters?.length) {
+    const field = filterTerm?.field ? filterTerm.field.split(',') : [];
+    const sortyByDir = filterTerm?.sort ? filterTerm.sort.split(',') : [];
+    if (extraSortFilters?.length)
       extraSortFilters.forEach((srt) => {
         field.push(srt.id);
         sortyByDir.push(srt.desc ? 'desc' : 'asc');
@@ -52,24 +64,24 @@ export const getFilteredData = async (
     paramStr = `&sorting={"field":"${field}","sort":"${sortyByDir}"}`;
   }
 
-  if (filterTerm.searchTerm?.trim?.().length) {
+  if (filterTerm?.searchTerm?.trim?.().length) {
     paramStr = `${paramStr}&searching=${encodeURIComponent(
       filterTerm.searchTerm
     )}`;
   }
 
   if (
-    Object.keys({ ...filterTerm.individualSearchTerm, ...extraFieldFilters })
+    Object.keys({ ...filterTerm?.individualSearchTerm, ...extraFieldFilters })
       .length > 0
   ) {
     paramStr = `${paramStr}&where=${JSON.stringify({
-      ...filterTerm.individualSearchTerm,
+      ...filterTerm?.individualSearchTerm,
       ...extraFieldFilters,
     })}`;
   }
 
   try {
-    const url = `${apiUrl}?pagination={"offset":${offset},"rows":${filterTerm.rows}}${paramStr}`;
+    const url = `${apiUrl}?pagination={"offset":${offset},"rows":${filterTerm?.rows}}${paramStr}`;
     const response = await axios.get(url);
     const data = response.data;
     return {

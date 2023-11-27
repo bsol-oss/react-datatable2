@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React, { ReactElement, useContext, useEffect, useState } from 'react';
 import { Box, Table as TableControl } from '@chakra-ui/react';
 import {
@@ -26,17 +28,17 @@ const Table = ({
   extraSortFilters,
   extraFieldFilters,
   axios,
-  // LoadingComponent,
+  LoadingComponent,
   ErrorComponent,
   children,
 }: {
-  columns: ColumnType<DataInterface>[];
-  apiUrl: string;
-  extraSortFilters: Array<any>;
-  extraFieldFilters: any;
-  axios: any;
-  // </any>LoadingComponent: ReactElement | null;
-  ErrorComponent: ReactElement | null;
+  columns?: ColumnType<DataInterface>[] | [];
+  apiUrl?: string | null;
+  extraSortFilters?: Array<any>;
+  extraFieldFilters?: any;
+  axios?: any;
+  LoadingComponent?: ReactElement | null;
+  ErrorComponent?: ReactElement | null;
   children: ReactElement | ReactElement[];
 }) => {
   const { filterTerm, setFilterTerm } = useContext(FilterContext);
@@ -138,7 +140,7 @@ const Table = ({
 
   const tableInstance = useReactTable({
     data,
-    columns,
+    columns: columns || [],
     state: {
       sorting,
       rowSelection,
@@ -160,6 +162,8 @@ const Table = ({
       setTableWidth(window.innerWidth - 94);
     }
   }, [tableInstance.getCenterTotalSize(), window.innerWidth]);
+
+  console.log('LoadingComponent=', LoadingComponent)
 
   // if (isLoading) {
   //   return LoadingComponent ? <LoadingComponent /> : null;

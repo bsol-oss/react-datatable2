@@ -10,7 +10,7 @@ const TableBody = ({
   height = '400px',
 }: {
   tableInstance?: Table<DataInterface>;
-  height: string;
+  height?: string;
 }) => {
   const { isLoading } = useContext(TableStatusContext);
   return (

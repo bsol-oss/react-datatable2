@@ -9,13 +9,13 @@ import { DataInterface } from '../../const/types';
 import { TableStatusContext } from '../globalpartials/GlobalContext';
 
 const TableHeader = ({
-  tableInstance,
- // arrowIcons= [FaSort, FaSortUp, FaSortDown],
- // isColumnResizable = false
+  tableInstance, 
+  // arrowIcons= [FaSort, FaSortUp, FaSortDown],
+  // isColumnResizable = false
 }: {
-  tableInstance?: Table<DataInterface>;
-  arrowIcons: Array<any> | null;
-  isColumnResizable: boolean;
+  tableInstance?: Table<DataInterface> | { dropOptions: [] };
+  // arrowIcons?: Array<any> | null;
+  // isColumnResizable?: boolean;
 }) => {
   const { isLoading } = useContext(TableStatusContext);
   return (

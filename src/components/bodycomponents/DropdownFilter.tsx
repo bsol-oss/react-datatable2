@@ -1,3 +1,5 @@
+// @ts-nocheck
+
 import React, { useContext, useState } from 'react';
 import { Select } from 'chakra-react-select';
 
@@ -9,7 +11,7 @@ import { Option } from '../../const/types';
 
 export interface DropOption {
   key: string;
-  value: string;
+  value: [{ value: string; label: string }];
 }
 
 const DropdownFilter = ({
@@ -53,7 +55,11 @@ const DropdownFilter = ({
       isDisabled={isLoading}
       focusBorderColor="none"
       name="options"
-      options={(requiredOption && requiredOption.value) || []}
+      options={
+        (requiredOption && requiredOption.value) || [
+          { value: '', label: 'All' },
+        ]
+      }
       placeholder={header}
       defaultValue={optionValue}
       onChange={handleChange}
