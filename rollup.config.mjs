@@ -8,11 +8,16 @@ const input = './src/export.ts';
 
 export default {
   input,
-
-  output: {
-    dir: 'dist',
-    format: 'esm',
-  },
+  output: [
+      {
+          file: 'dist/index.js',
+          format: 'cjs',
+      },
+      // {
+      //     file: 'dist/index.es.js',
+      //     format: 'es',
+      // },
+  ],
 
   plugins: [
     typescript(),

@@ -1,27 +1,45 @@
 // export DataTable component
-export { default as DataTable } from './components/DataTable';
+import DataTable from './components/DataTable';
 
 //export FunctionalComponents
-export { default as Header } from './components/Header'; // Header
-export { default as GlobalSearch } from './components/functionalcomponents/GlobalSearch'; // Global Searchbar component
-export { default as TableTitle } from './components/functionalcomponents/TableTitle'; // TitleComponent
+import Header from './components/Header'; // Header
+import GlobalSearch from './components/functionalcomponents/GlobalSearch'; // Global Searchbar component
+import TableTitle from './components/functionalcomponents/TableTitle'; // TitleComponent
 
 //export BodyComponents
-export { default as Table } from './components/Table'; // Table component
-export { default as TableHeader } from './components/bodycomponents/TableHeader'; // TableHeader Component
-export { default as TableBody } from './components/bodycomponents/TableBody'; // TableBody Component
+import Table from './components/Table'; // Table component
+import TableHeader from './components/bodycomponents/TableHeader'; // TableHeader Component
+import TableBody from './components/bodycomponents/TableBody'; // TableBody Component
 
-export { default as ColumnSearch } from './components/bodycomponents/ColumnSearch' // Field Searchbar component
-export { default as DropdownFilter } from './components/bodycomponents/DropdownFilter' // Dropdown filter component
+import ColumnSearch from './components/bodycomponents/ColumnSearch'; // Field Searchbar component
+import DropdownFilter from './components/bodycomponents/DropdownFilter'; // Dropdown filter component
 
 //export Footer components
-export { default as Footer } from './components/Footer'; // Footer component
-export { default as Pagination } from './components/footercomponents/Pagination'; // Pagination Component
-export { default as PageSizeControl } from './components/footercomponents/PageSizeControl'; // PageSizeControl Component
-export { default as SelectedNumber } from './components/footercomponents/SelectedNumber'; // SelectedNumber Component
+import Footer from './components/Footer'; // Footer component
+import Pagination from './components/footercomponents/Pagination'; // Pagination Component
+import PageSizeControl from './components/footercomponents/PageSizeControl'; // PageSizeControl Component
+import SelectedNumber from './components/footercomponents/SelectedNumber'; // SelectedNumber Component
 
 //export ThemeToggleButton component
-export { default as ThemeToggleButton } from './components/globalpartials/ThemeToggleButton';
+import ThemeToggleButton from './components/globalpartials/ThemeToggleButton';
 
 // export DataTableServer component
-export { default as DataTableServer } from './DataTableServer'
+import DataTableServer from './DataTableServer';
+
+export {
+  DataTable,
+  DataTableServer,
+  Header,
+  GlobalSearch,
+  TableTitle,
+  Table,
+  TableHeader,
+  TableBody,
+  ColumnSearch,
+  DropdownFilter,
+  Footer,
+  Pagination,
+  PageSizeControl,
+  SelectedNumber,
+  ThemeToggleButton,
+};
