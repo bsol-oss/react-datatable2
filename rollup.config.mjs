@@ -1,47 +1,37 @@
 import typescript from 'rollup-plugin-typescript2';
-import resolve from '@rollup/plugin-node-resolve';
+import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
+import resolve from '@rollup/plugin-node-resolve';
+import external from 'rollup-plugin-peer-deps-external';
 import json from '@rollup/plugin-json';
-import replace from '@rollup/plugin-replace';
+// Use this if contains any css import
+// import postcss from 'rollup-plugin-postcss'
 
-const input = './src/export.ts';
+const input = './src/index.ts';
 
-export default {
-  input,
-  output: [
+export default [
+  {
+    input,
+    output: [
       {
-          file: 'dist/index.js',
-          format: 'cjs',
+        file: 'dist/index.js',
+        format: 'cjs',
       },
-      // {
-      //     file: 'dist/index.es.js',
-      //     format: 'es',
-      // },
-  ],
-
-  plugins: [
-    typescript(),
-    resolve(),
-    commonjs(),
-    json(),
-    replace({
-      'process.env.NODE_ENV': JSON.stringify('production'),
-      'this && this.__assign': 'Object.assign',
-      'this.__rest': 'Object.assign',
-      preventAssignment: true,
-    }),
-  ],
-  onwarn: (warning, handler) => {
-    // Skip certain warnings
-
-    // should intercept ... but doesn't in some rollup versions
-    if (warning.code === 'THIS_IS_UNDEFINED') {
-      return;
-    }
-
-    // console.warn everything else
-    handler(warning);
+      {
+        file: 'dist/index.es.js',
+        format: 'es',
+      },
+    ],
+    plugins: [
+      typescript(),
+      external(),
+      babel({
+        exclude: 'node_modules/**',
+        babelHelpers: 'bundled',
+      }),
+      json(),
+      resolve(),
+      commonjs(),
+    ],
   },
-
-  external: ['react', 'react-dom', 'prop-types'],
-};
+];

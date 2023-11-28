@@ -89,5 +89,9 @@
     "ts-jest": "^29.0.5",
     "typescript": "^4.5.5",
     "vite": "^4.0.4"
+  },
+  "dependencies": {
+    "@rollup/plugin-babel": "^6.0.4",
+    "rollup-plugin-peer-deps-external": "^2.2.4"
   }
 }
