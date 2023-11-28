@@ -1,8 +1,9 @@
 {
   "name": "@bsol-oss/react-datatable2",
   "version": "0.1.11",
-  "main": "dist/index.js",
-  "module": "dist/index.es.js",
+  "main": "lib/index.js",
+  "module": "lib/index.esm.js",
+  "types": "lib/index.d.ts",
   "repository": "https://github.com/bsol-oss/react-datatable2.git",
   "homepage": "https://github.com/bsol-oss/react-datatable2#react-datatable",
   "author": "screw123",
@@ -92,6 +93,8 @@
   },
   "dependencies": {
     "@rollup/plugin-babel": "^6.0.4",
+    "@rollup/plugin-typescript": "^11.1.5",
+    "rollup-plugin-dts": "^6.1.0",
     "rollup-plugin-peer-deps-external": "^2.2.4"
   }
 }

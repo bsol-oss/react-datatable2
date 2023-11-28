@@ -1,33 +1,30 @@
-import typescript from 'rollup-plugin-typescript2';
-import babel from '@rollup/plugin-babel';
-import commonjs from '@rollup/plugin-commonjs';
+import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import resolve from '@rollup/plugin-node-resolve';
-import external from 'rollup-plugin-peer-deps-external';
-import json from '@rollup/plugin-json';
-// Use this if contains any css import
-// import postcss from 'rollup-plugin-postcss'
-
-const input = './src/index.ts';
+import commonjs from '@rollup/plugin-commonjs';
+import typescript from '@rollup/plugin-typescript';
+import dts from 'rollup-plugin-dts';
 
 export default [
   {
-    input,
+    input: 'src/index.ts',
     output: [
       {
-        file: 'dist/index.js',
+        file: 'lib/index.js',
         format: 'cjs',
+        sourcemap: true,
+      },
+      {
+        file: 'lib/index.esm.js',
+        format: 'esm',
+        sourcemap: true,
       },
     ],
-    plugins: [
-      typescript(),
-      external(),
-      babel({
-        exclude: 'node_modules/**',
-        babelHelpers: 'bundled',
-      }),
-      json(),
-      resolve(),
-      commonjs(),
-    ],
+    plugins: [peerDepsExternal(), resolve(), commonjs(), typescript()],
+  },
+  {
+    input: 'lib/index.d.ts',
+    output: [{ file: 'lib/index.d.ts', format: 'es' }],
+    plugins: [dts()],
+    external: [/\.css$/],
   },
 ];
