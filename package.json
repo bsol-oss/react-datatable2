@@ -1,9 +1,8 @@
 {
   "name": "@bsol-oss/react-datatable2",
   "version": "0.1.11",
-  "main": "lib/index.js",
-  "module": "lib/index.esm.js",
-  "types": "lib/index.d.ts",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
   "repository": "https://github.com/bsol-oss/react-datatable2.git",
   "homepage": "https://github.com/bsol-oss/react-datatable2#react-datatable",
   "author": "screw123",
